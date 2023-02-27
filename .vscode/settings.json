@@ -1,0 +1,7 @@
+{
+  "cSpell.words": [
+    "Servidor"
+  ],
+  "thunder-client.httpLibrary": "axios",
+  "thunder-client.defaultUrl": "http://localhost:8080"
+}

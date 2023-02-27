@@ -1,0 +1,55 @@
+{
+  "name": "bk",
+  "description": "just testing",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "me",
+  "license": "ISC",
+  "scripts": {
+    
+    "start": "node index.js",
+    "start:dev": "nodemon src/index.js",
+    "lint": "eslint --fix .",
+    "format": "prettier --write .",
+    "seed-organismo": "node seeders/organismo.seeder.js",
+    "seed-circulo": "node seeders/circulo.seeder.js",
+    "seed-submision": "node seeders/submision.seeder.js",
+    "seed-user": "node seeders/user.seeder.js",
+    "seed-all": "npm-run-all --parallel seed-*"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.25.16",
+    "ajv": "^8.11.2",
+    "ajv-errors": "^3.0.0",
+    "ajv-formats": "^2.1.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "eslint": "^8.30.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-config-standard": "^17.0.0",
+    "express": "^4.18.2",
+    "express-jwt": "^8.3.0",
+    "haversine": "^1.1.1",
+    "heap": "^0.2.7",
+    "helmet": "^6.0.1",
+    "husky": "^8.0.2",
+    "jsonwebtoken": "^9.0.0",
+    "lint-staged": "^13.1.0",
+    "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20",
+    "prettier": "^2.8.1",
+    "standard": "^17.0.0",
+    "validator": "^13.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YABF0801/test-b.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YABF0801/test-b/issues"
+  },
+  "homepage": "https://github.com/YABF0801/test-b#readme",
+  "devDependencies": {}
+}
