@@ -71,16 +71,19 @@ const UpdateOrganismo = async (req, res) => {
 };
 
 const DeleteOrganismo = async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'ID inválido' });
-    }
-    const deletedOrganismo = await Organismo.findByIdAndDelete(req.params.id).exec();
-    if (!deletedOrganismo) return res.status(404).json({ message: 'No se encontró el Organismo' });
-    return res.status(200).json({ message: 'Organismo eliminado', deletedOrganismo });
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al eliminar el Organismo', error });
+  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  //   return res.status(400).json({ message: 'ID inválido' });
+  // }
+  const organismo = await Organismo.findById(req.params.id);
+  if (!organismo) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el organismo';
+    throw error;
   }
+  await Organismo.findByIdAndDelete(req.params.id);
+
+  return res.sendStatus(204);
 };
 
 module.exports = { AddOrganismo, FindAllOrganismos, FindSingleOrganismo, UpdateOrganismo, DeleteOrganismo };

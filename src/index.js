@@ -3,7 +3,6 @@ const connectDB = require('./config/database');
 const express = require('express');
 const { createServer } = require('http');
 const { router } = require('./routes');
-const { handleErrors } = require('./midlewares/handleErrors');
 require('express-async-errors');
 /* const { expressjwt } = require('express-jwt'); */
 
@@ -12,8 +11,6 @@ const app = express();
 /* app.use(expressjwt({ secret: process.env.JWT_PRIVATE_KEY, algorithms: ["HS256"] }).unless({ path: ['/api/login'] })); */
 
 app.use(router);
-
-app.use(handleErrors);
 
 /* Start */
 const Server = createServer(app);
