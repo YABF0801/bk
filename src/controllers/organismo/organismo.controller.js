@@ -55,26 +55,19 @@ const FindSingleOrganismo = async (req, res) => {
 };
 
 const UpdateOrganismo = async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'El ID enviado no es válido' });
-    }
+  // const { errors, isDataValid } = await organismoDataValidation(req.body);
+  // if (!isDataValid) return res.status(400).json(errors);
 
-    const { errors, isDataValid } = await organismoDataValidation(req.body);
-    if (!isDataValid) return res.status(400).json(errors);
-
-    const organismo = await Organismo.findById(req.params.id).exec();
-    if (!organismo) return res.status(404).send({ message: 'No se encontró el Organismo' });
-
-    const existsByName = await Organismo.findOne({ name: req.body.name }).exec();
-    if (existsByName && existsByName._id !== req.params.id)
-      return res.status(409).send({ message: 'Ya existe un Organismo con ese nombre' });
-
-    const updatedOrganismo = await Organismo.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec();
-    return res.status(200).send(updatedOrganismo);
-  } catch (error) {
-    return res.status(500).send({ message: 'Error al actualizar el Organismo' });
+  const organismo = await Organismo.findById(req.params.id);
+  if (!organismo) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el organismo';
+    throw error;
   }
+
+  const updatedOrganismo = await Organismo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  return res.status(200).send(updatedOrganismo);
 };
 
 const DeleteOrganismo = async (req, res) => {

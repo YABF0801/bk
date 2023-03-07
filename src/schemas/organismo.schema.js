@@ -1,33 +1,37 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const OrganismoSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-    minLength: 2, 
-    maxLength: 30
+const OrganismoSchema = new Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      minLength: 2,
+      maxLength: 30,
+      unique: true,
+    },
+    description: {
+      type: String,
+      required: true,
+      minLength: 10,
+      maxLength: 80,
+    },
+    priorizado: {
+      type: Boolean,
+      default: false,
+    },
+    weight: {
+      type: Number,
+      default: 0,
+    },
   },
-  description: {
-    type: String,
-    required: true,
-    minLength: 10, 
-    maxLength: 80
-  },
-  priorizado: {
-    type: Boolean,
-    default: false,
-  },
-  weight: {
-    type: Number,
-    default: 0,
-  },
-},{
-  timestamps: true,
-  versionKey: false,
-});
+  {
+    timestamps: true,
+    versionKey: false,
+  }
+);
 
-OrganismoSchema.pre('save', function(next) {
+OrganismoSchema.pre('save', function (next) {
   if (this.priorizado === true) {
     this.weight = 2;
   }
