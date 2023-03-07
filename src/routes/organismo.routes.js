@@ -13,7 +13,7 @@ const organismoRouter = Router();
 
 organismoRouter.post('/', /* isAuthorized, isAdmin, */ AddOrganismo);
 organismoRouter.get('/', /* isAuthorized, */ FindAllOrganismos);
-organismoRouter.get('/:name', /* isAuthorized, */ FindSingleOrganismo); /* find single organismo by name */
+organismoRouter.get('/:id', /* isAuthorized, */ FindSingleOrganismo);
 organismoRouter.put('/:id', /* isAuthorized, isAdmin, */ UpdateOrganismo);
 organismoRouter.delete('/:id', /* isAuthorized, isAdmin, */ DeleteOrganismo);
 

@@ -28,7 +28,7 @@ const AddOrganismo = async (req, res) => {
 const FindAllOrganismos = async (req, res) => {
   try {
     // Obtener todos los organismos y ordenarlos por nombre
-    const organismos = await Organismo.find({}).sort({ name: 1 });
+    const organismos = await Organismo.find({});
     if (!organismos) return res.status(404).send({ message: 'No hay organismos para mostrar' });
     return res.status(200).json(organismos);
   } catch (error) {
@@ -37,16 +37,21 @@ const FindAllOrganismos = async (req, res) => {
 };
 
 const FindSingleOrganismo = async (req, res) => {
-  try {
-    if (!req.params.name) return res.status(400).json({ message: 'No se ha especificado un nombre' });
-
-    const organismo = await Organismo.findOne({ name: req.params.name }).exec();
-    if (!organismo) return res.status(404).json({ message: 'No se encontró el organismo con ese nombre' });
-
-    return res.status(200).json(organismo);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al buscar el organismo', error });
+  if (!req.params.id) {
+    const error = new Error();
+    error.status = 400;
+    error.message = 'Id no  valido';
+    throw error;
   }
+
+  const organismo = await Organismo.findById(req.params.id);
+  if (!organismo) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el organismo';
+    throw error;
+  }
+  return res.status(200).json(organismo);
 };
 
 const UpdateOrganismo = async (req, res) => {
