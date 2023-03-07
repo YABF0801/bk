@@ -1,58 +1,58 @@
 const Circulo = require('../circulo.schema');
 
 const circulos = [
-{
-  number: 1,
-  name: 'Meñique',
-  normed_capacity2: 5,
-  normed_capacity3: 5,
-  normed_capacity4: 5,
-  normed_capacity5: 5,
-  normed_capacity6: 0,
-  matricula2: 5,
-  matricula3: 4,
-  matricula4: 5,
-  matricula5: 3,
-  matricula6: 0, 
-  lat: 21.883845343039884,
-  lon: -82.80881112308064,
-  isCiActive: true
-},
-{
-  number: 2,
-  name: 'Nene Traviesa',
-  normed_capacity2: 5,
-  normed_capacity3: 5,
-  normed_capacity4: 5,
-  normed_capacity5: 5,
-  normed_capacity6: 5,
-  atricula2: 5,
-  matricula3: 5,
-  matricula4: 3,
-  matricula5: 4,
-  matricula6: 1, 
-  lat: 21.883147575927463,
-  lon: -82.8111269423739,
-  isCiActive: true
-},
-{
-  number: 3,
-  name: 'Ismaelillo',
-  normed_capacity2: 5,
-  normed_capacity3: 5,
-  normed_capacity4: 5,
-  normed_capacity5: 5,
-  normed_capacity6: 5,
-  matricula2: 5,
-  matricula3: 3,
-  matricula4: 5,
-  matricula5: 4,
-  matricula6: 3, 
-  lat: 21.890106678271582,
-  lon: -82.81331257306189,
-  isCiActive: true
-},
-/* otros circulos hasta el 23
+  {
+    number: 1,
+    name: 'Meñique',
+    normed_capacity2: 5,
+    normed_capacity3: 5,
+    normed_capacity4: 5,
+    normed_capacity5: 5,
+    normed_capacity6: 0,
+    matricula2: 5,
+    matricula3: 4,
+    matricula4: 5,
+    matricula5: 3,
+    matricula6: 0,
+    lat: 21.883845343039884,
+    lon: -82.80881112308064,
+    isCiActive: true,
+  },
+  {
+    number: 2,
+    name: 'Nene Traviesa',
+    normed_capacity2: 5,
+    normed_capacity3: 5,
+    normed_capacity4: 5,
+    normed_capacity5: 5,
+    normed_capacity6: 5,
+    atricula2: 5,
+    matricula3: 5,
+    matricula4: 3,
+    matricula5: 4,
+    matricula6: 1,
+    lat: 21.883147575927463,
+    lon: -82.8111269423739,
+    isCiActive: true,
+  },
+  {
+    number: 3,
+    name: 'Ismaelillo',
+    normed_capacity2: 5,
+    normed_capacity3: 5,
+    normed_capacity4: 5,
+    normed_capacity5: 5,
+    normed_capacity6: 5,
+    matricula2: 5,
+    matricula3: 3,
+    matricula4: 5,
+    matricula5: 4,
+    matricula6: 3,
+    lat: 21.890106678271582,
+    lon: -82.81331257306189,
+    isCiActive: true,
+  },
+  /* otros circulos hasta el 23
 { 
   number: 4,
   name: 'La Edad de Oro',
@@ -260,20 +260,23 @@ const circulos = [
 ];
 
 const seed = async () => {
-try {
-  const countBefore = await Circulo.countDocuments();
-  await Circulo.deleteMany();
-  await Circulo.create(circulos);
-  const countAfter = await Circulo.countDocuments();
+  try {
+    const countBefore = await Circulo.countDocuments();
+    await Circulo.deleteMany();
+    for (const circulo of circulos) {
+      await Circulo.create(circulo);
+    }
 
-  if (countAfter - countBefore === circulos.length){
-    console.log('Circulos seeded con exito');
-  }else{
-    console.error('Ocurrio un problea con el seeding de Circulos');
+    const countAfter = await Circulo.countDocuments();
+
+    if (countAfter - countBefore === circulos.length) {
+      console.log('Circulos seeded con exito');
+    } else {
+      console.error('Ocurrio un problea con el seeding de Circulos');
+    }
+  } catch (err) {
+    console.error(err);
   }
-}catch(err){
-  console.error(err);
-}
 };
 
-seed ();
+seed();
