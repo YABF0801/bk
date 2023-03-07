@@ -10,10 +10,10 @@ const userRouter = require('./user.routes');
 const router = express.Router();
 
 // Crear una ruta base para todas las rutas de la API y agregar las rutas de cada entidad a la ruta base
-router.use('/api', cors(), helmet(), express.json());
-router.use('/api/submisions', submisionRouter);
-router.use('/api/circulos', circuloRouter);
-router.use('/api/organismos', organismoRouter);
-router.use('/api/users', userRouter);
+router.use('/api/v1', cors(), helmet(), express.json());
+router.use('/api/v1/submisions', submisionRouter);
+router.use('/api/v1/circulos', circuloRouter);
+router.use('/api/v1/organismos', organismoRouter);
+router.use('/api/v1/users', userRouter);
 
-module.exports = {router};
+module.exports = { router };
