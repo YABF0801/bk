@@ -30,32 +30,22 @@ const FindAllUsers = async (req, res) => {
    return res.status(200).json(users);
 };
 
-const FindSingleUserByNickname = async (req, res) => {
-  try {
-    if (!req.params.nickname) return res.status(400).json({ message: "No se ha especificado un nickname" });
-
-    const user = await User.findOne({ nickname: req.params.nickname }).exec();
-    if (!user) return res.status(404).json({ message: "No se encontró el usuario con ese nombre" });
-
-    return res.status(200).json(user);
-  } catch (error) {
-    return res.status(500).json({ message: "Error al buscar el usuario", error });
+const FindSingleUser = async (req, res) => {
+  if (!req.params.id) {
+    const error = new Error();
+    error.status = 400;
+    error.message = 'Id no valido';
+    throw error;
   }
-};
-
-const FindSingleUserById = async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'El ID enviado no es válido' });
-    }
   
-  const user = await User.findById(req.params.id).exec();
-  if (!user) return res.status(404).send({ errors: ['No encuentro el usuario que busca'] });
-  
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el usuario que busca';
+    throw error;
+  }
   return res.status(200).send(user);
-}catch (error) {
-  return res.status(500).json({ message: "Error al buscar el usuario", error });
-}
 };
 
 const UpdateUser = async (req, res) => {
@@ -109,4 +99,4 @@ const DeleteUser = async (req, res) => {
     }
 };
 
-module.exports = { AddUser, FindAllUsers , FindSingleUserByNickname, FindSingleUserById, UpdateUser, DeleteUser };
+module.exports = { AddUser, FindAllUsers , FindSingleUser, UpdateUser, DeleteUser };
