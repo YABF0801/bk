@@ -19,13 +19,15 @@ const AddUser = async (req, res) => {
 };
 
 const FindAllUsers = async (req, res) => {
-  try {
-    const users = await User.find({}).sort({ nickname: 1 });
-    if(!users) return res.status(404).send({message: "No hay usuarios para mostrar"});
-    return res.status(200).json(users);
-  } catch (error) {
-    return res.status(500).json({ message: "Error al extraer los datos", error });
-  }
+   // Obtener todos los usuarios 
+    const users = await User.find({});
+    if(!users) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No hay usuarios para mostrar';
+      throw error;
+    }
+   return res.status(200).json(users);
 };
 
 const FindSingleUserByNickname = async (req, res) => {
