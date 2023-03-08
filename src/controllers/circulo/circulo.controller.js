@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Circulo = require('../../schemas/circulo.schema');
-const { circuloDataValidation } = require('../../validations/circulo.validations');
+/* const { circuloDataValidation } = require('../../validations/circulo.validations'); */
 
 const AddCirculo = async (req, res) => {
   const { errors, isDataValid } = circuloDataValidation(req.body);
