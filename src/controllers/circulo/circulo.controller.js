@@ -51,7 +51,7 @@ const FindSingleCirculoByName = async (req, res) => {
   }
 };
 
-const FindSingleCirculoById = async (req, res) => {
+const FindSingleCirculo = async (req, res) => {
   try {
     if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
       return res.status(400).json({ message: 'El ID enviado no es válido' });
@@ -110,7 +110,7 @@ module.exports = {
   AddCirculo,
   FindAllCirculos,
   FindSingleCirculoByName,
-  FindSingleCirculoById,
+  FindSingleCirculo,
   UpdateCirculo,
   DeleteCirculo,
 };
