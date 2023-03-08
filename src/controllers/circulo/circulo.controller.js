@@ -80,22 +80,23 @@ const UpdateCirculo = async (req, res) => {
 };
 
 const DeleteCirculo = async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'ID inválido' });
+//    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+// return res.status(400).json({ message: 'ID inválido' });
+
+    const circulo = await Circulo.findById(req.params.id);
+    if (!circulo) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No se encontró el círculo';
+      throw error;
     }
-    const deletedCirculo = await Circulo.findByIdAndDelete(req.params.id).exec();
-    if (!deletedCirculo) return res.status(404).json({ message: 'No se encontró el círculo' });
-    return res.status(200).json({ message: 'Círculo eliminado', deletedCirculo });
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al eliminar el círculo', error });
-  }
+    await Circulo.findByIdAndDelete(req.params.id);
+    return res.status(204);
 };
 
 module.exports = {
   AddCirculo,
   FindAllCirculos,
-  FindSingleCirculoByName,
   FindSingleCirculo,
   UpdateCirculo,
   DeleteCirculo,
