@@ -17,14 +17,15 @@ const AddOrganismo = async (req, res) => {
 };
 
 const FindAllOrganismos = async (req, res) => {
-  try {
     // Obtener todos los organismos 
     const organismos = await Organismo.find({});
-    if (!organismos) return res.status(404).send({ message: 'No hay organismos para mostrar' });
-    return res.status(200).json(organismos);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al extraer los datos', error });
+    if (!organismos) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No hay organismos para mostrar';
+    throw error;
   }
+  return res.status(200).json(organismos);
 };
 
 const FindSingleOrganismo = async (req, res) => {
