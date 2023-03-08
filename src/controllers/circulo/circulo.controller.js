@@ -1,31 +1,38 @@
 const mongoose = require('mongoose');
 const Circulo = require('../../schemas/circulo.schema');
-/* const { circuloDataValidation } = require('../../validations/circulo.validations'); */
+// const { circuloDataValidation } = require('../../validations/circulo.validations');
 
 const AddCirculo = async (req, res) => {
-  const { errors, isDataValid } = circuloDataValidation(req.body);
-  if (!isDataValid) return res.status(400).json(errors);
-
-  const existsById = await Circulo.findById(req.body._id).exec();
-  if (existsById) return res.status(409).json({ message: 'Ya existe un círculo registrado con ese ID' });
+  // const { errors, isDataValid } = await circuloDataValidation(req.body);
+  // if (!isDataValid) return res.status(400).json(errors);
 
   const existsByName = await Circulo.findOne({ name: req.body.name }).exec();
-  if (existsByName) return res.status(409).json({ message: 'Ya existe un círculo con ese nombre' });
+  if (existsByName) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Ya existe este círculo';
+    throw error;
+  }
 
-  const existsByNumber = await Circulo.findOne({ number: req.body.number }).exec();
-  if (existsByNumber) return res.status(409).json({ message: 'Ya existe un círculo con ese número' });
+  const existsByNumber = await Circulo.findOne({ name: req.body.number }).exec();
+  if (existsByNumber) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Ya existe este número';
+    throw error;
+  }
 
   const circulo = new Circulo(req.body);
-  circulo.save(function (err, circulo) {
-    if (err) {
-      return res.status(500).send({ message: 'Error al guardar el circulo' });
-    }
-    if (!circulo) {
-      return res.status(404).send({ message: 'No se ha podido guardar el circulo' });
-    }
-    res.status(201).send(circulo).json({ message: 'Circulo creado' });
-  });
+  const circuloNuevo = await circulo.save();
+  if (!circuloNuevo) {
+    const error = new Error();
+    error.message = 'Error al guardar el círculo';
+    throw error;
+  }
+
+  res.status(201).send(circulo).json({ message: 'Círculo creado' });
 };
+
 
 const FindAllCirculos = async (req, res) => {
   try {

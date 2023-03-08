@@ -1,5 +1,5 @@
 /* const isEmpty = require("./isEmpty");
-const validator = require("validator"); */
+const validator = require("validator"); 
 const {Type} = require("@sinclair/typebox");
 const addErrors = require("ajv-errors");
 const Ajv = require("ajv");
@@ -34,7 +34,7 @@ const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier')
 }; */
 
 /* ------------- AJV TYPE VALIDATION */
-const CirculoValidationSchema = Type.Object( /* VER IS HAY Q PONERLAS TODAS OPCIONAL Y REQUERIDAS PARA ADITIONAL */
+/* const CirculoValidationSchema = Type.Object(  
     {
         number: Type.Number({
           errorMessage: {type: 'El tipo no es válido, debe ser number'}
@@ -73,13 +73,13 @@ const CirculoValidationSchema = Type.Object( /* VER IS HAY Q PONERLAS TODAS OPCI
           errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
         })
     },
-);
-
+); */
+/* 
 addErrors(ajv);
 
-const validateSchema = ajv.compile(CirculoValidationSchema);
+const validateSchema = ajv.compile(CirculoValidationSchema); */
 
-  const circuloDataValidation = (req, res, next) => {
+ /*  const circuloDataValidation = (req, res, next) => {
   const isDataValid = validateSchema(req.body);
 
    
@@ -89,6 +89,6 @@ const validateSchema = ajv.compile(CirculoValidationSchema);
         });
 
     next();
-};
+}; */
  
-module.exports = {circuloDataValidation}; 
+/* module.exports = {circuloDataValidation};  */
