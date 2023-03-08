@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
+require('express-async-errors');
+
 
 const submisionRouter = require('./submision.routes');
 const circuloRouter = require('./circulo.routes');

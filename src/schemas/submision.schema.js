@@ -62,7 +62,7 @@ const SubmisionSchema = new Schema(
         type: Number,
         required: true,
         unique: true,
-        validate: { 
+        validate: {
           validator: function (v) {
             return /^[0-9]{11}$/.test(v);
           },
@@ -228,7 +228,7 @@ const SubmisionSchema = new Schema(
         // 1
         otherChildrenCenter: {
           type: String,
-          default: null
+          default: null,
         },
         // 1
         pregnant: {
@@ -250,7 +250,7 @@ const SubmisionSchema = new Schema(
 );
 
 // hacer todo esto antes de guardar
-SubmisionSchema.pre('save', function(next) {
+SubmisionSchema.pre('save', function (next) {
   this.calculateWeight();
   this.Gender();
   this.Age();
@@ -258,31 +258,30 @@ SubmisionSchema.pre('save', function(next) {
   next();
 });
 
-SubmisionSchema.methods.calculateWeight = function() {
+SubmisionSchema.methods.calculateWeight = function () {
   let weight = 0;
-    if (this.submisiontype === 'traslado') weight += 36;
-    if (this.socialCase === true) weight += 18;
-    if (this.child.parents[0].uniqueParent === true) weight += 3;
-    if (this.child.parents[0].occupation === 'estudiante') weight += 2;
-    if (this.child.parents[0].organismo.weight === 2) weight += 2;
-    if (this.child.parents[0].pregnant === true) weight += 2;
-    if (this.child.parents[0].deaf === true) weight += 9;
-    this.weight = weight;
+  if (this.submisiontype === 'traslado') weight += 36;
+  if (this.socialCase === true) weight += 18;
+  if (this.child.parents[0].uniqueParent === true) weight += 3;
+  if (this.child.parents[0].occupation === 'estudiante') weight += 2;
+  if (this.child.parents[0].organismo.weight === 2) weight += 2;
+  if (this.child.parents[0].pregnant === true) weight += 2;
+  if (this.child.parents[0].deaf === true) weight += 9;
+  this.weight = weight;
 };
 
-SubmisionSchema.methods.Gender = function() {
+SubmisionSchema.methods.Gender = function () {
   const tenthDigit = this.child.carnet.toString()[9];
-  this.child.sex = tenthDigit % 2 === 0 ? "masculino" : "femenino"; // par M , impar F
+  this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
 };
 
-SubmisionSchema.methods.Age = function() {
-  const prefix = "20";
+SubmisionSchema.methods.Age = function () {
+  const prefix = '20';
   const yearOfBirth = prefix + toString(this.child.carnet.substr(0, 2)); // quiza hacer mes y año, convertir a fecha y diferencia entre fechas
   const nowDate = new Date();
   const currentYear = nowDate.getFullYear();
   const ageResult = currentYear - Number(yearOfBirth);
   this.child.age = ageResult < 1 ? 1 : ageResult;
 };
-
 
 module.exports = mongoose.model('submision', SubmisionSchema);

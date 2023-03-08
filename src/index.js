@@ -3,7 +3,6 @@ const connectDB = require('./config/database');
 const express = require('express');
 const { createServer } = require('http');
 const { router } = require('./routes');
-require('express-async-errors');
 /* const { expressjwt } = require('express-jwt'); */
 
 const app = express();
