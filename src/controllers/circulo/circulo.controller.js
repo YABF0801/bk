@@ -33,16 +33,16 @@ const AddCirculo = async (req, res) => {
   res.status(201).send(circulo).json({ message: 'Círculo creado' });
 };
 
-
 const FindAllCirculos = async (req, res) => {
-  try {
-    // Obtener todos los circulos y ordenarlos por nombre
-    const circulos = await Circulo.find({}).sort({ name: 1 });
-    if (!circulos) return res.status(404).send({ message: 'No hay Circulos para mostrar' });
+    // Obtener todos los circulos 
+    const circulos = await Circulo.find({});
+    if (!circulos) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No hay Circulos para mostrar';
+      throw error;
+    }
     return res.status(200).json(circulos);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al extraer los datos', error });
-  }
 };
 
 const FindSingleCirculoByName = async (req, res) => {
