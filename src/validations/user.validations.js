@@ -1,4 +1,4 @@
-const isEmpty = require('./isEmpty');
+/* const isEmpty = require('./isEmpty');
 const validator = require('validator');
 const {Type} = require("@sinclair/typebox");
 const addErrors = require("ajv-errors");
@@ -6,9 +6,9 @@ const addFormats = require("ajv-formats")
 const Ajv = require("ajv");
 const validatePassword = require('./validatePassword');
 const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier');
-
+ */
 /* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
-const EmptyFieldUser = (data) =>  {
+/* const EmptyFieldUser = (data) =>  {
   const errors = {};
   data.nickname = !isEmpty(data.nickname) ? data.nickname : "";
   data.name = !isEmpty(data.name) ? data.name : "";
@@ -36,10 +36,10 @@ const EmptyFieldUser = (data) =>  {
       errors,
       isValid: isEmpty(errors)
   }
-};
+}; */
 
 /* ------------- AJV TYPE VALIDATION */
-const UserValidationSchema = Type.Object(
+/* const UserValidationSchema = Type.Object(
   {
     nickname: Type.String({
       minLength: 2,
@@ -87,9 +87,9 @@ const UserValidationSchema = Type.Object(
 
 addFormats(ajv);
 ajv.addFormat('password', /^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/); 
-addErrors(ajv);
+addErrors(ajv); */
 
-const validateSchema = ajv.compile(UserValidationSchema);
+/* const validateSchema = ajv.compile(UserValidationSchema);
 
 const userDataValidation = (req, res, next) => {
   const isEmpty = EmptyFieldUser();
@@ -109,6 +109,6 @@ const userDataValidation = (req, res, next) => {
 };
 
 module.exports =  {userDataValidation}; 
-
+ */
 
 

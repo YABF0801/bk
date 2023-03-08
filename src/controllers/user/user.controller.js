@@ -1,29 +1,21 @@
+const mongoose = require('mongoose');
 const User = require('../../schemas/user.schema');
-const userDataValidation = require('../../validations/user.validations');
 const bcrypt = require('bcryptjs');
 const validatePassword = require('../../validations/validatePassword');
-const mongoose = require('mongoose');
+// const {userDataValidation} = require('../../validations/user.validations');
 
 const AddUser = async (req, res) => {
-  const { errors, isDataValid } = await userDataValidation(req.body);
-  if (!isDataValid) return res.status(400).json(errors);
+ // const { errors, isDataValid } = await userDataValidation(req.body);
+ // if (!isDataValid) return res.status(400).json(errors);
     
-  const existsById = await User.findById(req.body._id).exec();
-  if (existsById) return res.status(409).json({ message:'Ya existe un Usuario con ese id registrado'});
-
-  const existsByNickname = await User.findOne({ nickname: req.body.nickname }).exec();
-  if (existsByNickname) return res.status(409).json({ message:'Ya existe un Usuario con ese nickname registrado'});
-
   const user = new User(req.body);
-  user.save(function(err, user) {
-    if (err) {
-      return res.status(500).send({ message: "Error al guardar usuario" });
-    }
-    if (!user) {
-      return res.status(404).send({ message: "No se ha podido guardar usuario" });
+  const userNuevo = await user.save();
+  if (!userNuevo) {
+    const error = new Error();
+    error.message = 'Error al guardar usuario';
+    throw error;
     }
     res.status(201).send(user).json({ message: 'Usuario creado' });
-  })
 };
 
 const FindAllUsers = async (req, res) => {
