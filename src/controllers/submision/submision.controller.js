@@ -80,6 +80,21 @@ const UpdateSubmision = async (req, res) => {
    };
       
 
+   const DeleteSubmision = async (req, res) => {
+        // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+        // return res.status(400).json({ message: 'ID inválido' });
 
-module.exports = {AddSubmision, FindAllSubmisions, FindSingleSubmision, UpdateSubmision };
+        const deletedSubmision = await Submision.findById(req.params.id);
+        if (!deletedSubmision) {
+          const error = new Error();
+          error.status = 404;
+          error.message = 'No se encontró la planilla';
+          throw error;
+        }
+        await Submision.findByIdAndDelete(req.params.id);
+
+        return res.sendStatus(204);
+  };
+
+module.exports = {AddSubmision, FindAllSubmisions, FindSingleSubmision, UpdateSubmision, DeleteSubmision };
 

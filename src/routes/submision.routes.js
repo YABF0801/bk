@@ -1,8 +1,7 @@
 const { Router } = require('express');
 /* const isAdmin = require('../midlewares/isAdmin');
 const isAuthorized = require('../midlewares/isAuthorized'); */
-const { AddSubmision, FindAllSubmisions, FindSingleSubmision, UpdateSubmision } = require('../controllers/submision/submision.controller');
-const { DeleteSubmision } = require('../controllers/submision/submisionDelete.controller');
+const { AddSubmision, FindAllSubmisions, FindSingleSubmision, UpdateSubmision, DeleteSubmision } = require('../controllers/submision/submision.controller');
 const { AceptarPropuesta, RechazarPropuesta, Baja } = require('../services/manageMatriculas');
 const { GenerarPropuesta } = require('../services/GenerarPropuesta');
 
