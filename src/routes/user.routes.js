@@ -3,8 +3,7 @@ const { Router } = require('express');
 const {
   AddUser,
   FindAllUsers,
-  FindSingleUserByNickname,
-  FindSingleUserById,
+  FindSingleUser,
   UpdateUser,
   DeleteUser,
 } = require('../controllers/user/user.controller');
@@ -17,14 +16,10 @@ const userRouter = Router();
 userRouter.get('/logout', Logout);  */
 
 // otras rutas de user
-userRouter.post('/new/', /* isAuthorized, isAdmin, */ AddUser);
-userRouter.get('/find/', /* isAuthorized, isAdmin,  */ FindAllUsers);
-userRouter.get('/find/:id', /* isAuthorized, isAdmin, */ FindSingleUserById);
-userRouter.get(
-  '/find/:nickname',
-  /* isAuthorized, isAdmin, */ FindSingleUserByNickname
-); /* find single user nickname */
-userRouter.put('/update/:id', /* isAuthorized,  isAdmin, */ UpdateUser);
+userRouter.post('/', /* isAuthorized, isAdmin, */ AddUser);
+userRouter.get('/', /* isAuthorized, isAdmin,  */ FindAllUsers);
+userRouter.get('/:id', /* isAuthorized, isAdmin, */ FindSingleUser);
+userRouter.put('/:id', /* isAuthorized,  isAdmin, */ UpdateUser);
 userRouter.delete('/:id', /* isAuthorized,  isAdmin,  */ DeleteUser);
 
 module.exports = userRouter;
