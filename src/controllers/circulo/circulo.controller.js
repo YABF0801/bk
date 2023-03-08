@@ -6,22 +6,6 @@ const AddCirculo = async (req, res) => {
   // const { errors, isDataValid } = await circuloDataValidation(req.body);
   // if (!isDataValid) return res.status(400).json(errors);
 
-  const existsByName = await Circulo.findOne({ name: req.body.name }).exec();
-  if (existsByName) {
-    const error = new Error();
-    error.status = 409;
-    error.message = 'Ya existe este círculo';
-    throw error;
-  }
-
-  const existsByNumber = await Circulo.findOne({ name: req.body.number }).exec();
-  if (existsByNumber) {
-    const error = new Error();
-    error.status = 409;
-    error.message = 'Ya existe este número';
-    throw error;
-  }
-
   const circulo = new Circulo(req.body);
   const circuloNuevo = await circulo.save();
   if (!circuloNuevo) {
