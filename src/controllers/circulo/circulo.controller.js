@@ -64,30 +64,19 @@ const FindSingleCirculo = async (req, res) => {
 };
 
 const UpdateCirculo = async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'El ID enviado no es válido' });
+    // const { errors, isDataValid } = circuloDataValidation(req.body);
+    // if (!isDataValid) return res.status(400).json(errors);
+
+    const circulo = await Circulo.findById(req.params.id);
+    if (!circulo) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No se encontró el círculo';
+      throw error;
     }
-
-    const { errors, isDataValid } = circuloDataValidation(req.body);
-    if (!isDataValid) return res.status(400).json(errors);
-
-    const circulo = await Circulo.findById(req.params.id).exec();
-    if (!circulo) return res.status(404).send({ message: 'No se encontró el circulo' });
-
-    const existsByName = await Circulo.findOne({ name: req.body.name }).exec();
-    if (existsByName && existsByName._id !== req.params.id)
-      return res.status(409).send({ message: 'Ya existe un circulo con ese nombre' });
-
-    const existsByNumber = await Circulo.findOne({ number: req.body.number }).exec();
-    if (existsByNumber && existsByNumber._id !== req.params.id)
-      return res.status(409).send({ message: 'Ya existe un circulo con ese numero' });
 
     const updatedCirculo = await Circulo.findByIdAndUpdate(req.params.id, req.body, { new: true }).exec();
     return res.status(200).send(updatedCirculo);
-  } catch (error) {
-    return res.status(500).send({ message: 'Error al actualizar el circulo' });
-  }
 };
 
 const DeleteCirculo = async (req, res) => {
