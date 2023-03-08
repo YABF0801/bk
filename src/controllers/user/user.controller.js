@@ -88,9 +88,15 @@ const DeleteUser = async (req, res) => {
   //  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
   //    return res.status(400).json({ message: 'ID inválido' });
 
-      const deletedUser = await User.findByIdAndDelete(req.params.id).exec();
-      if (!deletedUser) return res.status(404).json({ message: 'No se encontró el usuario' });
-      return res.status(200).json({ message: 'Usuario eliminado', deletedUser });
+      const deletedUser = await User.findByIdAndDelete(req.params.id);
+      if (!deletedUser) {
+        const error = new Error();
+        error.status = 404;
+        error.message = 'No se encontró el usuario';
+        throw error;
+      }
+      await User.findByIdAndDelete(req.params.id);
+      return res.status(204);
 
 };
 
