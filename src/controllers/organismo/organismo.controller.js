@@ -27,7 +27,7 @@ const AddOrganismo = async (req, res) => {
 
 const FindAllOrganismos = async (req, res) => {
   try {
-    // Obtener todos los organismos y ordenarlos por nombre
+    // Obtener todos los organismos 
     const organismos = await Organismo.find({});
     if (!organismos) return res.status(404).send({ message: 'No hay organismos para mostrar' });
     return res.status(200).json(organismos);

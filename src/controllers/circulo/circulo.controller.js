@@ -39,38 +39,28 @@ const FindAllCirculos = async (req, res) => {
     if (!circulos) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No hay Circulos para mostrar';
+      error.message = 'No hay círculos para mostrar';
       throw error;
     }
     return res.status(200).json(circulos);
 };
 
-const FindSingleCirculoByName = async (req, res) => {
-  try {
-    if (!req.params.name) return res.status(400).json({ message: 'No se ha especificado un nombre' });
-
-    const circulo = await Circulo.findOne({ name: req.params.name }).exec();
-    if (!circulo) return res.status(404).json({ message: 'No encuentro el Circulo que busca' });
-
-    return res.status(200).json(circulo);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al buscar el circulo', error });
-  }
-};
-
 const FindSingleCirculo = async (req, res) => {
-  try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'El ID enviado no es válido' });
-    }
-
-    const circulo = await Circulo.findById(req.params.id).exec();
-    if (!circulo) return res.status(404).send({ errors: ['No encuentro el Circulo que busca'] });
-
-    return res.status(200).send(circulo);
-  } catch (error) {
-    return res.status(500).json({ message: 'Error al buscar el Circulo', error });
+  if (!req.params.id) {
+    const error = new Error();
+    error.status = 400;
+    error.message = 'Id no valido';
+    throw error;
   }
+
+    const circulo = await Circulo.findById(req.params.id);
+    if (!circulo) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No se encontró el círculo que busca';
+      throw error;
+    }
+    return res.status(200).send(circulo);
 };
 
 const UpdateCirculo = async (req, res) => {
