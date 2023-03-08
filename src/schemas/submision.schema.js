@@ -252,8 +252,8 @@ const SubmisionSchema = new Schema(
 // hacer todo esto antes de guardar
 SubmisionSchema.pre('save', function (next) {
   this.calculateWeight();
-  this.Gender();
-  this.Age();
+/*   this.Gender(); */
+/*   this.Age(); */
   // Continuar con el guardado
   next();
 });
@@ -270,11 +270,11 @@ SubmisionSchema.methods.calculateWeight = function () {
   this.weight = weight;
 };
 
-SubmisionSchema.methods.Gender = function () {
+/* SubmisionSchema.methods.Gender = function () {
   const tenthDigit = this.child.carnet.toString()[9];
   this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
 };
-
+ */
 SubmisionSchema.methods.Age = function () {
   const prefix = '20';
   const yearOfBirth = prefix + toString(this.child.carnet.substr(0, 2)); // quiza hacer mes y año, convertir a fecha y diferencia entre fechas

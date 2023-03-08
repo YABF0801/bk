@@ -64,14 +64,14 @@ const UpdateSubmision = async (req, res) => {
       }
       
           // buscar submision en BD por numero y fecha
-          const existsByNumber = await Submision.findOne({ entryNumber: req.body.entryNumber });
+          /* const existsByNumber = await Submision.findOne({ entryNumber: req.body.entryNumber });
           const existsByDate = await Submision.findOne({ date: req.body.date });
 
           if (existsByNumber && existsByDate && existsByNumber._id !== req.params.id)  {
             const error = new Error();
             error.message = 'Ya existe una planilla con ese número en esa fecha';
             throw error;
-          }
+          } */
       
           // Find and update Submision by id
           const updatedSubmision = await Submision.findByIdAndUpdate (req.params.id, req.body, { new: true });
