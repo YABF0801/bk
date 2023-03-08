@@ -17,14 +17,14 @@ const userRouter = Router();
 userRouter.get('/logout', Logout);  */
 
 // otras rutas de user
-userRouter.post('/new/', /* isAuthorized, isAdmin, */ AddUser);
-userRouter.get('/find/', /* isAuthorized, isAdmin,  */ FindAllUsers);
-userRouter.get('/find/:id', /* isAuthorized, isAdmin, */ FindSingleUserById);
+userRouter.post('/', /* isAuthorized, isAdmin, */ AddUser);
+userRouter.get('/', /* isAuthorized, isAdmin,  */ FindAllUsers);
+userRouter.get('/:id', /* isAuthorized, isAdmin, */ FindSingleUserById);
 userRouter.get(
-  '/find/:nickname',
+  '/search/:nickname',
   /* isAuthorized, isAdmin, */ FindSingleUserByNickname
 ); /* find single user nickname */
-userRouter.put('/update/:id', /* isAuthorized,  isAdmin, */ UpdateUser);
+userRouter.put('/:id', /* isAuthorized,  isAdmin, */ UpdateUser);
 userRouter.delete('/:id', /* isAuthorized,  isAdmin,  */ DeleteUser);
 
 module.exports = userRouter;
