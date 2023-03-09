@@ -4,44 +4,6 @@ const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
 
-/* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
-/* const EmptyFieldParents = (data) =>  { 
-  const errors = {};
-
-  data.parentName = !isEmpty(data.parentName) ? data.parentName : "";
-  data.parentLastname = !isEmpty(data.parentLastname) ? data.parentLastname : "";
-  data.phoneNumber = !isEmpty(data.cPopular) ? data.cPopular : null;
-
-  data.workName = !isEmpty(data.workName) ? data.workName : "";
-  data.workAddress = !isEmpty(data.workAddress) ? data.workAddress : ""; 
-  data.organismo = !isEmpty(data.organismo) ? data.organismo : ''; 
-
-  if (validator.isEmpty(data.parentName)) {
-    errors.parentName = "Nombre requerido";
-  }
-  if (validator.isEmpty(data.parentLastname)) {
-    errors.parentLastname = "Apellido requerido";
-  }
-  if (validator.isEmpty(data.phoneNumber)) {
-    errors.phoneNumber = 'Numero de Telefono requerido';
-  }
-  if (validator.isEmpty(data.workName)) {
-    errors.workName = "Nombre del centro de trabajo requerido";
-  }
-  if (validator.isEmpty(data.workAddress)) {
-    errors.workAddress = "Direccion del centro de trabajo requerido";
-  }
-  if (validator.isEmpty(data.organismo)) {
-    errors.organismo = 'Objeto Organismo requerido';
-  }
-
-  return {
-    errors,
-    isValid: isEmpty(errors),
-  };
-};
-*/
-
 /**
  * @return AJV JsonSchema
  */
@@ -134,7 +96,7 @@ const ParentsValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo no es válido, debe ser un número' }
     }), 
 
-    /* otherChildrenCenter */
+    /* otherChildrenCenter */ // falta poner esto desde el esquema
 
     pregnant: Type.Boolean({
       errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
@@ -151,8 +113,8 @@ const ParentsValidationSchema = Type.Object(
   }
 );
 
-addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 ajv.addFormat('phone', /^[+]*[0-9]*$/); 
+addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv); 
 
 const validateSchema = ajv.compile(ParentsValidationSchema);

@@ -4,30 +4,6 @@ const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
 
-/* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
-/* const EmptyFieldSubmision = (data) =>  { 
-  const errors = {};
-  data.entryNumber = !isEmpty(data.entryNumber) ? data.entryNumber : null; 
-  data.motive = !isEmpty(data.motive) ? data.motive : '';
-  data.child = !isEmpty(data.child) ? data.child : ''; 
-
-  if (validator.isEmpty(data.entryNumber)) {
-    errors.entryNumber = 'Numero de entrada requerido';
-  }
-  if (validator.isEmpty(data.motive)) {
-    errors.motive = 'Motivo requerido';
-  }
-  if (validator.isEmpty(data.child)) {
-    errors.child = 'Objeto child requerido';
-  }
-
-  return {
-    errors,
-    isValid: isEmpty(errors),
-  };
-};
- */
-
 /**
  * @return AJV JsonSchema
  */
@@ -61,8 +37,8 @@ const SubmisionValidationSchema = Type.Object(
       },
     }),
 
-/*     ciPedido */
-/*     child    */
+/*     ciPedido */ // falta poner esto desde el esquema
+/*     child    */ // falta poner esto desde el esquema
 
     weight: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
