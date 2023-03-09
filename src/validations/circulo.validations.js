@@ -31,7 +31,9 @@ const ajv = new Ajv({ allErrors: true });
   }
 }; */
 
-
+/**
+ * @return AJV JsonSchema
+ */
 const CirculoValidationSchema = Type.Object(  
     {
         number: Type.Number({
