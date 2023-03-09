@@ -65,23 +65,18 @@ const CirculoSchema = new Schema(
     },
     girls2: {
       type: Number,
-      default: 0
     },
     girls3: {
       type: Number,
-      default: 0
     },
     girls4: {
       type: Number,
-      default: 0
     },
     girls5: {
       type: Number,
-      default: 0
     },
     girls6: {
       type: Number,
-      default: 0
     },
 
     lat: {
