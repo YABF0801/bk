@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
 const Organismo = require('../../schemas/organismo.schema');
-// const { organismoDataValidation } = require('../../validations/organismo.validations');
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json new Organismo added
+ */
 const AddOrganismo = async (req, res) => {
-  // const { errors, isDataValid } = await organismoDataValidation(req.body);
-  // if (!isDataValid) return res.status(400).json(errors);
-
   const organismo = new Organismo(req.body);
   const organismoNuevo = await organismo.save();
   if (!organismoNuevo) {
@@ -16,10 +16,14 @@ const AddOrganismo = async (req, res) => {
   res.status(201).send(organismo).json({ message: 'Organismo creado' });
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json List Organismo
+ */
 const FindAllOrganismos = async (req, res) => {
-    // Obtener todos los organismos 
-    const organismos = await Organismo.find({});
-    if (!organismos) {
+  const organismos = await Organismo.find({});
+  if (!organismos) {
     const error = new Error();
     error.status = 404;
     error.message = 'No hay organismos para mostrar';
@@ -28,6 +32,11 @@ const FindAllOrganismos = async (req, res) => {
   return res.status(200).json(organismos);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json Organismo by Id
+ */
 const FindSingleOrganismo = async (req, res) => {
   if (!req.params.id) {
     const error = new Error();
@@ -46,10 +55,12 @@ const FindSingleOrganismo = async (req, res) => {
   return res.status(200).json(organismo);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 200 and json Organismos updated
+ */
 const UpdateOrganismo = async (req, res) => {
-  // const { errors, isDataValid } = await organismoDataValidation(req.body);
-  // if (!isDataValid) return res.status(400).json(errors);
-
   const organismo = await Organismo.findById(req.params.id);
   if (!organismo) {
     const error = new Error();
@@ -62,6 +73,11 @@ const UpdateOrganismo = async (req, res) => {
   return res.status(200).send(updatedOrganismo);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 204 no data
+ */
 const DeleteOrganismo = async (req, res) => {
   // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
   //   return res.status(400).json({ message: 'ID inválido' });
