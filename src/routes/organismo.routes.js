@@ -6,12 +6,13 @@ const {
   UpdateOrganismo,
   DeleteOrganismo,
 } = require('../controllers/organismo/organismo.controller');
+const { organismoDataValidation } = require('../validations/organismo.validations');
 /* const isAdmin = require('../midlewares/isAdmin');
 const isAuthorized = require('../midlewares/isAuthorized'); */
 
 const organismoRouter = Router();
 
-organismoRouter.post('/', /* isAuthorized, isAdmin, */ AddOrganismo);
+organismoRouter.post('/', [organismoDataValidation], /* isAuthorized, isAdmin, */ AddOrganismo);
 organismoRouter.get('/', /* isAuthorized, */ FindAllOrganismos);
 organismoRouter.get('/:id', /* isAuthorized, */ FindSingleOrganismo);
 organismoRouter.put('/:id', /* isAuthorized, isAdmin, */ UpdateOrganismo);
