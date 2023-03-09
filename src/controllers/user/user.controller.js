@@ -2,6 +2,11 @@ const User = require('../../schemas/user.schema');
 const bcrypt = require('bcryptjs');
 const validatePassword = require('../../validations/validatePassword');
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json new User added
+ */
 const AddUser = async (req, res) => {  
   const user = new User(req.body);
   const userNuevo = await user.save();
@@ -13,6 +18,11 @@ const AddUser = async (req, res) => {
     res.status(201).send(user).json({ message: 'Usuario creado' });
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json Users List 
+ */
 const FindAllUsers = async (req, res) => {
     const users = await User.find({});
     if(!users) {
@@ -24,6 +34,11 @@ const FindAllUsers = async (req, res) => {
    return res.status(200).json(users);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json one User by Id
+ */
 const FindSingleUser = async (req, res) => {
   if (!req.params.id) {
     const error = new Error();
@@ -42,6 +57,11 @@ const FindSingleUser = async (req, res) => {
   return res.status(200).send(user);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 200 and json User updated
+ */
 const UpdateUser = async (req, res) => {
     const user = await User.findById(req.params.id);
     if (!user) {
@@ -73,6 +93,11 @@ const UpdateUser = async (req, res) => {
     return res.status(200).send(updatedUser);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 204 no data
+ */
 const DeleteUser = async (req, res) => {
   // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
   //   return res.status(400).json({ message: 'ID inválido' });
