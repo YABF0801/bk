@@ -44,44 +44,52 @@ const UserValidationSchema = Type.Object(
     nickname: Type.String({
       minLength: 2,
       maxLength: 10,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 10 caracteres'}
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser string',
+        minLength: 'debe tener minimo 2 caracteres',
+        maxLength: 'debe tener máximo 10 caracteres',
+      },
     }),
     name: Type.String({
       minLength: 2,
       maxLength: 20,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 20 caracteres'}
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser string',
+        minLength: 'debe tener minimo 2 caracteres',
+        maxLength: 'debe tener máximo 20 caracteres',
+      },
     }),
     lastname: Type.String({
       minLength: 4,
       maxLength: 50,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 4 caracteres',
-      maxLength: 'debe tener máximo 50 caracteres'}
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser string',
+        minLength: 'debe tener minimo 4 caracteres',
+        maxLength: 'debe tener máximo 50 caracteres',
+      },
     }),
     password: Type.String({
       format: 'password',
       minLength: 8,
-       errorMessage: {type: 'El tipo no es válido, debe ser un string',
-          format: 'password debe contener al menos una mayúscula, una minúscula y un número',
-          minLength: 'password debe tener minimo 8 caracteres',
-      },}),
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser un string',
+        format: 'password debe contener al menos una mayúscula, una minúscula y un número',
+        minLength: 'password debe tener minimo 8 caracteres',
+      },
+    }),
     position: Type.String({
       minLength: 4,
       maxLength: 50,
-        errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 4 caracteres',
-        maxLength: 'debe tener máximo 50 caracteres'}
-      }),
+        maxLength: 'debe tener máximo 50 caracteres',
+      },
+    }),
     role: Type.String({
-      enum:['admin', 'guest'],
-        errorMessage: {type: 'El tipo no es válido, debe ser String',
-        enum: 'El valor no es aceptado',
-        },
-      }),
+      enum: ['admin', 'guest'],
+      errorMessage: { type: 'El tipo no es válido, debe ser String', enum: 'El valor no es aceptado' },
+    }),
   },
   {
     additionalProperties: false,
@@ -91,9 +99,10 @@ const UserValidationSchema = Type.Object(
   }
 );
 
+const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}[^'\s]$/;
+ajv.addFormat('password', regex);
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
-ajv.addFormat('password', /^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/); 
-addErrors(ajv); 
+addErrors(ajv);
 
 const validateSchema = ajv.compile(UserValidationSchema);
 
@@ -108,5 +117,15 @@ const userDataValidation = (req, res, next) => {
   next();
 };
 
-module.exports =  {userDataValidation}; 
+const userDataValidationUpdate = (req, res, next) => {
+  const isDataValid = validateSchema(req.body);
 
+  if (!isDataValid)
+    return res.status(400).send({
+      errors: validateSchema.errors.map((error) => error.message),
+    });
+
+  next();
+};
+
+module.exports = { userDataValidation, userDataValidationUpdate };
