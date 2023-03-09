@@ -78,26 +78,23 @@ const UpdateUser = async (req, res) => {
         throw error;
       }
     }
-
-      // actualizar usuario
     const updatedUser = await User.findByIdAndUpdate (req.params.id, req.body, { new: true });
     return res.status(200).send(updatedUser);
 };
 
 const DeleteUser = async (req, res) => {
-  //  if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //    return res.status(400).json({ message: 'ID inválido' });
-
-      const deletedUser = await User.findByIdAndDelete(req.params.id);
-      if (!deletedUser) {
-        const error = new Error();
-        error.status = 404;
-        error.message = 'No se encontró el usuario';
-        throw error;
-      }
-      await User.findByIdAndDelete(req.params.id);
-      return res.status(204);
-
+  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  //   return res.status(400).json({ message: 'ID inválido' });
+  // }
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el usuario';
+    throw error;
+  }
+  await User.findByIdAndDelete(req.params.id);
+  return res.sendStatus(204);
 };
 
 module.exports = { AddUser, FindAllUsers , FindSingleUser, UpdateUser, DeleteUser };
