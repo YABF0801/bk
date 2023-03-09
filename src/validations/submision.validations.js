@@ -1,13 +1,11 @@
-const isEmpty = require('./isEmpty');
-const validator = require('validator');
-const {Type} = require("@sinclair/typebox");
-const addErrors = require("ajv-errors");
-const Ajv = require("ajv");
-const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier');
-
+const { Type } = require('@sinclair/typebox');
+const addErrors = require('ajv-errors');
+const addFormats = require('ajv-formats');
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
 
 /* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
-const EmptyFieldSubmision = (data) =>  { 
+/* const EmptyFieldSubmision = (data) =>  { 
   const errors = {};
   data.entryNumber = !isEmpty(data.entryNumber) ? data.entryNumber : null; 
   data.motive = !isEmpty(data.motive) ? data.motive : '';
@@ -28,8 +26,11 @@ const EmptyFieldSubmision = (data) =>  {
     isValid: isEmpty(errors),
   };
 };
+ */
 
-/* ------------- AJV TYPE VALIDATION */
+/**
+ * @return AJV JsonSchema
+ */
 const SubmisionValidationSchema = Type.Object(
   {
     finality: Type.String({
@@ -45,7 +46,7 @@ const SubmisionValidationSchema = Type.Object(
       },
     }),
     entryNumber: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser Number' },
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     socialCase: Type.Boolean({
       errorMessage: { type: 'El tipo no es válido, debe ser Boolean' },
@@ -59,24 +60,29 @@ const SubmisionValidationSchema = Type.Object(
         enum: 'El valor no es aceptado',
       },
     }),
+
+/*     ciPedido */
+/*     child    */
+
     weight: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser Number' },
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })
   },
+ /*  {
+    additionalProperties: false,
+    errorMessage: {
+      additionalProperties: 'Estas enviando data adicionales',
+    },
+  } */
 );
 
+addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
 
 const validateSchema = ajv.compile(SubmisionValidationSchema);
 
 const submisionDataValidation = (req, res, next) => {
-  const isEmpty = EmptyFieldSubmision();
   const isDataValid = validateSchema(req.body);
-
-  if (isEmpty)
-    return res.status(400).send({
-      errors: EmptyFieldSubmision.errors.map((error) => error.message),
-    });
 
   if (!isDataValid)
     return res.status(400).send({

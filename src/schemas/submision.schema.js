@@ -23,7 +23,6 @@ const SubmisionSchema = new Schema(
     },
     motive: {
       type: String,
-      required: true,
     },
     status: {
       type: String,
