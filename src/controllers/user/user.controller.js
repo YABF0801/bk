@@ -1,13 +1,8 @@
-const mongoose = require('mongoose');
 const User = require('../../schemas/user.schema');
 const bcrypt = require('bcryptjs');
 const validatePassword = require('../../validations/validatePassword');
-// const {userDataValidation} = require('../../validations/user.validations');
 
-const AddUser = async (req, res) => {
- // const { errors, isDataValid } = await userDataValidation(req.body);
- // if (!isDataValid) return res.status(400).json(errors);
-    
+const AddUser = async (req, res) => {  
   const user = new User(req.body);
   const userNuevo = await user.save();
   if (!userNuevo) {
@@ -19,7 +14,6 @@ const AddUser = async (req, res) => {
 };
 
 const FindAllUsers = async (req, res) => {
-   // Obtener todos los usuarios 
     const users = await User.find({});
     if(!users) {
       const error = new Error();
@@ -49,9 +43,6 @@ const FindSingleUser = async (req, res) => {
 };
 
 const UpdateUser = async (req, res) => {
-   //  const { errors, isDataValid } = await userDataValidation(req.body);
-   //  if (!isDataValid) return res.status(400).json(errors);
-
     const user = await User.findById(req.params.id);
     if (!user) {
       const error = new Error();
