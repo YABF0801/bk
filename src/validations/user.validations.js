@@ -1,13 +1,11 @@
-/* const isEmpty = require('./isEmpty');
-const validator = require('validator');
-const {Type} = require("@sinclair/typebox");
-const addErrors = require("ajv-errors");
-const addFormats = require("ajv-formats")
-const Ajv = require("ajv");
-const validatePassword = require('./validatePassword');
-const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier');
- */
-/* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
+const { Type } = require('@sinclair/typebox');
+const addErrors = require('ajv-errors');
+const addFormats = require('ajv-formats');
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
+/* const validatePassword = require('./validatePassword'); */
+
+/* ------------- EMPTY FIELD VALIDATION  */
 /* const EmptyFieldUser = (data) =>  {
   const errors = {};
   data.nickname = !isEmpty(data.nickname) ? data.nickname : "";
@@ -38,8 +36,10 @@ const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier')
   }
 }; */
 
-/* ------------- AJV TYPE VALIDATION */
-/* const UserValidationSchema = Type.Object(
+/**
+ * @return AJV JsonSchema
+ */
+const UserValidationSchema = Type.Object(
   {
     nickname: Type.String({
       minLength: 2,
@@ -77,28 +77,28 @@ const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier')
         maxLength: 'debe tener máximo 50 caracteres'}
       }),
     role: Type.String({
-      enum: ['ADMIN', 'GUEST'],
+      enum:['admin', 'guest'],
         errorMessage: {type: 'El tipo no es válido, debe ser String',
-          enum: 'El valor no es aceptado',
+        enum: 'El valor no es aceptado',
         },
       }),
   },
+  {
+    additionalProperties: false,
+    errorMessage: {
+      additionalProperties: 'Estas enviando datos adicionales',
+    },
+  }
 );
 
-addFormats(ajv);
+addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 ajv.addFormat('password', /^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/); 
-addErrors(ajv); */
+addErrors(ajv); 
 
-/* const validateSchema = ajv.compile(UserValidationSchema);
+const validateSchema = ajv.compile(UserValidationSchema);
 
 const userDataValidation = (req, res, next) => {
-  const isEmpty = EmptyFieldUser();
   const isDataValid = validateSchema(req.body);
-
-   if (isEmpty)
-       return res.status(400).send({
-           errors: EmptyFieldUser.errors.map((error) => error.message),
-        });
 
   if (!isDataValid)
     return res.status(400).send({
@@ -109,4 +109,4 @@ const userDataValidation = (req, res, next) => {
 };
 
 module.exports =  {userDataValidation}; 
- */
+

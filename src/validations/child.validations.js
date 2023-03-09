@@ -1,12 +1,11 @@
-const isEmpty = require('./isEmpty');
-const validator = require('validator');
-const {Type} = require("@sinclair/typebox");
-const addErrors = require("ajv-errors");
-const Ajv = require("ajv");
-const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier');
+const { Type } = require('@sinclair/typebox');
+const addErrors = require('ajv-errors');
+const addFormats = require('ajv-formats');
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
 
 /* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
-const EmptyFieldChild = (data) => { 
+/* const EmptyFieldChild = (data) => { 
   const errors = {};
 
   data.childName = !isEmpty(data.childName) ? data.childName : "";
@@ -18,7 +17,7 @@ const EmptyFieldChild = (data) => {
   data.municipality = !isEmpty(data.municipality) ? data.municipality : "";
   data.lat = !isEmpty(data.lat) ? data.lat : null; 
   data.lon = !isEmpty(data.lon) ? data.lon : null; 
-  data.parents = !isEmpty(data.parents) ? data.parents : ''; /* REVISAR PA OBJETO Q SE PONE "" */
+  data.parents = !isEmpty(data.parents) ? data.parents : ''; 
 
   if (validator.isEmpty(data.childName)) {
     errors.childName = "Nombre requerido";
@@ -55,9 +54,11 @@ const EmptyFieldChild = (data) => {
     errors,
     isValid: isEmpty(errors),
   };
-};
+}; */
 
-/* ------------- AJV TYPE VALIDATION */
+/**
+ * @return AJV JsonSchema
+ */
 const ChildValidationSchema = Type.Object(
   {
     childName: Type.String({
@@ -75,7 +76,9 @@ const ChildValidationSchema = Type.Object(
       maxLength: 'debe tener máximo 50 caracteres'}
     }),
     carnet: Type.Number({
-      errorMessage: {type: 'El tipo no es válido, debe ser Number',
+      format: 'carnet',
+      errorMessage: {type: 'El tipo no es válido, debe ser un número',
+      format: 'no es un carnet valido'
     }}),
     sex: Type.String({
       enum: ['masculino', 'femenino'],
@@ -83,10 +86,10 @@ const ChildValidationSchema = Type.Object(
         enum: 'El valor no es aceptado'},
     }),
     age: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser Number' },
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     year_of_life: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser Number' },
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     childAdress: Type.String({
       minLength: 2,
@@ -94,6 +97,13 @@ const ChildValidationSchema = Type.Object(
       errorMessage: {type: 'El tipo no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'},
+    }),
+    neighborhood: Type.String({
+      minLength: 2,
+      maxLength: 30,
+      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      inLength: 'debe tener minimo 2 caracteres',
+      maxLength: 'debe tener máximo 30 caracteres'},
     }),
     cPopular: Type.String({
       errorMessage: {type: 'El tipo no es válido, debe ser string'},
@@ -106,26 +116,41 @@ const ChildValidationSchema = Type.Object(
       name: Type.String()
     })),
     lat: Type.Number ({
-      errorMessage: {type: 'El tipo no es válido, debe ser number'},
+      min: -90,
+      max: 90,
+      errorMessage: {type: 'El tipo no es válido, debe ser un número',
+      min: 'la latitud debe estar entre 0 y 90, positivo o negativo',
+      max: 'la latitud debe estar entre 0 y 90, positivo o negativo'
+    }
     }),
     lon: Type.Number ({
-      errorMessage: {type: 'El tipo no es válido, debe ser number'},
+      min: -180,
+      max: 180,
+      errorMessage: {type: 'El tipo no es válido, debe ser un número',
+      min: 'la longitud debe estar entre 0 y 180, positivo o negativo',
+      max: 'la longitud debe estar entre 0 y 180, positivo o negativo'
+    }
     }),
+
+   /*    parents */
+
   },
+/*   {
+    additionalProperties: false,
+    errorMessage: {
+      additionalProperties: 'Estas enviando data adicionales',
+    },
+  } */
 );
 
-addErrors(ajv);
+addFormats(ajv).addKeyword('kind').addKeyword('modifier');
+ajv.addFormat('carnet', /^[0-9]{11}$/); 
+addErrors(ajv); 
 
 const validateSchema = ajv.compile(ChildValidationSchema); 
 
  const childDataValidation = (req, res, next) => {
-  const isEmpty = EmptyFieldChild();
   const isDataValid = validateSchema(req.body);
-
-  if (isEmpty)
-    return res.status(400).send({
-      errors: EmptyFieldChild.errors.map((error) => error.message),
-    });
 
   if (!isDataValid)
     return res.status(400).send({

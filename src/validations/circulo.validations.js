@@ -1,94 +1,112 @@
-/* const isEmpty = require("./isEmpty");
-const validator = require("validator"); 
-const {Type} = require("@sinclair/typebox");
-const addErrors = require("ajv-errors");
-const Ajv = require("ajv");
-const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier');
+const { Type } = require('@sinclair/typebox');
+const addErrors = require('ajv-errors');
+const addFormats = require('ajv-formats');
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
 
+/**
+ * @return AJV JsonSchema
+ */
+const CirculoValidationSchema = Type.Object(
+  {
+    number: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    name: Type.String({
+      minLength: 4,
+      maxLength: 30,
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser string',
+        minLength: 'debe tener minimo 4 caracteres',
+        maxLength: 'debe tener máximo 30 caracteres',
+      },
+    }),
 
-/* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */  // ESTO ESTA COMENTADO PORQUE DABA ERROR 
-/* const EmptyFieldCirculo = (data) =>  { 
-  const errors = {};
-  data.number = !isEmpty(data.number) ? data.number : 0; 
-  data.name = !isEmpty(data.name) ? data.name : "";
-  data.lat = !isEmpty(data.lat) ? data.lat : 0; 
-  data.lon = !isEmpty(data.lon) ? data.lon : 0; 
-  
-  if (validator.isEmpty(data.number)) {
-    errors.number = "Numero requerido";
-  }
-  if (validator.isEmpty(data.name)) {
-    errors.name = "Nombre requerido";
-  }
-  if (validator.isEmpty(data.lat)) {
-    errors.lat = "Latitud requerida";
-  }
-  if (validator.isEmpty(data.lon)) {
-    errors.lon = "Longitud requerido";
-  }
+    normed_capacity2: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    normed_capacity3: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    normed_capacity4: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    normed_capacity5: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    normed_capacity6: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
 
-  return {
-      errors,
-      isValid: isEmpty(errors)
-  }
-}; */
+    matricula2: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    matricula3: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    matricula4: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    matricula5: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    matricula6: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
 
-/* ------------- AJV TYPE VALIDATION */
-/* const CirculoValidationSchema = Type.Object(  
-    {
-        number: Type.Number({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        name: Type.String({
-          minLength: 4,
-          maxLength: 30,
-          errorMessage: {type: 'El tipo no es válido, debe ser string',
-          minLength: 'debe tener minimo 4 caracteres',
-          maxLength: 'debe tener máximo 30 caracteres'}
-        }),
-        normed_capacity2: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        normed_capacity3: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        normed_capacity4: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        normed_capacity5: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        normed_capacity6: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        
-        lat: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        lon: Type.Number ({
-          errorMessage: {type: 'El tipo no es válido, debe ser number'}
-        }),
-        
-        isCiActive: Type.Boolean({
-          errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
-        })
+    girls2: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    girls3: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    girls4: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    girls5: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    girls6: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+
+    lat: Type.Number({
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser un número',
+      },
+    }),
+    lon: Type.Number({
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser un número',
+      },
+    }),
+
+    isCiActive: Type.Boolean({
+      errorMessage: { type: 'El tipo de activo no es válido, debe ser boolean' },
+    }),
+  },
+  {
+    additionalProperties: false,
+    errorMessage: {
+      additionalProperties: 'Estas enviando datos adicionales',
     },
-); */
-/* 
+  }
+);
+
+addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
 
-const validateSchema = ajv.compile(CirculoValidationSchema); */
+const validateSchema = ajv.compile(CirculoValidationSchema);
 
- /*  const circuloDataValidation = (req, res, next) => {
+const circuloDataValidation = (req, res, next) => {
   const isDataValid = validateSchema(req.body);
 
-   
-    if (!isDataValid)
-        return res.status(400).json({
-            errors: validateSchema.errors.map((error) => error.message),
-        });
+  if (!isDataValid)
+    return res.status(400).json({
+      errors: validateSchema.errors.map((error) => error.message),
+    });
 
-    next();
-}; */
- 
-/* module.exports = {circuloDataValidation};  */
+  next();
+};
+
+module.exports = { circuloDataValidation };

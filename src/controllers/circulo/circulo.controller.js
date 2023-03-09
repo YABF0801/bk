@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
 const Circulo = require('../../schemas/circulo.schema');
-// const { circuloDataValidation } = require('../../validations/circulo.validations');
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json new Circulo added
+ */
 const AddCirculo = async (req, res) => {
-  // const { errors, isDataValid } = await circuloDataValidation(req.body);
-  // if (!isDataValid) return res.status(400).json(errors);
-
   const circulo = new Circulo(req.body);
   const circuloNuevo = await circulo.save();
   if (!circuloNuevo) {
@@ -13,12 +13,15 @@ const AddCirculo = async (req, res) => {
     error.message = 'Error al guardar el círculo';
     throw error;
   }
-
   res.status(201).send(circulo).json({ message: 'Círculo creado' });
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json Circulo List
+ */
 const FindAllCirculos = async (req, res) => {
-    // Obtener todos los circulos 
     const circulos = await Circulo.find({});
     if (!circulos) {
       const error = new Error();
@@ -29,6 +32,11 @@ const FindAllCirculos = async (req, res) => {
     return res.status(200).json(circulos);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json one Circulo by Id
+ */
 const FindSingleCirculo = async (req, res) => {
   if (!req.params.id) {
     const error = new Error();
@@ -47,10 +55,12 @@ const FindSingleCirculo = async (req, res) => {
     return res.status(200).send(circulo);
 };
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 200 and json Circulo updated
+ */
 const UpdateCirculo = async (req, res) => {
-  // const { errors, isDataValid } = await organismoDataValidation(req.body);
-  // if (!isDataValid) return res.status(400).json(errors);
-
   const circulo = await Circulo.findById(req.params.id);
   if (!circulo) {
     const error = new Error();
@@ -62,11 +72,12 @@ const UpdateCirculo = async (req, res) => {
   return res.status(200).send(updatedCirculo);
 };
 
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 204 no data
+ */
 const DeleteCirculo = async (req, res) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //   return res.status(400).json({ message: 'ID inválido' });
-  // }
   const circulo = await Circulo.findById(req.params.id);
   if (!circulo) {
     const error = new Error();
