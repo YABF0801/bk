@@ -4,33 +4,6 @@ const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
 
-/* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */  
-/* const EmptyFieldCirculo = (data) =>  { 
-  const errors = {};
-  data.number = !isEmpty(data.number) ? data.number : 0; 
-  data.name = !isEmpty(data.name) ? data.name : "";
-  data.lat = !isEmpty(data.lat) ? data.lat : 0; 
-  data.lon = !isEmpty(data.lon) ? data.lon : 0; 
-  
-  if (validator.isEmpty(data.number)) {
-    errors.number = "Numero requerido";
-  }
-  if (validator.isEmpty(data.name)) {
-    errors.name = "Nombre requerido";
-  }
-  if (validator.isEmpty(data.lat)) {
-    errors.lat = "Latitud requerida";
-  }
-  if (validator.isEmpty(data.lon)) {
-    errors.lon = "Longitud requerido";
-  }
-
-  return {
-      errors,
-      isValid: isEmpty(errors)
-  }
-}; */
-
 /**
  * @return AJV JsonSchema
  */
