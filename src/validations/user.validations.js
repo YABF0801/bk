@@ -110,5 +110,3 @@ const userDataValidation = (req, res, next) => {
 
 module.exports =  {userDataValidation}; 
  */
-
-
