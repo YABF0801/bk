@@ -1,19 +1,16 @@
-const isEmpty = require('./isEmpty');
-const validator = require('validator');
-const {Type} = require("@sinclair/typebox");
-const addErrors = require("ajv-errors");
-const Ajv = require("ajv");
-const ajv = new Ajv({allErrors: true}).addKeyword('kind').addKeyword('modifier');
+const { Type } = require('@sinclair/typebox');
+const addErrors = require('ajv-errors');
+const addFormats = require('ajv-formats');
+const Ajv = require('ajv');
+const ajv = new Ajv({ allErrors: true });
 
 /* ------------- EMPTY FIELD VALIDATION 4 REQUIRED */
-const EmptyFieldParents = (data) =>  { 
+/* const EmptyFieldParents = (data) =>  { 
   const errors = {};
 
   data.parentName = !isEmpty(data.parentName) ? data.parentName : "";
   data.parentLastname = !isEmpty(data.parentLastname) ? data.parentLastname : "";
   data.phoneNumber = !isEmpty(data.cPopular) ? data.cPopular : null;
-
-  // ver si es necesario esto al poner estudiante debe estar desabilitado 
 
   data.workName = !isEmpty(data.workName) ? data.workName : "";
   data.workAddress = !isEmpty(data.workAddress) ? data.workAddress : ""; 
@@ -43,8 +40,11 @@ const EmptyFieldParents = (data) =>  {
     isValid: isEmpty(errors),
   };
 };
+*/
 
-/* ------------- AJV TYPE VALIDATION */
+/**
+ * @return AJV JsonSchema
+ */
 const ParentsValidationSchema = Type.Object(
   {
     parentName: Type.String({
@@ -80,8 +80,14 @@ const ParentsValidationSchema = Type.Object(
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'}
     }),
-    phoneNumber: Type.Number({
-      errorMessage: {type: 'El tipo no es válido, debe ser Number'
+    phoneNumber: Type.String({
+      format: 'phone',
+      minLength: 8,
+      maxLength: 15,
+      errorMessage: {type: 'El tipo no es válido',
+      format: 'no es un número de teléfono valido',
+      minLength: 'debe tener mínimo 8 digitos',
+      maxLength: 'debe tener máximo 15 digitos'
       },
     }),
     occupation: Type.String({
@@ -104,6 +110,14 @@ const ParentsValidationSchema = Type.Object(
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'}
     }),
+    jobTitle: Type.String({
+      minLength: 4,
+      maxLength: 50,
+      errorMessage: {type: 'El tipo no es válido, debe ser String',
+      minLength: 'debe tener minimo 4 caracteres',
+      maxLength: 'debe tener máximo 50 caracteres'
+      },
+    }),
     organismo: Type.Optional(
       Type.Object({
       name: Type.String(),
@@ -111,35 +125,40 @@ const ParentsValidationSchema = Type.Object(
     })
     ),
     salary: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser Number' }
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' }
     }), 
     otherChildrenCi: Type.Boolean({
       errorMessage: {type: 'El tipo de priorizado no es válido, debe ser boolean'}
     }),   
-    cantOtherChildrenCi: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser Number' }
+    numberOfOtherChildrenInCi: Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' }
     }), 
+
+    /* otherChildrenCenter */
+
     pregnant: Type.Boolean({
-      errorMessage: {type: 'El tipo de priorizado no es válido, debe ser boolean'}
+      errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
     }),  
     deaf: Type.Boolean({
-      errorMessage: {type: 'El tipo de priorizado no es válido, debe ser boolean'}
+      errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
     }),  
   },
+  {
+    additionalProperties: false,
+    errorMessage: {
+      additionalProperties: 'Estas enviando data adicionales',
+    },
+  }
 );
 
-addErrors(ajv);
+addFormats(ajv).addKeyword('kind').addKeyword('modifier');
+ajv.addFormat('phone', /^[+]*[0-9]*$/); 
+addErrors(ajv); 
 
 const validateSchema = ajv.compile(ParentsValidationSchema);
 
 const parentsDataValidation = (req, res, next) => {
-  const isEmpty = EmptyFieldParents();
   const isDataValid = validateSchema(req.body);
-  
-    if (isEmpty)
-      return res.status(400).send({
-        errors: EmptyFieldParents.errors.map((error) => error.message),
-      });
 
   if (!isDataValid)
     return res.status(400).send({
