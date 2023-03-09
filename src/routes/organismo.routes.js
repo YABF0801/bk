@@ -15,7 +15,7 @@ const organismoRouter = Router();
 organismoRouter.post('/', [organismoDataValidation], /* isAuthorized, isAdmin, */ AddOrganismo);
 organismoRouter.get('/', /* isAuthorized, */ FindAllOrganismos);
 organismoRouter.get('/:id', /* isAuthorized, */ FindSingleOrganismo);
-organismoRouter.put('/:id', /* isAuthorized, isAdmin, */ UpdateOrganismo);
+organismoRouter.put('/:id', [organismoDataValidation], /* isAuthorized, isAdmin, */ UpdateOrganismo);
 organismoRouter.delete('/:id', /* isAuthorized, isAdmin, */ DeleteOrganismo);
 
 module.exports = organismoRouter;
