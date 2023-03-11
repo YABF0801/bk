@@ -1,27 +1,39 @@
-const mongoose = require("mongoose");
 const Submision = require("../../schemas/submision.schema");
-// const { SubmisionFormValidations } = require("../../validations/NewSubmisionForm.validations");
 
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json new Submision added
+ */
 const AddSubmision = async (req, res) => {
-    //  const { errors, isValid } = SubmisionFormValidations(req.body);
-    // if (!isValid) {return res.status(400).json(errors);}
-
-    // Validar que no exista una planilla con el mismo numero y la misma fecha
-    const existsByNumberAndDate = await Submision.findOne({ entryNumber: req.body.entryNumber, date: req.body.date }).exec();
+    
+    // Validar que no exista una planilla con el mismo numero y la misma fecha ??
+    
+    /* const existsByNumberAndDate = await Submision.findOne({ entryNumber: req.body.entryNumber, date: req.body.date }).exec();
     if (existsByNumberAndDate) {
       const error = new Error();
       error.message = 'Error al guardar la planilla, ya existe';
       throw error;
-    }
+    } */
 
     //  crear submision
-    const submision = await Submision.create(req.body);
-    res.status(201).send(submision).json({ message: 'Planilla creada con éxito' });
-};
+    const submision = new Submision(req.body);
+      const submisionNueva = await submision.save();
+      if (!submisionNueva) {
+        const error = new Error();
+        error.message = 'Error al guardar planilla';
+        throw error;
+      }
+      res.status(201).send(submision).json({ message: 'Planilla creada' });
+    };
 
+ /**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json Submision List 
+ */
 const FindAllSubmisions = async (req, res) => {
-      // Obtener todas las planillas 
-      const submisions = await Submision.find().sort({date: -1});
+      const submisions = await Submision.find({});
       if(!submisions) {
         const error = new Error();
         error.status = 404;
@@ -31,7 +43,11 @@ const FindAllSubmisions = async (req, res) => {
       return res.status(200).json(submisions);
       };
 
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json Submision by Id
+ */
 const FindSingleSubmision = async (req, res) => {
       if (!req.params.id) {
       const error = new Error();
@@ -50,11 +66,12 @@ const FindSingleSubmision = async (req, res) => {
         return res.status(200).json(submision);
       };
 
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 200 and json Submision updated
+ */
 const UpdateSubmision = async (req, res) => {
-     // const { errors, isValid } = SubmisionFormValidations(req.body);
-     // if (!isValid) {return res.status(400).json(errors);}
-      
      const submision = await Submision.findById(req.params.id);
       if (!submision) {
         const error = new Error();
@@ -63,29 +80,21 @@ const UpdateSubmision = async (req, res) => {
         throw error;
       }
       
-          // buscar submision en BD por numero y fecha
-          /* const existsByNumber = await Submision.findOne({ entryNumber: req.body.entryNumber });
-          const existsByDate = await Submision.findOne({ date: req.body.date });
-
-          if (existsByNumber && existsByDate && existsByNumber._id !== req.params.id)  {
-            const error = new Error();
-            error.message = 'Ya existe una planilla con ese número en esa fecha';
-            throw error;
-          } */
-      
-          // Find and update Submision by id
-          const updatedSubmision = await Submision.findByIdAndUpdate (req.params.id, req.body, { new: true });
-      
+          const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
           return res.status(200).send(updatedSubmision,);
    };
       
-
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res status 204 no data
+ */
    const DeleteSubmision = async (req, res) => {
         // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         // return res.status(400).json({ message: 'ID inválido' });
 
-        const deletedSubmision = await Submision.findById(req.params.id);
-        if (!deletedSubmision) {
+        const submision = await Submision.findById(req.params.id);
+        if (!submision) {
           const error = new Error();
           error.status = 404;
           error.message = 'No se encontró la planilla';
