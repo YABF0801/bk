@@ -65,8 +65,12 @@ const ChildValidationSchema = Type.Object(
       errorMessage: {type: 'El tipo no es válido, debe ser string'},
     }),
     circulo: Type.Optional(Type.Object({
-      id: Type.String(),
-      name: Type.String()
+      _id: Type.String({
+        errorMessage: { type: 'El tipo  _id de circulo no es válido, debe ser String' },
+      }),
+      name: Type.String({
+        errorMessage: { type: 'El tipo name de circulo no es válido, debe ser String' },
+      })
     })),
     lat: Type.Number ({
       minimum: -90,

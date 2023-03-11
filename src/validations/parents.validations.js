@@ -84,8 +84,12 @@ const ParentsValidationSchema = Type.Array(
     }),
     organismo: Type.Optional(
       Type.Object({
-      name: Type.String(),
-      weight: Type.Number() 
+      name: Type.String({
+        errorMessage: { type: 'El tipo name de organismo no es válido, debe ser String' },
+      }),
+      weight: Type.Number({
+        errorMessage: { type: 'El tipo weight de organismo no es válido, debe ser un numero' },
+      }) 
     })
     ),
     salary: Type.Number({

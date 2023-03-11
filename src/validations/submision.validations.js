@@ -28,7 +28,8 @@ const SubmisionValidationSchema = Type.Object(
     socialCase: Type.Boolean({
       errorMessage: { type: 'El tipo no es válido, debe ser Boolean' },
     }),
-    motive: Type.Optional(Type.String({
+    motive: Type.Optional(
+      Type.String({
       errorMessage: { type: 'El tipo no es válido, debe ser String' },
     })),
     status: Type.String({
@@ -39,7 +40,9 @@ const SubmisionValidationSchema = Type.Object(
     }),
     ciPedido: Type.Optional(
       Type.Object({
-      name: Type.String(),
+      name: Type.String({
+        errorMessage: { type: 'El tipo name de ciPedido no es válido, debe ser String' },
+      }),
     })
     ),
 
@@ -48,7 +51,11 @@ const SubmisionValidationSchema = Type.Object(
     weight: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
-
+    createdBy: Type.Optional(
+      Type.Object({
+      _id: Type.String({errorMessage: { type: 'El tipo  _id de createdBy no es válido, debe ser String' },}),
+      nickname: Type.String({errorMessage: { type: 'El tipo nickname de createdBy no es válido, debe ser String' },}),
+    })),
 
   },
 /*   {
