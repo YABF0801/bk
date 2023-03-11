@@ -1,9 +1,10 @@
 const { Type } = require('@sinclair/typebox');
-const addErrors = require('ajv-errors');
-const addFormats = require('ajv-formats');
-const Ajv = require('ajv');
 const ParentsValidationSchema = require('./parents.validations');
-const ajv = new Ajv({ allErrors: true });
+
+/* const addErrors = require('ajv-errors');
+const addFormats = require('ajv-formats'); */
+/* const Ajv = require('ajv'); */
+/* const ajv = new Ajv({ allErrors: true }); */
 
 /**
  * @return AJV JsonSchema
@@ -29,18 +30,18 @@ const ChildValidationSchema = Type.Object(
       errorMessage: {type: 'El tipo no es válido, debe ser un número',
       format: 'no es un carnet valido'
     }}),
-    sex: Type.String({
+    sex: Type.Optional(Type.String({
       enum: ['masculino', 'femenino'],
       errorMessage: {type: 'El tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado'},
-    }),
-    age: Type.Number({
+    })),
+    age: Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
+    })),
     year_of_life: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
-    childAdress: Type.String({
+    childAddress: Type.String({
       minLength: 2,
       maxLength: 70,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
@@ -58,6 +59,9 @@ const ChildValidationSchema = Type.Object(
       errorMessage: {type: 'El tipo no es válido, debe ser string'},
     }),
     municipality: Type.String({
+      errorMessage: {type: 'El tipo no es válido, debe ser string'},
+    }),
+    province: Type.String({
       errorMessage: {type: 'El tipo no es válido, debe ser string'},
     }),
     circulo: Type.Optional(Type.Object({
@@ -90,9 +94,11 @@ const ChildValidationSchema = Type.Object(
   }
 );
 
+/* const carnet = /^[0-9]{11}$/;
+ajv.addFormat("carnet", carnet ); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
-ajv.addFormat('carnet', /^[0-9]{11}$/); 
 addErrors(ajv); 
+ */
 
 /* const validateSchema = ajv.compile(ChildValidationSchema); 
 
