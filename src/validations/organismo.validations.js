@@ -46,12 +46,14 @@ const OrganismoValidationSchema = Type.Object(
         maxLength: 'debe tener máximo 80 caracteres',
       },
     }),
-    priorizado: Type.Boolean({
+    priorizado: Type.Optional(Type.Boolean({
+      default: false,
       errorMessage: { type: 'El tipo de priorizado no es válido, debe ser boolean' },
-    }),
-    weight: Type.Number({
+    })),
+    weight: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo de peso no es válido, debe ser un número' },
-    }),
+    })),
   },
   {
     additionalProperties: false,
