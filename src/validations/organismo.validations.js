@@ -38,11 +38,11 @@ const OrganismoValidationSchema = Type.Object(
       },
     }),
     description: Type.String({
-      minLength: 10,
+      minLength: 5,
       maxLength: 80,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 10 caracteres',
+        minLength: 'debe tener minimo 5 caracteres',
         maxLength: 'debe tener máximo 80 caracteres',
       },
     }),
