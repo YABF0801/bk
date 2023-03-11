@@ -61,12 +61,6 @@ const SubmisionSchema = new Schema(
         type: Number,
         required: true,
         unique: true,
-        validate: {
-          validator: function (v) {
-            return /^[0-9]{11}$/.test(v);
-          },
-          message: 'no es un carnet valido',
-        },
       },
       sex: {
         type: String,
@@ -83,7 +77,7 @@ const SubmisionSchema = new Schema(
         min: 2,
         max: 6,
       },
-      childAdress: {
+      childAddress: {
         type: String,
         required: true,
         minLength: 2,
@@ -165,12 +159,6 @@ const SubmisionSchema = new Schema(
           required: true,
           minLength: 8,
           maxLength: 15,
-          validate: {
-            validator: function (v) {
-              return /^[+]*[0-9]*$/.test(v);
-            },
-            message: 'no es un phoneNumber valido',
-          },
         },
         occupation: {
           type: String,
@@ -226,8 +214,13 @@ const SubmisionSchema = new Schema(
         },
         // 1
         otherChildrenCenter: {
-          type: String,
-          default: null,
+          type: [
+            {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'circulo',
+              name: String,
+            },
+          ],
         },
         // 1
         pregnant: {
@@ -274,9 +267,10 @@ SubmisionSchema.methods.Gender = function () {
   this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
 };
 
+
 SubmisionSchema.methods.Age = function () {
   const prefix = '20';
-  const yearOfBirth = prefix + toString(this.child.carnet.substr(0, 2)); // quiza hacer mes y año, convertir a fecha y diferencia entre fechas
+  const yearOfBirth = prefix + this.child.carnet.toString().substr(0, 2);// quiza hacer mes y año, convertir a fecha y diferencia entre fechas
   const nowDate = new Date();
   const currentYear = nowDate.getFullYear();
   const ageResult = currentYear - Number(yearOfBirth);
