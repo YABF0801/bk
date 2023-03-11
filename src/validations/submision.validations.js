@@ -47,14 +47,16 @@ const SubmisionValidationSchema = Type.Object(
 
     weight: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    })
+    }),
+
+
   },
-  {
+/*   {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando datos adicionales',
+      additionalProperties: 'Estas enviando datos adicionales en la planilla',
     },
-  } 
+  }  */
 );
 
 const carnet = /^[0-9]{11}$/;
