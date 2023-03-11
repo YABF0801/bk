@@ -19,3 +19,10 @@ Esta entidad tiene los siguientes requisitos:
     2. si convive = true, parentAddress = childAdress
 
     3. sex y age estan definido por el carnet
+
+    4. entryNumber debe estar vinculado al año de creaciòn de la submision para no repetirse
+
+    5. submision debe registrar el usuario que la creó
+
+    
+
