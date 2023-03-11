@@ -28,17 +28,20 @@ const SubmisionValidationSchema = Type.Object(
     socialCase: Type.Boolean({
       errorMessage: { type: 'El tipo no es válido, debe ser Boolean' },
     }),
-    motive: Type.String({
+    motive: Type.Optional(Type.String({
       errorMessage: { type: 'El tipo no es válido, debe ser String' },
-    }),
+    })),
     status: Type.String({
       enum: ['pendiente', 'propuesta', 'matricula', 'baja'],
       errorMessage: {type: 'El tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
-
-    /*   ciPedido */ // falta poner esto desde el esquema 
+    ciPedido: Type.Optional(
+      Type.Object({
+      name: Type.String(),
+    })
+    ),
 
     child: ChildValidationSchema,
 
@@ -54,6 +57,10 @@ const SubmisionValidationSchema = Type.Object(
   } 
 );
 
+const carnet = /^[0-9]{11}$/;
+const phone = /^[0-9]{8,15}$/;
+ajv.addFormat("carnet", carnet ); 
+ajv.addFormat("phone", phone);
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
 
