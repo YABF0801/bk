@@ -99,11 +99,11 @@ const UpdateSubmision = async (req, res) => {
         error.message = 'No se encontró la planilla';
         throw error;
       }
-      
           const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
-          return res.status(200).send(updatedSubmision,);
+          return res.status(200).send(updatedSubmision);
    };
-      
+
+
 /**
  * @param  {} req
  * @param  {} res
