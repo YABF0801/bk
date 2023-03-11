@@ -14,10 +14,8 @@ function compareDates (date1, date2) {
  * @return {} res and json new Submision added
  */
 const AddSubmision = async (req, res) => {
-
     // Validar que no exista una planilla con el mismo numero y la misma fecha 
     const now = new Date(); // fecha actual
-
     const numberExist = await Submision.findOne({ entryNumber: req.body.entryNumber});
     if (numberExist) {
       const yearsEqual = compareDates(numberExist.createdAt, now);
@@ -29,6 +27,15 @@ const AddSubmision = async (req, res) => {
       } 
     }
 
+    // Validar que no exista un niño con el mismo numero de carnet 
+    const carnetExist = await Submision.findOne({ 'child.carnet' : req.body.child.carnet});
+    if (carnetExist) {
+      const error = new Error();
+      error.status = 409;
+      error.message = 'Error al guardar la planilla, ya existe un niño con ese carnet';
+      throw error;
+      } 
+  
     //  crear submision
     const submision = new Submision(req.body);
       const submisionNueva = await submision.save();
