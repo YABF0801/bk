@@ -3,38 +3,6 @@ const addErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
 const ajv = new Ajv({ allErrors: true });
-/* const validatePassword = require('./validatePassword'); */
-
-/* ------------- EMPTY FIELD VALIDATION  */
-/* const EmptyFieldUser = (data) =>  {
-  const errors = {};
-  data.nickname = !isEmpty(data.nickname) ? data.nickname : "";
-  data.name = !isEmpty(data.name) ? data.name : "";
-  data.lastname = !isEmpty(data.lastname) ? data.lastname : "";
-  data.password = !isEmpty(data.password) ? data.password : "";
-  data.position = !isEmpty(data.position) ? data.position : "";
- 
-  if (!validator.isEmpty(data.nickname)) {
-    errors.nickname = "nickname requerido";
-  }
-  if (validator.isEmpty(data.name)) {
-    errors.name = "Nombre requerido";
-  }
-  if (validator.isEmpty(data.lastname)) {
-    errors.lastname = "Apellidos requeridos";
-  }
-  if (validator.isEmpty(data.password) || !validatePassword(data.password)) {
-    errors.password = "Contraseña requerida y debe contener al menos una mayúscula, una minúscula y un número";
-}
-  if (validator.isEmpty(data.position)) {
-    errors.position = "Cargo requerido";
-  }
-
-  return {
-      errors,
-      isValid: isEmpty(errors)
-  }
-}; */
 
 /**
  * @return AJV JsonSchema
@@ -69,7 +37,7 @@ const UserValidationSchema = Type.Object(
       },
     }),
     password: Type.String({
-      format: 'password',
+      format: "password",
       minLength: 8,
       errorMessage: {
         type: 'El tipo no es válido, debe ser un string',
@@ -99,8 +67,9 @@ const UserValidationSchema = Type.Object(
   }
 );
 
-const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,15}[^'\s]$/;
-ajv.addFormat('password', regex);
+
+const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,16}$/;
+ajv.addFormat("password", regex);
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
 
@@ -117,15 +86,5 @@ const userDataValidation = (req, res, next) => {
   next();
 };
 
-const userDataValidationUpdate = (req, res, next) => {
-  const isDataValid = validateSchema(req.body);
 
-  if (!isDataValid)
-    return res.status(400).send({
-      errors: validateSchema.errors.map((error) => error.message),
-    });
-
-  next();
-};
-
-module.exports = { userDataValidation, userDataValidationUpdate };
+module.exports = { userDataValidation };
