@@ -4,14 +4,14 @@ const isAuthorized = require('../midlewares/isAuthorized'); */
 const { AddSubmision, FindAllSubmisions, FindSingleSubmision, UpdateSubmision, DeleteSubmision } = require('../controllers/submision/submision.controller');
 const { AceptarPropuesta, RechazarPropuesta, Baja } = require('../services/manageMatriculas');
 const { GenerarPropuesta } = require('../services/GenerarPropuesta');
-const {SubmisionFormValidations} = require('../validations/completeSubmision.validations');
+const { submisionDataValidation } = require('../validations/submision.validations');
 
 const submisionRouter = Router();
 
-submisionRouter.post('/', /* isAuthorized, isAdmin, */ [SubmisionFormValidations], AddSubmision);
+submisionRouter.post('/', /* isAuthorized, isAdmin, */ [submisionDataValidation], AddSubmision);
 submisionRouter.get('/', /* isAuthorized, */ FindAllSubmisions);
 submisionRouter.get('/:id', /* isAuthorized,  isAdmin, */ FindSingleSubmision); 
-submisionRouter.put('/:id', /* isAuthorized,  isAdmin, */ [SubmisionFormValidations], UpdateSubmision);
+submisionRouter.put('/:id', /* isAuthorized,  isAdmin, */ [submisionDataValidation], UpdateSubmision);
 submisionRouter.delete('/:id', /* isAuthorized,  isAdmin, */ DeleteSubmision);
 
 

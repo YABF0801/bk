@@ -7,7 +7,9 @@ const ajv = new Ajv({ allErrors: true });
 /**
  * @return AJV JsonSchema
  */
-const ParentsValidationSchema = Type.Object(
+
+const ParentsValidationSchema = Type.Array(
+  Type.Object(
   {
     parentName: Type.String({
       minLength: 2,
@@ -108,16 +110,16 @@ const ParentsValidationSchema = Type.Object(
   {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando data adicionales',
+      additionalProperties: 'Estas enviando data adicional de los padres',
     },
   }
-);
+));
 
 ajv.addFormat('phone', /^[+]*[0-9]*$/); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv); 
 
-const validateSchema = ajv.compile(ParentsValidationSchema);
+/* const validateSchema = ajv.compile(ParentsValidationSchema);
 
 const parentsDataValidation = (req, res, next) => {
   const isDataValid = validateSchema(req.body);
@@ -129,5 +131,6 @@ const parentsDataValidation = (req, res, next) => {
 
   next();
 };
+ */
 
-module.exports =  {parentsDataValidation}; 
+module.exports =  ParentsValidationSchema; 

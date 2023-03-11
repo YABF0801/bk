@@ -2,6 +2,7 @@ const { Type } = require('@sinclair/typebox');
 const addErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
+const ChildValidationSchema = require('./child.validations');
 const ajv = new Ajv({ allErrors: true });
 
 /**
@@ -37,19 +38,20 @@ const SubmisionValidationSchema = Type.Object(
       },
     }),
 
-/*     ciPedido */ // falta poner esto desde el esquema
-/*     child    */ // falta poner esto desde el esquema
+    /*   ciPedido */ // falta poner esto desde el esquema 
+
+    child: ChildValidationSchema,
 
     weight: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })
   },
- /*  {
+  {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando data adicionales',
+      additionalProperties: 'Estas enviando datos adicionales',
     },
-  } */
+  } 
 );
 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');

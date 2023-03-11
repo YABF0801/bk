@@ -2,6 +2,7 @@ const { Type } = require('@sinclair/typebox');
 const addErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
+const ParentsValidationSchema = require('./parents.validations');
 const ajv = new Ajv({ allErrors: true });
 
 /**
@@ -64,30 +65,36 @@ const ChildValidationSchema = Type.Object(
       name: Type.String()
     })),
     lat: Type.Number ({
+      minimum: -90,
+      maximum: 90,
       errorMessage: {type: 'El tipo no es válido, debe ser un número',
+      minimum: 'la latitud debe estar entre 0 y 90, positivo o negativo',
+      maximum: 'la latitud debe estar entre 0 y 90, positivo o negativo'
     }
     }),
     lon: Type.Number ({
+      minimum: -180,
+      maximum: 180,
       errorMessage: {type: 'El tipo no es válido, debe ser un número',
+      minimum: 'la longitud debe estar entre 0 y 180, positivo o negativo',
+      maximum: 'la longitud debe estar entre 0 y 180, positivo o negativo'
     }
     }),
-
-   /*    parents */
-
+    parents: ParentsValidationSchema,
   },
-/*   {
+  {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando data adicionales',
+      additionalProperties: 'Estas enviando data adicional del niño',
     },
-  } */
+  }
 );
 
-ajv.addFormat('carnet', /^[0-9]{11}$/); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
+ajv.addFormat('carnet', /^[0-9]{11}$/); 
 addErrors(ajv); 
 
-const validateSchema = ajv.compile(ChildValidationSchema); 
+/* const validateSchema = ajv.compile(ChildValidationSchema); 
 
  const childDataValidation = (req, res, next) => {
   const isDataValid = validateSchema(req.body);
@@ -98,8 +105,8 @@ const validateSchema = ajv.compile(ChildValidationSchema);
     });
 
   next();
-};
+}; */
 
-module.exports = {childDataValidation};  
+module.exports = ChildValidationSchema;  
  
 
