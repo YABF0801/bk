@@ -30,13 +30,12 @@ const SubmisionSchema = new Schema(
       default: 'pendiente',
     },
     ciPedido: {
-      type: [
+      type: 
         {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'circulo',
           name: String,
         },
-      ],
     },
     weight: {
       type: Number,
@@ -100,13 +99,12 @@ const SubmisionSchema = new Schema(
         type: String,
       },
       circulo: {
-        type: [
+        type: 
           {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'circulo',
             select: ['_id', 'name'],
           },
-        ],
       },
       lat: {
         type: Number,
@@ -184,14 +182,13 @@ const SubmisionSchema = new Schema(
         },
         // 1
         organismo: {
-          type: [
+          type: 
             {
               type: mongoose.Schema.Types.ObjectId,
               ref: 'organismo',
               name: String,
               weight: Number,
             },
-          ],
         },
         salary: {
           type: Number,
@@ -214,13 +211,12 @@ const SubmisionSchema = new Schema(
         },
         // 1
         otherChildrenCenter: {
-          type: [
+          type: 
             {
               type: mongoose.Schema.Types.ObjectId,
               ref: 'circulo',
               name: String,
             },
-          ],
         },
         // 1
         pregnant: {
@@ -234,6 +230,12 @@ const SubmisionSchema = new Schema(
         },
       },
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      select: ['_id', 'nickname'],
+    }
+    
   },
   {
     timestamps: true,
