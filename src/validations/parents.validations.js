@@ -1,8 +1,8 @@
 const { Type } = require('@sinclair/typebox');
-const addErrors = require('ajv-errors');
+/* const addErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
-const ajv = new Ajv({ allErrors: true });
+const ajv = new Ajv({ allErrors: true }); */
 
 /**
  * @return AJV JsonSchema
@@ -14,41 +14,41 @@ const ParentsValidationSchema = Type.Array(
     parentName: Type.String({
       minLength: 2,
       maxLength: 20,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de parentName no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 20 caracteres'}
     }),
     parentLastname: Type.String({
       minLength: 2,
       maxLength: 50,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de parentLastname no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 50 caracteres'}
     }),
-    uniqueParent: Type.Boolean({
-      errorMessage: {type: 'El tipo de priorizado no es válido, debe ser boolean'}
-    }),
+    uniqueParent: Type.Optional(Type.Boolean({
+      errorMessage: {type: 'El tipo de uniqueParent no es válido, debe ser boolean'}
+    })),
     typeParent: Type.String({
       enum: ['madre', 'padre', 'tutor'],
-      errorMessage: {type: 'El tipo no es válido, debe ser String',
+      errorMessage: {type: 'El tipo de typeParent no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
     convivencia: Type.Boolean({
-      errorMessage: {type: 'El tipo de priorizado no es válido, debe ser boolean'}
+      errorMessage: {type: 'El tipo de convivencia no es válido, debe ser boolean'}
     }),
-    parentAdress: Type.String({
+    parentAddress: Type.Optional(Type.String({
       minLength: 2,
       maxLength: 70,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de parentAdress no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'}
-    }),
+    })),
     phoneNumber: Type.String({
       format: 'phone',
       minLength: 8,
       maxLength: 15,
-      errorMessage: {type: 'El tipo no es válido',
+      errorMessage: {type: 'El tipo de phoneNumber no es válido',
       format: 'no es un número de teléfono valido',
       minLength: 'debe tener mínimo 8 digitos',
       maxLength: 'debe tener máximo 15 digitos'
@@ -91,21 +91,21 @@ const ParentsValidationSchema = Type.Array(
     salary: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' }
     }), 
-    otherChildrenCi: Type.Boolean({
-      errorMessage: {type: 'El tipo de priorizado no es válido, debe ser boolean'}
-    }),   
-    numberOfOtherChildrenInCi: Type.Number({
+    otherChildrenInCi: Type.Optional(Type.Boolean({
+      errorMessage: {type: 'El tipo de otherChildrenCi no es válido, debe ser boolean'}
+    })),   
+    numberOfOtherChildrenInCi: Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' }
-    }), 
-
-    /* otherChildrenCenter */ // falta poner esto desde el esquema
-
-    pregnant: Type.Boolean({
+    })), 
+    otherChildrenCenter: Type.Optional(Type.Object({
+      name: Type.String()
+    })),
+    pregnant: Type.Optional(Type.Boolean({
       errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
-    }),  
-    deaf: Type.Boolean({
+    })),  
+    deaf: Type.Optional(Type.Boolean({
       errorMessage: {type: 'El tipo no es válido, debe ser boolean'}
-    }),  
+    })),  
   },
   {
     additionalProperties: false,
@@ -115,10 +115,10 @@ const ParentsValidationSchema = Type.Array(
   }
 ));
 
-ajv.addFormat('phone', /^[+]*[0-9]*$/); 
+/* ajv.addFormat('phone', /^[+]*[0-9]*$/); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv); 
-
+ */
 /* const validateSchema = ajv.compile(ParentsValidationSchema);
 
 const parentsDataValidation = (req, res, next) => {
