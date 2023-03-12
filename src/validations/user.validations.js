@@ -20,7 +20,7 @@ const UserValidationSchema = Type.Object(
     }),
     name: Type.String({
       minLength: 2,
-      maxLength: 20,
+      maxLength: 30,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 2 caracteres',
@@ -46,7 +46,7 @@ const UserValidationSchema = Type.Object(
       },
     }),
     position: Type.String({
-      minLength: 4,
+      minLength: 2,
       maxLength: 50,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
@@ -54,17 +54,19 @@ const UserValidationSchema = Type.Object(
         maxLength: 'debe tener máximo 50 caracteres',
       },
     }),
-    role: Type.String({
+    role: Type.Optional(Type.String({
       enum: ['admin', 'guest'],
-      errorMessage: { type: 'El tipo no es válido, debe ser String', enum: 'El valor no es aceptado' },
-    }),
+      default: 'guest',
+      errorMessage: { type: 'El tipo no es válido, debe ser String', 
+      enum: 'El valor no es aceptado' },
+    })),
   },
-  {
+/*   {
     additionalProperties: false,
     errorMessage: {
       additionalProperties: 'Estas enviando datos adicionales',
     },
-  }
+  } */
 );
 
 
