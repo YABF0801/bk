@@ -10,28 +10,34 @@ const ajv = new Ajv({ allErrors: true });
 const CirculoValidationSchema = Type.Object(
   {
     number: Type.Number({
+      minimum: 1,
+      maximum: 9999,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     name: Type.String({
       minLength: 4,
-      maxLength: 30,
+      maxLength: 50,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 4 caracteres',
-        maxLength: 'debe tener máximo 30 caracteres',
+        maxLength: 'debe tener máximo 50 caracteres',
       },
     }),
 
     normed_capacity2: Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     normed_capacity3: Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     normed_capacity4: Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     normed_capacity5: Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     normed_capacity6: Type.Optional(Type.Number({
