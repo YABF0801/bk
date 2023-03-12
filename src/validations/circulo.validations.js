@@ -34,56 +34,65 @@ const CirculoValidationSchema = Type.Object(
     normed_capacity5: Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
-    normed_capacity6: Type.Number({
+    normed_capacity6: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
+    })),
 
-    matricula2: Type.Number({
+    matricula2: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    matricula3: Type.Number({
+    })),
+    matricula3: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    matricula4: Type.Number({
+    })),
+    matricula4: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    matricula5: Type.Number({
+    })),
+    matricula5: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    matricula6: Type.Number({
+    })),
+    matricula6: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
+    })),
 
-    girls2: Type.Number({
+    girls2: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    girls3: Type.Number({
+    })),
+    girls3: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    girls4: Type.Number({
+    })),
+    girls4: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    girls5: Type.Number({
+    })),
+    girls5: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
-    girls6: Type.Number({
+    })),
+    girls6: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
+    })),
 
-    lat: Type.Number({
-      errorMessage: {
-        type: 'El tipo no es válido, debe ser un número',
-      },
-    }),
-    lon: Type.Number({
-      errorMessage: {
-        type: 'El tipo no es válido, debe ser un número',
-      },
-    }),
+    lat: Type.Optional(Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    })),
 
-    isCiActive: Type.Boolean({
+    lon: Type.Optional(Type.Number({
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    })),
+
+    isCiActive: Type.Optional(Type.Boolean({
+      default: true,
       errorMessage: { type: 'El tipo de activo no es válido, debe ser boolean' },
-    }),
+    })),
   },
   {
     additionalProperties: false,
