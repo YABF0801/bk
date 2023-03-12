@@ -36,7 +36,7 @@ const UserValidationSchema = Type.Object(
         maxLength: 'debe tener máximo 50 caracteres',
       },
     }),
-    password: Type.String({
+    password: Type.Optional(Type.String({
       format: "password",
       minLength: 8,
       errorMessage: {
@@ -44,7 +44,7 @@ const UserValidationSchema = Type.Object(
         format: 'password debe contener al menos una mayúscula, una minúscula y un número',
         minLength: 'password debe tener minimo 8 caracteres',
       },
-    }),
+    })),
     position: Type.String({
       minLength: 2,
       maxLength: 50,
