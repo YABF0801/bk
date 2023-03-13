@@ -101,8 +101,8 @@ const ParentsValidationSchema = Type.Array(
     numberOfOtherChildrenInCi: Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' }
     })), 
-    otherChildrenCenter: Type.Optional(Type.Object({
-      name: Type.String()
+    otherChildrenCenter: Type.Optional(Type.String({
+      errorMessage: { type: 'El tipo name de centro no es válido, debe ser String' },
     })),
     pregnant: Type.Optional(Type.Boolean({
       errorMessage: {type: 'El tipo no es válido, debe ser boolean'}

@@ -39,11 +39,9 @@ const SubmisionValidationSchema = Type.Object(
       },
     }),
     ciPedido: Type.Optional(
-      Type.Object({
-      name: Type.String({
+      Type.String({
         errorMessage: { type: 'El tipo name de ciPedido no es válido, debe ser String' },
       }),
-    })
     ),
 
     child: ChildValidationSchema,
