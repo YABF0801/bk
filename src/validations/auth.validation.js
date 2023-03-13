@@ -9,16 +9,18 @@ const ajv = new Ajv({ allErrors: true });
  */
 const AuthValidationSchema = Type.Object(
   {
-    email: Type.String({
-      format: 'email',
+    nickname: Type.String({
+      minLength: 2,
+      maxLength: 10,
       errorMessage: {
-        format: 'Debes enviar un email válido',
         type: 'Debes enviar un email válido',
       },
     }),
     password: Type.String({
       errorMessage: {
         type: 'Debes enviar una contraseña válida',
+        minLength: 'debe tener minimo 2 caracteres',
+        maxLength: 'debe tener máximo 10 caracteres',
       },
     }),
   },
