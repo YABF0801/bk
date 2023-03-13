@@ -45,6 +45,12 @@ const UserSchema = new Schema(
   }
 );
 
+UserSchema.method('toJSON', function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+});
+
 UserSchema.pre('save', function (next) {
   const user = this;
   if (!user.isModified('password')) {
