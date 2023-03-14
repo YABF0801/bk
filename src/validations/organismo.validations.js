@@ -38,27 +38,29 @@ const OrganismoValidationSchema = Type.Object(
       },
     }),
     description: Type.String({
-      minLength: 10,
+      minLength: 5,
       maxLength: 80,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 10 caracteres',
+        minLength: 'debe tener minimo 5 caracteres',
         maxLength: 'debe tener máximo 80 caracteres',
       },
     }),
-    priorizado: Type.Boolean({
+    priorizado: Type.Optional(Type.Boolean({
+      default: false,
       errorMessage: { type: 'El tipo de priorizado no es válido, debe ser boolean' },
-    }),
-    weight: Type.Number({
+    })),
+    weight: Type.Optional(Type.Number({
+      default: 0,
       errorMessage: { type: 'El tipo de peso no es válido, debe ser un número' },
-    }),
+    })),
   },
-  {
+/*   {
     additionalProperties: false,
     errorMessage: {
       additionalProperties: 'Estas enviando data adicionales',
     },
-  }
+  } */
 );
 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');

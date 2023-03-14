@@ -8,14 +8,14 @@ const CirculoSchema = new Schema(
       unique: true,
       required: true,
       min: 1,
-      max: 999
+      max: 9999
     },
     name: {
       type: String,
       required: true,
       unique:true,
       minLength: 4, 
-      maxLength: 30
+      maxLength: 50
     },
     normed_capacity2: {
       type: Number,
@@ -39,7 +39,6 @@ const CirculoSchema = new Schema(
     },
     normed_capacity6: {
       type: Number,
-      required: true,
       default: 0
     },
 
@@ -65,29 +64,32 @@ const CirculoSchema = new Schema(
     },
     girls2: {
       type: Number,
+      default: 0,
     },
     girls3: {
       type: Number,
+      default: 0,
     },
     girls4: {
       type: Number,
+      default: 0,
     },
     girls5: {
       type: Number,
+      default: 0,
     },
     girls6: {
       type: Number,
+      default: 0,
     },
 
     lat: {
       type: Number,
-      required: true,
       min: -90,
       max: 90,
     },
     lon: {
       type: Number,
-      required: true,
       min: -180,
       max: 180,
     },
