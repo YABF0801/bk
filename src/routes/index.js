@@ -3,12 +3,12 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('express-async-errors');
 
-
 const submisionRouter = require('./submision.routes');
 const circuloRouter = require('./circulo.routes');
 const organismoRouter = require('./organismo.routes');
 const userRouter = require('./user.routes');
-const { handleErrors } = require('../midlewares/handleErrors');
+const authRouter = require('./auth.routes');
+const { handleErrors } = require('../middlewares/handleErrors');
 
 const router = express.Router();
 
@@ -18,6 +18,7 @@ router.use('/api/v1/submisions', submisionRouter);
 router.use('/api/v1/circulos', circuloRouter);
 router.use('/api/v1/organismos', organismoRouter);
 router.use('/api/v1/users', userRouter);
+router.use('/api/v1/auth', authRouter);
 router.use(handleErrors);
 
 module.exports = { router };
