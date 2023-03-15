@@ -15,7 +15,7 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       minLength: 2,
-      maxLength: 20,
+      maxLength: 30,
     },
     lastname: {
       type: String,
@@ -30,7 +30,7 @@ const UserSchema = new Schema(
     position: {
       type: String,
       required: true,
-      minLength: 4,
+      minLength: 2,
       maxLength: 50,
     },
     role: {
@@ -38,10 +38,17 @@ const UserSchema = new Schema(
       enum: ['admin', 'guest'],
       default: 'guest',
     },
+    submisions: [
+        {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'submision',
+        },
+      ],
   },
   {
     timestamps: true,
     versionKey: false,
+    
   }
 );
 

@@ -30,13 +30,7 @@ const SubmisionSchema = new Schema(
       default: 'pendiente',
     },
     ciPedido: {
-      type: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'circulo',
-          name: String,
-        },
-      ],
+      type: String,
     },
     weight: {
       type: Number,
@@ -61,12 +55,6 @@ const SubmisionSchema = new Schema(
         type: Number,
         required: true,
         unique: true,
-        validate: {
-          validator: function (v) {
-            return /^[0-9]{11}$/.test(v);
-          },
-          message: 'no es un carnet valido',
-        },
       },
       sex: {
         type: String,
@@ -83,7 +71,7 @@ const SubmisionSchema = new Schema(
         min: 2,
         max: 6,
       },
-      childAdress: {
+      childAddress: {
         type: String,
         required: true,
         minLength: 2,
@@ -106,13 +94,9 @@ const SubmisionSchema = new Schema(
         type: String,
       },
       circulo: {
-        type: [
-          {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'circulo',
             select: ['_id', 'name'],
-          },
-        ],
       },
       lat: {
         type: Number,
@@ -165,12 +149,6 @@ const SubmisionSchema = new Schema(
           required: true,
           minLength: 8,
           maxLength: 15,
-          validate: {
-            validator: function (v) {
-              return /^[+]*[0-9]*$/.test(v);
-            },
-            message: 'no es un phoneNumber valido',
-          },
         },
         occupation: {
           type: String,
@@ -196,14 +174,10 @@ const SubmisionSchema = new Schema(
         },
         // 1
         organismo: {
-          type: [
-            {
               type: mongoose.Schema.Types.ObjectId,
               ref: 'organismo',
               name: String,
               weight: Number,
-            },
-          ],
         },
         salary: {
           type: Number,
@@ -226,8 +200,7 @@ const SubmisionSchema = new Schema(
         },
         // 1
         otherChildrenCenter: {
-          type: String,
-          default: null,
+          type: String
         },
         // 1
         pregnant: {
@@ -241,6 +214,11 @@ const SubmisionSchema = new Schema(
         },
       },
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'user',
+      select: ['_id', 'nickname'],
+    }
   },
   {
     timestamps: true,
@@ -251,8 +229,8 @@ const SubmisionSchema = new Schema(
 // hacer todo esto antes de guardar
 SubmisionSchema.pre('save', function (next) {
   this.calculateWeight();
-/*   this.Gender(); */
-/*   this.Age(); */
+  this.Gender(); 
+  this.Age(); 
   // Continuar con el guardado
   next();
 });
@@ -269,18 +247,20 @@ SubmisionSchema.methods.calculateWeight = function () {
   this.weight = weight;
 };
 
-/* SubmisionSchema.methods.Gender = function () {
+SubmisionSchema.methods.Gender = function () {
   const tenthDigit = this.child.carnet.toString()[9];
   this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
 };
- */
+
+
 SubmisionSchema.methods.Age = function () {
   const prefix = '20';
-  const yearOfBirth = prefix + toString(this.child.carnet.substr(0, 2)); // quiza hacer mes y año, convertir a fecha y diferencia entre fechas
+  const yearOfBirth = prefix + this.child.carnet.toString().substr(0, 2);// quiza hacer mes y año, convertir a fecha y diferencia entre fechas
   const nowDate = new Date();
   const currentYear = nowDate.getFullYear();
   const ageResult = currentYear - Number(yearOfBirth);
   this.child.age = ageResult < 1 ? 1 : ageResult;
 };
+
 
 module.exports = mongoose.model('submision', SubmisionSchema);

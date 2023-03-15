@@ -13,7 +13,7 @@ const OrganismoSchema = new Schema(
     description: {
       type: String,
       required: true,
-      minLength: 10,
+      minLength: 5,
       maxLength: 80,
     },
     priorizado: {
