@@ -12,7 +12,7 @@ module.exports = function (req, res, next) {
 
   const token = tokenBearer.split(' ')[1];
 
-  const payload = jwt.verify(token, process.env.JWT_PRIVATE_KEY);
+  const payload = jwt.verify(token, process.env.SECRET_KEY);
   if (payload) {
     req.userId = payload.id;
     next();
