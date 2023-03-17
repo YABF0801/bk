@@ -66,6 +66,27 @@ const CirculoValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
 
+    attendance2: Type.Number({
+      default: 0,
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    attendance3: Type.Number({
+      default: 0,
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    attendance4: Type.Number({
+      default: 0,
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    attendance5: Type.Number({
+      default: 0,
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    }),
+    attendance6: Type.Optional(Type.Number({
+      default: 0,
+      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+    })),
+
     girls2: Type.Optional(Type.Number({
       default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
