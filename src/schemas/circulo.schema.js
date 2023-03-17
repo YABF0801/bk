@@ -62,6 +62,32 @@ const CirculoSchema = new Schema(
       type: Number,
       default: 0
     },
+
+    attendance2: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance3: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance4: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance5: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance6: {
+      type: Number,
+      default: 0
+    },
+
     girls2: {
       type: Number,
       default: 0,
