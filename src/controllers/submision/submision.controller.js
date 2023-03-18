@@ -100,6 +100,7 @@ const UpdateSubmision = async (req, res) => {
         throw error;
       }
           const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
+          await updatedSubmision.preSaveFunctions();
           return res.status(200).send(updatedSubmision);
    };
 
