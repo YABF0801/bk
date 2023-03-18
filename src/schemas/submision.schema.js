@@ -222,12 +222,15 @@ const SubmisionSchema = new Schema(
 
 // hacer todo esto antes de guardar
 SubmisionSchema.pre('save', function (next) {
+  this.preSaveFunctions();
+  next();
+});
+
+SubmisionSchema.methods.preSaveFunctions = function () {
   this.calculateWeight();
   this.Gender(); 
   this.Age(); 
-  // Continuar con el guardado
-  next();
-});
+};
 
 SubmisionSchema.methods.calculateWeight = function () {
   let weight = 0;
@@ -245,7 +248,6 @@ SubmisionSchema.methods.Gender = function () {
   const tenthDigit = this.child.carnet.toString()[9];
   this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
 };
-
 
 SubmisionSchema.methods.Age = function () {
   const prefix = '20';
