@@ -98,18 +98,12 @@ const SubmisionSchema = new Schema(
             ref: 'circulo',
             select: ['_id', 'name'],
       },
-      lat: {
-        type: Number,
-        required: true,
-        min: -90,
-        max: 90,
-      },
-      lon: {
-        type: Number,
-        required: true,
-        min: -180,
-        max: 180,
-      },
+      
+      latlng: {
+        type: Array,
+        maxItems: 2,
+        },
+
       parents: {
         type: Array,
         maxItems: 2,
