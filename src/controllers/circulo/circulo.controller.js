@@ -68,7 +68,9 @@ const UpdateCirculo = async (req, res) => {
     error.message = 'No se encontró el círculo';
     throw error;
   }
+
   const updatedCirculo = await Circulo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  await updatedCirculo.calculateCapacity();
   return res.status(200).send(updatedCirculo);
 };
 
