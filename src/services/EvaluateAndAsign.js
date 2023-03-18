@@ -20,6 +20,7 @@ if (circulos[i].name === ciPedido || circulos[i].name === otherChildrenCenter) {
 break;}}
 
 // si hay un circulo solicitado y tiene capacidad, asignarlo
+                                    //  [`calculated_capacity${yearOfLife}`]
 if (requestedCirculo && requestedCirculo[`normed_capacity${yearOfLife}`] - requestedCirculo[`matricula${yearOfLife}`] > 0) {
   submision.child.circulo = {
     id: requestedCirculo._id,
@@ -54,6 +55,7 @@ if (closestCirculo.name === submision.child.circulo.name){
 }
 
 // Revisar si el circulo mas cercano tiene capacidad y asignarlo
+              //  [`calculated_capacity${yearOfLife}`]
 if (closestCirculo[`normed_capacity${yearOfLife}`] - closestCirculo[`matricula${yearOfLife}`] > 0) {
   flag = true;
   submision.child.circulo = {
