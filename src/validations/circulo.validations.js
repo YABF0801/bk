@@ -87,7 +87,7 @@ const CirculoValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
 
-/*     calculated_capacity2: Type.Optional(Type.Number({
+    calculated_capacity2: Type.Optional(Type.Number({
       default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
@@ -106,7 +106,7 @@ const CirculoValidationSchema = Type.Object(
     calculated_capacity6: Type.Optional(Type.Number({
       default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    })), */
+    })), 
 
     girls2: Type.Optional(Type.Number({
       default: 0,
@@ -129,13 +129,9 @@ const CirculoValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
 
-    lat: Type.Optional(Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    })),
-
-    lon: Type.Optional(Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    })),
+    latlng: Type.Optional(Type.Array(
+      { errorMessage: { type: 'El tipo de latlng no es válido, debe ser arreglo de coordenadas' },
+      })),
 
     isCiActive: Type.Optional(Type.Boolean({
       default: true,
