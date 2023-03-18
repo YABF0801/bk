@@ -98,6 +98,10 @@ const SubmisionSchema = new Schema(
             ref: 'circulo',
             select: ['_id', 'name'],
       },
+
+      matriculaDate: {
+        type: Date
+      },
       
       latlng: {
         type: Array,
