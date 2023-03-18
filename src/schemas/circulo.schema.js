@@ -88,6 +88,27 @@ const CirculoSchema = new Schema(
       default: 0
     },
 
+/*   calculated_capacity2: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity3: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity4: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity5: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity6: {
+      type: Number,
+      default: 0
+    }, */
+
     girls2: {
       type: Number,
       default: 0,
@@ -131,5 +152,28 @@ const CirculoSchema = new Schema(
   }
 );
 
+CirculoSchema.pre('save', function (next) {  
+  this.calculateCapacity();
+  next();
+});
+
+CirculoSchema.methods.calculateCapacity = function () {
+  if (this.attendance2 <= 80) this.normed_capacity2 = this.normed_capacity2 * 1.2;
+  if (this.attendance3 <= 80) this.normed_capacity3 = this.normed_capacity3 * 1.2;
+  if (this.attendance4 <= 80) this.normed_capacity4 = this.normed_capacity4 * 1.2;
+  if (this.attendance5 <= 80) this.normed_capacity5 = this.normed_capacity5 * 1.2;
+  if (this.attendance6 <= 80) this.normed_capacity6 = this.normed_capacity6 * 1.2;
+};
+
+// posible cambio añadiendo calculated_capacity 
+
+/* CirculoSchema.methods.calculateCapacity = function () {
+  this.attendance2 <= 80 ? this.calculated_capacity2 = this.normed_capacity2 * 1.2 : this.calculated_capacity2 = this.normed_capacity2;
+  this.attendance3 <= 80 ? this.calculated_capacity3 = this.normed_capacity3 * 1.2 : this.calculated_capacity3 = this.normed_capacity3;
+  this.attendance4 <= 80 ? this.calculated_capacity4 = this.normed_capacity4 * 1.2 : this.calculated_capacity4 = this.normed_capacity4;
+  this.attendance5 <= 80 ? this.calculated_capacity5 = this.normed_capacity5 * 1.2 : this.calculated_capacity5 = this.normed_capacity5;
+  this.attendance6 <= 80 ? this.calculated_capacity6 = this.normed_capacity6 * 1.2 : this.calculated_capacity6 = this.normed_capacity6 ;
+});
+ */
 module.exports = mongoose.model('circulo', CirculoSchema);
 
