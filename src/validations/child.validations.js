@@ -73,9 +73,23 @@ const ChildValidationSchema = Type.Object(
       })
     })),
     
-    latlng: Type.Array(
-      { errorMessage: { type: 'El tipo de latlng no es válido, debe ser arreglo de coordenadas' },
-      }),
+    latlng: Type.Optional(Type.Tuple(
+      [
+        Type.Number({
+          minimum: -90,
+          maximum: 90,
+          errorMessage: { type: 'La latitud debe estar entre -90 y 90 grados' },
+        }),
+        Type.Number({
+          minimum: -180,
+          maximum: 180,
+          errorMessage: { type: 'La longitud debe estar entre -180 y 180 grados' },
+        })
+      ],
+      {
+        errorMessage: { type: 'El tipo de latlng no es válido, debe ser arreglo de coordenadas' },
+      }
+    )),
 
     parents: ParentsValidationSchema,
   },
