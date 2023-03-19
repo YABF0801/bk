@@ -119,6 +119,9 @@ const UpdateSubmision = async (req, res) => {
         }
         
           const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
+          await updatedSubmision.calculateWeight();
+          await updatedSubmision.Gender(); 
+          await updatedSubmision.Age(); 
           return res.status(200).send(updatedSubmision);
    };
 
