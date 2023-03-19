@@ -72,7 +72,13 @@ const ChildValidationSchema = Type.Object(
         errorMessage: { type: 'El tipo name de circulo no es válido, debe ser String' },
       })
     })),
-    
+
+    matriculaDate: Type.Optional(Type.String({
+      format: 'date-time',
+      errorMessage: { type: 'El tipo matriculaDate no es válido, debe ser fecha', 
+      format: 'El tipo formato no es válido, debe ser una fecha'},
+    })),
+   
     latlng: Type.Optional(Type.Tuple(
       [
         Type.Number({
