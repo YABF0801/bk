@@ -149,10 +149,24 @@ const CirculoValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
 
-    latlng: Type.Optional(Type.Array(
-      { errorMessage: { type: 'El tipo de latlng no es válido, debe ser arreglo de coordenadas' },
-      })),
-
+    latlng: Type.Optional(Type.Tuple(
+        [
+          Type.Number({
+            minimum: -90,
+            maximum: 90,
+            errorMessage: { type: 'La latitud debe estar entre -90 y 90 grados' },
+          }),
+          Type.Number({
+            minimum: -180,
+            maximum: 180,
+            errorMessage: { type: 'La longitud debe estar entre -180 y 180 grados' },
+          })
+        ],
+        {
+          errorMessage: { type: 'El tipo de latlng no es válido, debe ser arreglo de coordenadas' },
+        }
+      )),
+      
     isCiActive: Type.Optional(Type.Boolean({
       default: true,
       errorMessage: { type: 'El tipo de activo no es válido, debe ser boolean' },
