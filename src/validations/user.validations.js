@@ -69,7 +69,7 @@ const UserValidationSchema = Type.Object(
   } 
 );
 
-const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$/;
+const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
 ajv.addFormat('password-format', regex); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
