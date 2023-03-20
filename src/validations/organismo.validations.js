@@ -36,12 +36,12 @@ const OrganismoValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo de peso no es válido, debe ser un número' },
     })),
   },
-  {
+  /* {
     additionalProperties: false,
     errorMessage: {
       additionalProperties: 'Estas enviando data adicionales',
     },
-  }
+  } */
 );
 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
