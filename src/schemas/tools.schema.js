@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const ToolsSchema = new Schema(
   {
+    uniqueValue: { 
+        default: "tools",
+        unique: true
+    },
+
     consecutive: { // almacenar numero consecutivo para las submisions
         type: Number,
         default: 0,
