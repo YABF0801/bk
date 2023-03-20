@@ -2,7 +2,7 @@ const { Type } = require('@sinclair/typebox');
 const addErrors = require('ajv-errors');
 const addFormats = require('ajv-formats');
 const Ajv = require('ajv');
-const ajv = new Ajv({ allErrors: true });
+const ajv = new Ajv({ allErrors: true, validateFormats: true });
 
 /**
  * @return AJV JsonSchema
@@ -61,17 +61,16 @@ const UserValidationSchema = Type.Object(
       enum: 'El valor no es aceptado' },
     })),
   },
-/*   {
+   {
     additionalProperties: false,
     errorMessage: {
       additionalProperties: 'Estas enviando datos adicionales',
     },
-  } */
+  } 
 );
 
-
-const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&#.$($)$-$_])[A-Za-z\d$@$!%*?&#.$($)$-$_]{8,16}$/;
-ajv.addFormat("password", regex);
+const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$/;
+ajv.addFormat('password', regex); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
 
