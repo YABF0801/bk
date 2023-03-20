@@ -18,6 +18,12 @@ const ToolsSchema = new Schema(
         type: Date,
         unique: true,
       },
+
+      contadorGP: { // contador para almacenar cuantas veces se han generado las propuestas antes de cerrar el otorgamiento
+        type: Number,
+        default: 0,
+        unique: true,
+      }
   },
 );
 
