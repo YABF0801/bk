@@ -37,7 +37,7 @@ const UserValidationSchema = Type.Object(
       },
     }),
     password: Type.Optional(Type.String({
-      format: "password",
+      format: "password-format",
       minLength: 8,
       errorMessage: {
         type: 'El tipo no es válido, debe ser un string',
@@ -70,7 +70,7 @@ const UserValidationSchema = Type.Object(
 );
 
 const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,25}$/;
-ajv.addFormat('password', regex); 
+ajv.addFormat('password-format', regex); 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
 
