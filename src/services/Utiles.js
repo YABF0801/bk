@@ -1,4 +1,6 @@
 const Tools = require('../schemas/tools.schema');
+const Circulo = require('../schemas/circulo.schema');
+const Submision = require("../schemas/submision.schema");
 
 // Funcion para guardar fecha
 const AddOmDate = async (req, res) => {
@@ -23,7 +25,18 @@ const ResetOmDate = async (req, res) => {
   }
 };
   
-  
-  
-  
-  module.exports = { AddOmDate, ResetOmDate };
+
+// Obtener entryNumber del último documento creado en la colección submisions
+const FindLastSubmisionNumber = async (req, res) => {
+    const lastSubmision = await Submision.findOne({}, {sort: {createdAt: -1}});
+     if (!lastSubmision) {
+    const error = new Error();
+      error.status = 404;
+      error.message = 'No se encontraron planillas';
+      throw error;
+      }
+    return lastSubmision.entryNumber;
+};
+
+
+  module.exports = { AddOmDate, ResetOmDate, ProyectarMatriculas,CambioDeCurso, FindLastSubmisionNumber };
