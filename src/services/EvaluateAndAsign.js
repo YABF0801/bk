@@ -6,6 +6,7 @@ exports.EvaluateAndAsign = async (submision) => {
   try {
     const childPos = { latitude: submision.child.latlng[0], longitude: submision.child.latlng[1] };
     const yearOfLife = submision.child.year_of_life;
+    const sex = submision.child.sex;
     const ciPedido = submision.ciPedido;
     const otherChildrenCenter = submision.parents[0].otherChildrenCenter;
     let requestedCirculo;
@@ -24,6 +25,11 @@ exports.EvaluateAndAsign = async (submision) => {
       submision.child.circulo = { id: requestedCirculo._id, name: requestedCirculo.name };
       submision.status = 'propuesta';
       await submision.save();
+
+      requestedCirculo[`matricula${yearOfLife}`] += 1;
+      if (sex === 'femenino'){
+        requestedCirculo[`girls${yearOfLife}`] +=1;
+      } await requestedCirculo.save();
       }
       // si no existe circulo solicitado o no hay capacidad calcular distancias para encontrar el mas cercano
     else {
@@ -41,7 +47,13 @@ exports.EvaluateAndAsign = async (submision) => {
         if (closestCirculo[`calculated_capacity${yearOfLife}`] - closestCirculo[`matricula${yearOfLife}`] > 0) {
           submision.child.circulo = { id: closestCirculo._id, name: closestCirculo.name };
           submision.status = 'propuesta';
-          await submision.save();     
+          await submision.save();    
+          
+          closestCirculo[`matricula${yearOfLife}`] += 1;
+          if (sex === 'femenino'){
+            closestCirculo[`girls${yearOfLife}`] +=1;
+          } await closestCirculo.save();
+          
           flag = true;   
         } 
         else {
