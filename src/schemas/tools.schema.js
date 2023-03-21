@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 
 const ToolsSchema = new Schema(
   {
-    uniqueValue: { 
+    uniqueValue: {
+        type: String,
         default: "tools",
         unique: true
     },
