@@ -24,6 +24,17 @@ const ResetOmDate = async (req, res) => {
     res.status(500).json({ message: 'Error al resetear la fecha.' });
   }
 };
+
+// Funcion para resetear numero consecutivo a 0
+const ResetConsecutive = async (req, res) => {
+  try {
+      const filter = { uniqueValue: "tools" };
+      await Tools.updateOne(filter, {$set: {consecutive: 0}});
+      res.status(200).json({ message: 'el consecutivo ha sido reseteado correctamente.' });
+} catch (error) {
+  res.status(500).json({ message: 'Error al resetear el consecutivo.' });
+}
+};
   
 // Funcion para proyectar matriculas
 // para las rutas:
@@ -139,7 +150,7 @@ const CambioDeCurso = async (req, res) => {
  
 
 // Obtener entryNumber del último documento creado en la colección submisions
-const FindLastSubmisionNumber = async (req, res) => {
+const FindLastSubmision = async (req, res) => {
     const lastSubmision = await Submision.findOne({}, {sort: {createdAt: -1}});
      if (!lastSubmision) {
     const error = new Error();
@@ -147,8 +158,8 @@ const FindLastSubmisionNumber = async (req, res) => {
       error.message = 'No se encontraron planillas';
       throw error;
       }
-    return lastSubmision.entryNumber;
+    return lastSubmision;
 };
 
 
-  module.exports = { AddOmDate, ResetOmDate, ProyectarMatriculas,CambioDeCurso, FindLastSubmisionNumber };
+  module.exports = { AddOmDate, ResetOmDate, ResetConsecutive, ProyectarMatriculas,CambioDeCurso, FindLastSubmision };
