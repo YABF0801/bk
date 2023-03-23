@@ -53,37 +53,40 @@ const AceptarPropuesta = async (req, res) => {
 
 
 
+/* const RechazarPropuesta = require('../services/rechazarPropuesta'); */
+/* router.post('/rechazarPropuesta', RechazarPropuesta);  */
+
 const RechazarPropuesta = async (req, res) => {
+  const { rechazadas } = req.body; // obtener el arreglo de las sumisions rechazadas que se envia desde el frontend
+  if (!Array.isArray(rechazadas) || rechazadas.length === 0) {
+    return res.status(400).json({ message: 'el arreglo rechazadas no es correcto o esta vacio' });
+  }
+
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'ID inválido' });
-    }
+      // Obtener las submisions del arreglo de propuestas aceptadas
+      const submisionsRechazadas = await Submision.find({ _id: { $in: rechazadas }, status: 'propuesta' });
 
-    const submision = await Submision.findById(req.params.id).exec();
-    const circulo = submision.child.circulo;
-    const yearOfLife = submision.child.year_of_life;
-    const sex = submision.child.sex;
+      if (!submisionsRechazadas) {
+        const error = new Error();
+        error.status = 404;
+        error.message = 'No hay propuestas a rechazar';
+        throw error;
+        }
 
-    submision.child.circulo = { id: null};
-      submision.status = 'pendiente';
-      await submision.save();
+      await Submision.updateMany({ _id: { $in: submisionsRechazadas }}, { $set: { status: 'pendiente', 'child.circulo': {} }}); 
 
-      circulo[`matricula${yearOfLife}`] -= 1;
-      if (sex === 'femenino'){
-        circulo[`girls${yearOfLife}`] -=1;
-      }
-      await circulo.save();
-      res.status(200).json({ message: 'Propuesta rechazada' });
+      res.status(200).json({ message: 'Propuestas rechazadas reestablecidas a pendiente' });
   } catch (error) {
-    res.status(500).json({ message: 'Error al procesar los datos', error });
-   }
+    console.error(error);
+    res.status(500).json({ message: 'Error al procesar las propuestas' });
+  }
 };
+
 
 const Baja = async (req, res) => {
   try {
-    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'ID inválido' });
-    }
+    
+ 
     const submision = await Submision.findById(req.params.id).exec();
     const circulo = submision.child.circulo;
     const yearOfLife = submision.child.year_of_life;
