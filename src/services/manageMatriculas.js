@@ -40,8 +40,7 @@ const AceptarPropuesta = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 }});
       }
 
-    await submisionAprobada.updateOne({$set: { status: 'matricula', matriculaDate: now },
-      });
+    await submisionAprobada.updateOne({$set: { status: 'matricula', matriculaDate: now }});
     }
 
     res.status(200).json({ message: 'Propuestas aceptadas matriculadas con exito' });
@@ -83,7 +82,40 @@ const RechazarPropuesta = async (req, res) => {
 };
 
 const MatriculaManual = async (req, res) => {
+  const now = new Date();
 
+  try{
+    const submision = await Submision.findOne({_id: { $eq: req.params.id, status: 'pendiente', finality: 'os' }}).populate('child.circulo');
+    if (!submision) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No se encontró la planilla o los datos no son correctos';
+      throw error;
+    }
+
+    const circulo = submision.child.circulo;
+    if (!circulo) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No se encuentra el circulo ';
+      throw error;
+    }
+
+    const yearOfLife = submision.child.year_of_life;
+    const sex = submision.child.sex;
+      if (sex === 'femenino') {
+        await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1, [`girls${yearOfLife}`]: 1 }});
+      } else {
+        await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 }});
+      }
+
+  await submision.updateOne({ $set: { status: 'matricula', matriculaDate: now }}); 
+
+  res.status(200).json({ message: 'Matricula manual realizada con exito' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al procesar la matricula manual' });
+  }
 };
 
 /* const Baja = require('../services/baja'); */
@@ -124,4 +156,4 @@ const Baja = async (req, res) => {
   }
 };
 
-  module.exports = {AceptarPropuesta, RechazarPropuesta, Baja}
+  module.exports = {AceptarPropuesta, RechazarPropuesta, Baja, MatriculaManual}
