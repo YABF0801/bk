@@ -1,8 +1,8 @@
 const Submision = require("../schemas/submision.schema");
 const Circulo = require("../schemas/circulo.schema"); 
 
-/* const AceptarPropuesta = require('../services/aceptarPropuesta'); */
-/* router.post('/aceptarPropuesta', AceptarPropuesta);  */
+/* const AceptarPropuesta = require('../services/aceptar-propuesta'); */
+/* router.post('/aceptar-propuesta', AceptarPropuesta);  */
 
 const AceptarPropuesta = async (req, res) => {
   const { aprobadas } = req.body; // obetener el arreglo de las sumisions aprobadas que se envia desde el frontend
@@ -50,10 +50,8 @@ const AceptarPropuesta = async (req, res) => {
   }
 };
 
-
-
-/* const RechazarPropuesta = require('../services/rechazarPropuesta'); */
-/* router.post('/rechazarPropuesta', RechazarPropuesta);  */
+/* const RechazarPropuesta = require('../services/rechazar-propuesta'); */
+/* router.post('/rechazar-propuesta', RechazarPropuesta);  */
 
 const RechazarPropuesta = async (req, res) => {
   const { rechazadas } = req.body; // obtener el arreglo de las sumisions rechazadas que se envia desde el frontend
@@ -80,6 +78,9 @@ const RechazarPropuesta = async (req, res) => {
     res.status(500).json({ message: 'Error al procesar las propuestas' });
   }
 };
+
+/* const MatriculaManual = require('../services/matricula-os'); */
+/* router.post('/matricula-os', MatriculaManual);  */
 
 const MatriculaManual = async (req, res) => {
   const now = new Date();

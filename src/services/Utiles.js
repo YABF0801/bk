@@ -101,6 +101,9 @@ const ProyectarMatriculas = async (req, res) => {
 const CambioDeCurso = async (req, res) => {
     try {
     const circulos = await Circulo.find(); 
+    const status = ['matricula', 'pendiente']
+    const submisions = await Submision.find( {status: { $in: status }});
+
     for (const circulo of circulos) {
     const cap6 = circulo.normed_capacity6;
     if (cap6 !== 0){
@@ -123,6 +126,16 @@ const CambioDeCurso = async (req, res) => {
     circulo.girls4 = circulo.girls3;
     circulo.girls3 = circulo.girls2;
     circulo.girls2 = 0; 
+
+   // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
+   // SI CHILD.CIRCULO CAPACITY6 !== 0 
+    const yearOfLife = [2,3,4,5];
+    await Submision.updateMany({ _id: { $in: submisions }, 'child.year_of_life': { $in: yearOfLife}}, { $inc: { 'child.year_of_life': 1 }});
+    // no hace nada con las que estaban en 6to para que le den baja a mano
+
+    // a todas o solo las matriculas? o ecepto las bajas?
+
+
     } else {
     circulo.matricula5 = circulo.matricula4;
     circulo.matricula4 = circulo.matricula3;
@@ -140,6 +153,13 @@ const CambioDeCurso = async (req, res) => {
     circulo.girls4 = circulo.girls3;
     circulo.girls3 = circulo.girls2;
     circulo.girls2 = 0; 
+
+    // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
+    // SI CHILD.CIRCULO CAPACITY6 = 0 
+    const yearOfLife = [2,3,4];
+    await Submision.updateMany({ _id: { $in: submisions }, 'child.year_of_life': { $in: yearOfLife}}, { $inc: { 'child.year_of_life': 1 }});
+    // no hace nada con las que estaban en 5to y 6to para que le den baja a mano
+
     }
     await circulo.calculateCapacity();
     await circulo.save(); }

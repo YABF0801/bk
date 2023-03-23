@@ -27,6 +27,7 @@ const GenerarPropuesta = async (req, res) => {
         const submisionPrioritaria = submisionsQueue.popMax();
         await EvaluateAndAsign(submisionPrioritaria);
         }
+    res.status(200).json({ message: 'Propuestas generadas con exito' });
 };
 
 module.exports = {GenerarPropuesta};
