@@ -1,8 +1,18 @@
 /* const Circulo = require("../schemas/circulo.schema"); */
 const haversine = require("haversine");
 const { ProyectarMatriculas } = require("./Utiles");
+const Circulos = require('../schemas/circulo.schema');
+const Tools = require ("../schemas/tools.schema");
 
-exports.EvaluateAndAsign = async (submision) => {
+const circulosProyectados = await ProyectarMatriculas(); // Obtener arreglo de proyeccion
+const circulosReal = await Circulos.find({}); // Obtener arreglo de datos reales
+
+exports.EvaluateAndAsign = async (submision, circulosArray) => { // paso el arreglo de circulos correspondiente dependiendo de la gen de prop
+  const tools = await Tools.findOne({ uniqueValue: "tools" });
+  if (tools.contadorGP === 0) {   
+    circulosArray =  circulosProyectados
+  } else if (tools.contadorGP >= 1 ) { circulosArray =  circulosReal }
+
   try {
     const childPos = { latitude: submision.child.latlng[0], longitude: submision.child.latlng[1] };
     const yearOfLife = submision.child.year_of_life;
@@ -12,13 +22,10 @@ exports.EvaluateAndAsign = async (submision) => {
     let requestedCirculo;
     const distancias = [];
 
-    const circulosProyectados = await ProyectarMatriculas(); // Obtener arreglo de proyeccion
-    /*   const circulos = await Circulo.find({}); // Obtener arreglo de datos reales */
-
     // FIRST evaluar si hay un circulo solicitado (el ciPedido o el otherChildrenCenter existen)
-    for (const circuloProyectado of circulosProyectados) {  
-    if (circuloProyectado.name === ciPedido || circuloProyectado.name === otherChildrenCenter) {
-    requestedCirculo = circuloProyectado}}
+    for (const circulo of circulosArray) {  
+    if (circulo.name === ciPedido || circulo.name === otherChildrenCenter) {
+    requestedCirculo = circulo}}
 
     // si hay un circulo solicitado y tiene capacidad, asignarlo
     if (requestedCirculo && requestedCirculo[`calculated_capacity${yearOfLife}`] - requestedCirculo[`matricula${yearOfLife}`] > 0) {
@@ -33,10 +40,10 @@ exports.EvaluateAndAsign = async (submision) => {
       }
       // si no existe circulo solicitado o no hay capacidad calcular distancias para encontrar el mas cercano
     else {
-      for (const circuloProyectado of circulosProyectados) {  
-      const circuloPos = {latitude: circuloProyectado.latlng[0], longitude: circuloProyectado.latlng[1]}
+      for (const circulo of circulosArray) {   
+      const circuloPos = {latitude: circulo.latlng[0], longitude: circulo.latlng[1]}
       const distancia = haversine(childPos, circuloPos);
-      distancias.push({circulo: circuloProyectado._id, distancia});
+      distancias.push({circulo: circulo._id, distancia});
       }
       distancias.sort((a, b) => a.distancia - b.distancia);  // ordenar distancias 
 
