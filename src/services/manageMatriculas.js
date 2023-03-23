@@ -82,29 +82,46 @@ const RechazarPropuesta = async (req, res) => {
   }
 };
 
+const MatriculaManual = async (req, res) => {
+
+};
+
+/* const Baja = require('../services/baja'); */
+/* router.post('/baja', Baja);  */
 
 const Baja = async (req, res) => {
-  try {
-    
- 
-    const submision = await Submision.findById(req.params.id).exec();
-    const circulo = submision.child.circulo;
-    const yearOfLife = submision.child.year_of_life;
-    const sex = submision.child.sex;
-
-      submision.child.circulo = { id: null, name: '' };
-      submision.status = 'baja';
-      await submision.save();
-
-      circulo[`matricula${yearOfLife}`] -= 1;
-      if (sex === 'femenino'){
-        circulo[`girls${yearOfLife}`] -=1;
+  try{
+  const submision = await Submision.findById(req.params.id);
+  if (!submision) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró la planilla';
+    throw error;
+  }
+  
+  const circulo = submision.child.circulo;
+      if (!circulo) {
+        const error = new Error();
+        error.status = 404;
+        error.message = 'No se encuentra circulo matriculado en la planilla';
+        throw error;
       }
-      await circulo.save();
-    res.status(200).json({ message: 'Baja procesada exitosamente' });
+
+      const yearOfLife = submision.child.year_of_life;
+      const sex = submision.child.sex;
+      if (sex === 'femenino') {
+        await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: -1, [`girls${yearOfLife}`]: -1 }});
+      } else {
+        await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: -1 }});
+      }
+
+  await Submision.updateOne({ _id: { $eq: submision._id, status: 'matricula' }}, { $set: { status: 'baja', 'child.circulo': {} }}); 
+
+    res.status(200).json({ message: 'Baja realizada con exito' });
   } catch (error) {
-    res.status(500).json({ message: 'Error al procesar baja', error });
-   }
-  };
+    console.error(error);
+    res.status(500).json({ message: 'Error al procesar la baja' });
+  }
+};
 
   module.exports = {AceptarPropuesta, RechazarPropuesta, Baja}
