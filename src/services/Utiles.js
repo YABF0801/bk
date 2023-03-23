@@ -36,6 +36,17 @@ const ResetConsecutive = async (req, res) => {
 }
 };
   
+// Funcion para resetear numero consecutivo a 0
+const ResetContadorGP = async (req, res) => {
+  try {
+      const filter = { uniqueValue: "tools" };
+      await Tools.updateOne(filter, {$set: {contadorGP: 0}});
+      res.status(200).json({ message: 'el contador de generacion de propuestas ha sido reseteado.' });
+} catch (error) {
+  res.status(500).json({ message: 'Error al resetear el contadorGP.' });
+}
+};
+
 // Funcion para proyectar matriculas
 // para las rutas:
 // const {ProyectarMatriculas} = require('../services/Utiles');
@@ -178,4 +189,4 @@ const FindLastSubmision = async (req, res) => {
 };
 
 
-  module.exports = { AddOmDate, ResetOmDate, ResetConsecutive, ProyectarMatriculas,CambioDeCurso, FindLastSubmision };
+  module.exports = { AddOmDate, ResetOmDate, ResetConsecutive, ResetContadorGP, ProyectarMatriculas,CambioDeCurso, FindLastSubmision };
