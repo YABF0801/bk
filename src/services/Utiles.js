@@ -98,7 +98,8 @@ const ProyectarMatriculas = async (req, res) => {
     circulo.girls3 = circulo.girls2;
     circulo.girls2 = 0; 
     }
-    await circuloProyectado.calculateCapacity();
+
+    /* await circuloProyectado.calculateCapacity(); */
     circulosProyectados.push(circuloProyectado); 
   }
   return circulosProyectados;

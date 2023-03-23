@@ -4,8 +4,8 @@ const { ProyectarMatriculas } = require("./Utiles");
 const Circulos = require('../schemas/circulo.schema');
 const Tools = require ("../schemas/tools.schema");
 
-const circulosProyectados = await ProyectarMatriculas(); // Obtener arreglo de proyeccion
-const circulosReal = await Circulos.find({}); // Obtener arreglo de datos reales
+const circulosProyectados =  ProyectarMatriculas(); // Obtener arreglo de proyeccion
+const circulosReal =  Circulos.find({}); // Obtener arreglo de datos reales
 
 exports.EvaluateAndAsign = async (submision, circulosArray) => { // paso el arreglo de circulos correspondiente dependiendo de la gen de prop
   const tools = await Tools.findOne({ uniqueValue: "tools" });
