@@ -1,7 +1,7 @@
 const Heap = require('heap');
 const Submision = require('../schemas/submision.schema');
 const { EvaluateAndAsign } = require('./EvaluateAndAsign');
-const Tools = require ("../../schemas/tools.schema");
+const Tools = require ("../schemas/tools.schema");
 
 // orden de prioridad = el valor de weight de cada submisión
 const GenerarPropuesta = async (req, res) => {

@@ -17,10 +17,10 @@ async function asignarNumeroConsecutivo(submision) {
   if (submisionExist) {
     const error = new Error();
     error.status = 409;
-    error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
+    error.message = 'Error, ya existe una submisión con el mismo número y año de creación';
     throw error;
   }   
-  submision.entryNumber = consecutivo;
+  submision.entryNumber = consecutivo; // maybe tools.consecutive
 }
 
 /**

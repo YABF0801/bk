@@ -101,8 +101,7 @@ const ProyectarMatriculas = async (req, res) => {
 const CambioDeCurso = async (req, res) => {
     try {
     const circulos = await Circulo.find(); 
-    const status = ['matricula', 'pendiente']
-    const submisions = await Submision.find( {status: { $in: status }});
+     const submisions = await Submision.find( {status: { $eq: 'matricula' }});
 
     for (const circulo of circulos) {
     const cap6 = circulo.normed_capacity6;
@@ -132,9 +131,6 @@ const CambioDeCurso = async (req, res) => {
     const yearOfLife = [2,3,4,5];
     await Submision.updateMany({ _id: { $in: submisions }, 'child.year_of_life': { $in: yearOfLife}}, { $inc: { 'child.year_of_life': 1 }});
     // no hace nada con las que estaban en 6to para que le den baja a mano
-
-    // a todas o solo las matriculas? o ecepto las bajas?
-
 
     } else {
     circulo.matricula5 = circulo.matricula4;
