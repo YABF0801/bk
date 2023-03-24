@@ -99,7 +99,7 @@ const UpdateUser = async (req, res) => {
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  await updatedUser.encrypt(req.body.password);
+  if (req.body.password) {await user.encrypt(req.body.password)}
   return res.status(200).send(updatedUser);
 };
 
