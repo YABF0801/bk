@@ -1,10 +1,10 @@
 const Submision = require("../schemas/submision.schema");
 const Circulo = require("../schemas/circulo.schema"); 
 
-/* const AceptarPropuesta = require('../services/aceptar-propuesta'); */
-/* router.post('/aceptar-propuesta', AceptarPropuesta);  */
+/* const AceptarPropuestas = require('../services/aceptar-propuesta'); */
+/* router.post('/aceptar-propuesta', AceptarPropuestas);  */
 
-const AceptarPropuesta = async (req, res) => {
+const AceptarPropuestas = async (req, res) => {
   const { aprobadas } = req.body; // obetener el arreglo de las sumisions aprobadas que se envia desde el frontend
   if (!Array.isArray(aprobadas) || aprobadas.length === 0) {
     return res.status(400).json({ message: 'el arreglo rechazadas no es correcto o esta vacio' });
@@ -157,4 +157,4 @@ const Baja = async (req, res) => {
   }
 };
 
-  module.exports = {AceptarPropuesta, RechazarPropuesta, Baja, MatriculaManual}
+  module.exports = {AceptarPropuestas, RechazarPropuesta, Baja, MatriculaManual}
