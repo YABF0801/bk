@@ -32,10 +32,15 @@ const OrganismoSchema = new Schema(
 );
 
 OrganismoSchema.pre('save', function (next) {
-  if (this.priorizado === true) {
-    this.weight = 2;
-  }
+  this.calculateWeight();
   next();
 });
+
+
+OrganismoSchema.methods.calculateWeight = function () {
+  let weight = 0;
+  this.priorizado === true ? weight += 2 : weight = 0;
+  this.weight = weight;
+};
 
 module.exports = mongoose.model('organismo', OrganismoSchema);

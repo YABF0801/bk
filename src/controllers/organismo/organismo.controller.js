@@ -6,6 +6,15 @@ const Organismo = require('../../schemas/organismo.schema');
  * @return {} res and json new Organismo added
  */
 const AddOrganismo = async (req, res) => {
+
+  const organismoExist = await Organismo.findOne({ name: req.body.name});
+  if (organismoExist) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Error al guardar, ya existe un organismo con ese nombre';
+    throw error;
+  }  
+
   const organismo = new Organismo(req.body);
   const organismoNuevo = await organismo.save();
   if (!organismoNuevo) {
@@ -69,7 +78,17 @@ const UpdateOrganismo = async (req, res) => {
     throw error;
   }
 
+  if (organismo.name !== req.body.name) {
+    const organismoExist = await Organismo.findOne({ name: req.body.name});
+  if (organismoExist) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Error al guardar, ya existe un organismo con ese nombre';
+    throw error;
+  }   }
+
   const updatedOrganismo = await Organismo.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  await updatedOrganismo.calculateWeight();
   return res.status(200).send(updatedOrganismo);
 };
 
