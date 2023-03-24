@@ -38,12 +38,10 @@ const UserSchema = new Schema(
       enum: ['admin', 'guest'],
       default: 'guest',
     },
-    submisions: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'submision',
-        },
-      ],
+    submisions: {
+      type: Number,
+      default: 0,
+    }
   },
   {
     timestamps: true,
@@ -56,7 +54,7 @@ UserSchema.method('toJSON', function () {
   const user = this.toObject();
   delete user.password;
   return user;
-});
+}); 
 
 UserSchema.pre('save', function (next) {
   const user = this;
@@ -79,8 +77,12 @@ UserSchema.pre('save', function (next) {
   });
 });
 
+UserSchema.methods.encrypt = async function (password) {
+ const salt = await bcrypt.genSalt (10);
+ this.password = await bcrypt.hash(password, salt)
+};
+
 UserSchema.methods.comparePassword = function (password) {
-  console.log('Ejecuta comparePassword');
   return bcrypt.compareSync(password, this.password);
 };
 
