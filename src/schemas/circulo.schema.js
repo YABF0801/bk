@@ -62,6 +62,53 @@ const CirculoSchema = new Schema(
       type: Number,
       default: 0
     },
+
+    attendance2: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance3: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance4: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance5: {
+      type: Number,
+      required: true,
+      default: 0
+    },
+    attendance6: {
+      type: Number,
+      default: 0
+    },
+
+    calculated_capacity2: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity3: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity4: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity5: {
+      type: Number,
+      default: 0
+    },
+    calculated_capacity6: {
+      type: Number,
+      default: 0
+    }, 
+
     girls2: {
       type: Number,
       default: 0,
@@ -83,16 +130,10 @@ const CirculoSchema = new Schema(
       default: 0,
     },
 
-    lat: {
-      type: Number,
-      min: -90,
-      max: 90,
-    },
-    lon: {
-      type: Number,
-      min: -180,
-      max: 180,
-    },
+    latlng: {
+      type: Array,
+      maxItems: 2,
+      },
 
     isCiActive: {
       type: Boolean,
@@ -104,6 +145,20 @@ const CirculoSchema = new Schema(
     versionKey: false,
   }
 );
+
+CirculoSchema.pre('save', function (next) {  
+  this.calculateCapacity();
+  next();
+});
+
+CirculoSchema.methods.calculateCapacity = function () {
+  this.attendance2 <= 80 ? this.calculated_capacity2 = Math.floor(this.normed_capacity2 * 1.2) : this.calculated_capacity2 = this.normed_capacity2;
+  this.attendance3 <= 80 ? this.calculated_capacity3 = Math.floor(this.normed_capacity3 * 1.2) : this.calculated_capacity3 = this.normed_capacity3;
+  this.attendance4 <= 80 ? this.calculated_capacity4 = Math.floor(this.normed_capacity4 * 1.2) : this.calculated_capacity4 = this.normed_capacity4;
+  this.attendance5 <= 80 ? this.calculated_capacity5 = Math.floor(this.normed_capacity5 * 1.2) : this.calculated_capacity5 = this.normed_capacity5;
+  this.attendance6 <= 80 ? this.calculated_capacity6 = Math.floor(this.normed_capacity6 * 1.2) : this.calculated_capacity6 = this.normed_capacity6;
+};
+
 
 module.exports = mongoose.model('circulo', CirculoSchema);
 
