@@ -129,7 +129,37 @@ const UpdateSubmision = async (req, res) => {
           } 
         }
         
+      
+      if (submision.entryNumber !== req.body.entryNumber) {
+        // Verificar que no exista una submision con el mismo número y el mismo año de creación
+        const now = new Date(); // fecha actual 2023
+        const submisionExist = await Submision.findOne({ 
+          entryNumber: req.body.entryNumber, 
+          createdAt: { $gte: now.getFullYear(), $lte: now } // operador de comparacion de mongo greater than or equal >=, lte <=
+        });
+        if (submisionExist) {
+          const error = new Error();
+          error.status = 409;
+          error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
+          throw error;
+        }
+      }
+
+      if (submision.child.carnet !== req.body.child.carnet) {
+        // Validar que no exista un niño con el mismo numero de carnet 
+          const carnetExist = await Submision.findOne({ 'child.carnet' : req.body.child.carnet});
+          if (carnetExist) {
+            const error = new Error();
+            error.status = 409;
+            error.message = 'Error al guardar la planilla, ya existe un niño con ese carnet';
+            throw error;
+          } 
+        }
+        
           const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
+          await updatedSubmision.calculateWeight();
+          await updatedSubmision.Gender(); 
+          await updatedSubmision.Age(); 
           await updatedSubmision.calculateWeight();
           await updatedSubmision.Gender(); 
           await updatedSubmision.Age(); 
