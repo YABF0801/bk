@@ -38,12 +38,10 @@ const UserSchema = new Schema(
       enum: ['admin', 'guest'],
       default: 'guest',
     },
-    submisions: [
-        {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'submision',
-        },
-      ],
+    submisions: {
+      type: Number,
+      default: 0,
+    }
   },
   {
     timestamps: true,
