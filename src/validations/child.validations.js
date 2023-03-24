@@ -72,22 +72,31 @@ const ChildValidationSchema = Type.Object(
         errorMessage: { type: 'El tipo name de circulo no es válido, debe ser String' },
       })
     })),
-    lat: Type.Number ({
-      minimum: -90,
-      maximum: 90,
-      errorMessage: {type: 'El tipo no es válido, debe ser un número',
-      minimum: 'la latitud debe estar entre 0 y 90, positivo o negativo',
-      maximum: 'la latitud debe estar entre 0 y 90, positivo o negativo'
-    }
-    }),
-    lon: Type.Number ({
-      minimum: -180,
-      maximum: 180,
-      errorMessage: {type: 'El tipo no es válido, debe ser un número',
-      minimum: 'la longitud debe estar entre 0 y 180, positivo o negativo',
-      maximum: 'la longitud debe estar entre 0 y 180, positivo o negativo'
-    }
-    }),
+
+    matriculaDate: Type.Optional(Type.String({
+      format: 'date-time',
+      errorMessage: { type: 'El tipo matriculaDate no es válido, debe ser fecha', 
+      format: 'El tipo formato no es válido, debe ser una fecha'},
+    })),
+   
+    latlng: Type.Optional(Type.Tuple(
+      [
+        Type.Number({
+          minimum: -90,
+          maximum: 90,
+          errorMessage: { type: 'La latitud debe estar entre -90 y 90 grados' },
+        }),
+        Type.Number({
+          minimum: -180,
+          maximum: 180,
+          errorMessage: { type: 'La longitud debe estar entre -180 y 180 grados' },
+        })
+      ],
+      {
+        errorMessage: { type: 'El tipo de latlng no es válido, debe ser arreglo de coordenadas' },
+      }
+    )),
+
     parents: ParentsValidationSchema,
   },
   {

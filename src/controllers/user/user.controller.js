@@ -6,6 +6,15 @@ const User = require('../../schemas/user.schema');
  * @return {} res and json new User added
  */
 const AddUser = async (req, res) => {
+
+  const userExist = await User.findOne({ nickname: { $regex: new RegExp(req.body.nickname, 'i') }});
+  if (userExist) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Error al guardar usuario, ya existe un usuario con ese nickname';
+    throw error;
+  }   
+
   const user = new User(req.body);
   const userNuevo = await user.save();
   if (!userNuevo) {
@@ -69,6 +78,14 @@ const UpdateUser = async (req, res) => {
     throw error;
   }
 
+  if (user.nickname !== req.body.nickname) {
+  const userExist = await User.findOne({ nickname: { $regex: new RegExp(req.body.nickname, 'i') }});
+  if (userExist) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Error al guardar usuario, ya existe un usuario con ese nickname';
+    throw error;}}
+
   // validar que la nueva no sea igual a la anterior
   if (req.body.password) {
     const isPasswordMatch = user.comparePassword(req.body.password);
@@ -82,6 +99,7 @@ const UpdateUser = async (req, res) => {
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+  if (req.body.password) {await user.encrypt(req.body.password)}
   return res.status(200).send(updatedUser);
 };
 
@@ -91,9 +109,6 @@ const UpdateUser = async (req, res) => {
  * @return {} res status 204 no data
  */
 const DeleteUser = async (req, res) => {
-  // if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
-  //   return res.status(400).json({ message: 'ID inválido' });
-  // }
   const user = await User.findById(req.params.id);
   if (!user) {
     const error = new Error();

@@ -62,7 +62,7 @@ const SubmisionSchema = new Schema(
       },
       age: {
         type: Number,
-        min: 1,
+        min: 0,
         max: 6,
       },
       year_of_life: {
@@ -98,18 +98,16 @@ const SubmisionSchema = new Schema(
             ref: 'circulo',
             select: ['_id', 'name'],
       },
-      lat: {
-        type: Number,
-        required: true,
-        min: -90,
-        max: 90,
+
+      matriculaDate: {
+        type: Date
       },
-      lon: {
-        type: Number,
-        required: true,
-        min: -180,
-        max: 180,
-      },
+      
+      latlng: {
+        type: Array,
+        maxItems: 2,
+        },
+
       parents: {
         type: Array,
         maxItems: 2,
@@ -228,12 +226,15 @@ const SubmisionSchema = new Schema(
 
 // hacer todo esto antes de guardar
 SubmisionSchema.pre('save', function (next) {
+  this.preSaveFunctions();
+  next();
+});
+
+SubmisionSchema.methods.preSaveFunctions = function () {
   this.calculateWeight();
   this.Gender(); 
   this.Age(); 
-  // Continuar con el guardado
-  next();
-});
+};
 
 SubmisionSchema.methods.calculateWeight = function () {
   let weight = 0;
@@ -252,8 +253,7 @@ SubmisionSchema.methods.Gender = function () {
   this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
 };
 
-
-SubmisionSchema.methods.Age = function () {
+/* SubmisionSchema.methods.Age = function () {
   const prefix = '20';
   const yearOfBirth = prefix + this.child.carnet.toString().substr(0, 2);// quiza hacer mes y año, convertir a fecha y diferencia entre fechas
   const nowDate = new Date();
@@ -261,6 +261,33 @@ SubmisionSchema.methods.Age = function () {
   const ageResult = currentYear - Number(yearOfBirth);
   this.child.age = ageResult < 1 ? 1 : ageResult;
 };
+ */
+SubmisionSchema.methods.Age = function () {
+  const carnet = this.child.carnet.toString();
+  const year = parseInt(carnet.substr(0, 2), 10) + 2000;
+  const month = parseInt(carnet.substr(2, 2), 10) - 1;
+  const day = parseInt(carnet.substr(4, 2), 10);
+  
+  const birthDate = new Date(year, month, day);
+  const nowDate = new Date();
+  
+  let age = nowDate.getFullYear() - birthDate.getFullYear();
+  
+  if (nowDate.getMonth() < birthDate.getMonth() || 
+  (nowDate.getMonth() === birthDate.getMonth() && nowDate.getDate() < birthDate.getDate())) {
+    age--;
+  }
 
+  if (age < 1) {
+    const months = (nowDate.getMonth() - birthDate.getMonth()) + (12 * (nowDate.getFullYear() - birthDate.getFullYear())); 
+    if (nowDate.getDate() >= birthDate.getDate()) {
+      this.child.age = months * 0.01;
+    } else {
+      this.child.age = (months - 1) * 0.01;
+    }
+  } else {
+    this.child.age = age;
+  } 
+};
 
 module.exports = mongoose.model('submision', SubmisionSchema);
