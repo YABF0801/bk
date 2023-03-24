@@ -1,13 +1,5 @@
 const Submision = require("../../schemas/submision.schema");
 
-function compareDates (date1, date2) {
-  const d1 = new Date(date1);
-  const d2 = new Date(date2);
-  const year1 = d1.getFullYear();
-  const year2 = d2.getFullYear();
-  return year1 === year2;
-};
-
 /**
  * @param  {} req
  * @param  {} res
@@ -16,16 +8,16 @@ function compareDates (date1, date2) {
 const AddSubmision = async (req, res) => {
     // Validar que no exista una planilla con el mismo numero y la misma fecha 
     const now = new Date(); // fecha actual
-    const numberExist = await Submision.findOne({ entryNumber: req.body.entryNumber});
-    if (numberExist) {
-      const yearsEqual = compareDates(numberExist.createdAt, now);
-      if (yearsEqual) {
+    const submisionExist = await Submision.findOne({ 
+      entryNumber: req.body.entryNumber, 
+      createdAt: { $gte: now.getFullYear(), $lte: now } // operador de comparacion de mongo greater than or equal >=, lte <=
+    });
+    if (submisionExist) {
       const error = new Error();
       error.status = 409;
-      error.message = 'Error al guardar la planilla, ya existe';
+      error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
       throw error;
-      } 
-    }
+    }   
 
     // Validar que no exista un niño con el mismo numero de carnet 
     const carnetExist = await Submision.findOne({ 'child.carnet' : req.body.child.carnet});
@@ -99,7 +91,37 @@ const UpdateSubmision = async (req, res) => {
         error.message = 'No se encontró la planilla';
         throw error;
       }
+      
+      if (submision.entryNumber !== req.body.entryNumber) {
+        // Verificar que no exista una submision con el mismo número y el mismo año de creación
+        const now = new Date(); // fecha actual 2023
+        const submisionExist = await Submision.findOne({ 
+          entryNumber: req.body.entryNumber, 
+          createdAt: { $gte: now.getFullYear(), $lte: now } // operador de comparacion de mongo greater than or equal >=, lte <=
+        });
+        if (submisionExist) {
+          const error = new Error();
+          error.status = 409;
+          error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
+          throw error;
+        }
+      }
+
+      if (submision.child.carnet !== req.body.child.carnet) {
+        // Validar que no exista un niño con el mismo numero de carnet 
+          const carnetExist = await Submision.findOne({ 'child.carnet' : req.body.child.carnet});
+          if (carnetExist) {
+            const error = new Error();
+            error.status = 409;
+            error.message = 'Error al guardar la planilla, ya existe un niño con ese carnet';
+            throw error;
+          } 
+        }
+        
           const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
+          await updatedSubmision.calculateWeight();
+          await updatedSubmision.Gender(); 
+          await updatedSubmision.Age(); 
           return res.status(200).send(updatedSubmision);
    };
 

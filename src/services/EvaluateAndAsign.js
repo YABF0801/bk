@@ -5,7 +5,7 @@ exports.EvaluateAndAsign = async (submision) => {
   try {
 const circulos = await Circulo.find({}).exec();
 
-const childPos = { latitude: submision.child.lat, longitude: submision.child.lon }
+const childPos = { latitude: submision.child.latlng[0], longitude: submision.child.latlng[1] }
 const yearOfLife = submision.child.year_of_life;
 const sex = submision.child.sex;
 const ciPedido = submision.ciPedido;
@@ -20,7 +20,7 @@ if (circulos[i].name === ciPedido || circulos[i].name === otherChildrenCenter) {
 break;}}
 
 // si hay un circulo solicitado y tiene capacidad, asignarlo
-if (requestedCirculo && requestedCirculo[`normed_capacity${yearOfLife}`] - requestedCirculo[`matricula${yearOfLife}`] > 0) {
+if (requestedCirculo && requestedCirculo[`calculated_capacity${yearOfLife}`] - requestedCirculo[`matricula${yearOfLife}`] > 0) {
   submision.child.circulo = {
     id: requestedCirculo._id,
     name: requestedCirculo.name
@@ -29,13 +29,16 @@ if (requestedCirculo && requestedCirculo[`normed_capacity${yearOfLife}`] - reque
   await submision.save();
 
   requestedCirculo[`matricula${yearOfLife}`] += 1;
+  if (sex === 'femenino'){
+    requestedCirculo[`girls${yearOfLife}`] +=1;
+    }
   await requestedCirculo.save();
 }
 // si no existe circulo solicitado calcular distancias para encontrar el mas cercano
 else {
 
 for (let i = 0; i < circulos.length; i++) {
-const circuloPos = {latitude: circulos[i].lat,longitude: circulos[i].lon}
+const circuloPos = {latitude: circulos[i].latlng[0],longitude: circulos[i].latlng[1]}
 const distancia = haversine(childPos, circuloPos);
 distancias.push({circulo: circulos[i]._id, distancia});
 }
@@ -54,7 +57,7 @@ if (closestCirculo.name === submision.child.circulo.name){
 }
 
 // Revisar si el circulo mas cercano tiene capacidad y asignarlo
-if (closestCirculo[`normed_capacity${yearOfLife}`] - closestCirculo[`matricula${yearOfLife}`] > 0) {
+if (closestCirculo[`calculated_capacity${yearOfLife}`] - closestCirculo[`matricula${yearOfLife}`] > 0) {
   flag = true;
   submision.child.circulo = {
     id: closestCirculo._id,
