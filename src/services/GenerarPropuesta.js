@@ -12,11 +12,8 @@ const GenerarPropuestas = async (req, res) => {
             finality: 'om' , 
             createdAt: { $lte: tools.omDate }});
 
-        // Inicializar el heap como un min heap
-        const submisionsQueue = new Heap((a, b) => a.weight - b.weight);
-
-        // insertar las submisiones en la cola de prioridades
-        submisions.forEach(submision => submisionsQueue.push(submision));
+        // insertar las submisiones en la cola de prioridades ordenadas por peso y fecha, mayor peso primero
+        const submisionsQueue = submisions.sort((a, b) => b.weight - a.weight);
 
         res.status(201).json({ message: 'Submisions ordenadas por prioridad', submisionsQueue});
 
