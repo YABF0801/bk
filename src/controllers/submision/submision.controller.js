@@ -129,7 +129,7 @@ const UpdateSubmision = async (req, res) => {
           } 
         }
         
-      
+ /*      
       if (submision.entryNumber !== req.body.entryNumber) {
         // Verificar que no exista una submision con el mismo número y el mismo año de creación
         const now = new Date(); // fecha actual 2023
@@ -143,7 +143,7 @@ const UpdateSubmision = async (req, res) => {
           error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
           throw error;
         }
-      }
+      } */
 
       if (submision.child.carnet !== req.body.child.carnet) {
         // Validar que no exista un niño con el mismo numero de carnet 
@@ -157,9 +157,6 @@ const UpdateSubmision = async (req, res) => {
         }
         
           const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
-          await updatedSubmision.calculateWeight();
-          await updatedSubmision.Gender(); 
-          await updatedSubmision.Age(); 
           await updatedSubmision.calculateWeight();
           await updatedSubmision.Gender(); 
           await updatedSubmision.Age(); 
