@@ -5,16 +5,16 @@ const Circulo = require("../schemas/circulo.schema");
 /* router.post('/aceptar-propuesta', AceptarPropuestas);  */
 
 const AceptarPropuestas = async (req, res) => {
-  const { aprobadas } = req.body; // obetener el arreglo de las sumisions aprobadas que se envia desde el frontend
+  const aprobadas = req.body; // obetener el arreglo de las sumisions aprobadas que se envia desde el frontend
   if (!Array.isArray(aprobadas) || aprobadas.length === 0) {
-    return res.status(400).json({ message: 'el arreglo rechazadas no es correcto o esta vacio' });
+    return res.status(400).json({ message: 'el arreglo aprobadas no es correcto o esta vacio' });
   }
 
   const now = new Date();
 
   try {
       // Obtener las submisions del arreglo de propuestas aceptadas
-      const submisionsAprobadas = await Submision.find({_id: { $in: aprobadas, status: 'propuesta' }}).populate('child.circulo');
+      const submisionsAprobadas = await Submision.find({_id: { $in: aprobadas}, status: 'propuesta' }).populate('child.circulo');
 
       for (const submisionAprobada of submisionsAprobadas) {
         if (!submisionAprobada) {
@@ -40,7 +40,7 @@ const AceptarPropuestas = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 }});
       }
 
-    await submisionAprobada.updateOne({$set: { status: 'matricula', matriculaDate: now }});
+    await submisionAprobada.updateOne({$set: { status: 'matricula', $set: {'child.matriculaDate': now} }});
     }
 
     res.status(200).json({ message: 'Propuestas aceptadas matriculadas con exito' });
@@ -54,7 +54,7 @@ const AceptarPropuestas = async (req, res) => {
 /* router.post('/rechazar-propuesta', RechazarPropuesta);  */
 
 const RechazarPropuesta = async (req, res) => {
-  const { rechazadas } = req.body; // obtener el arreglo de las sumisions rechazadas que se envia desde el frontend
+  const rechazadas = req.body; // obtener el arreglo de las sumisions rechazadas que se envia desde el frontend
   if (!Array.isArray(rechazadas) || rechazadas.length === 0) {
     return res.status(400).json({ message: 'el arreglo rechazadas no es correcto o esta vacio' });
   }
