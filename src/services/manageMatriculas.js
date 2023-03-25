@@ -110,7 +110,7 @@ const MatriculaManual = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 }});
       }
 
-  await submision.updateOne({$set: { status: 'matricula' }, $setOnInsert: { 'child.matriculaDate': now }}); 
+  await submision.updateOne({$set: { status: 'matricula', 'child.matriculaDate': now }});
 
   res.status(200).json({ message: 'Matricula manual realizada con exito' });
   } catch (error) {
