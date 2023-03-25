@@ -4,7 +4,7 @@ const { EvaluateAndAsign } = require('./EvaluateAndAsign');
 const Tools = require ("../schemas/tools.schema");
 
 // orden de prioridad = el valor de weight de cada submisión
-const GenerarPropuesta = async (req, res) => {
+const GenerarPropuestas = async (req, res) => {
     const tools = await Tools.findOne({ uniqueValue: "tools" });
         // Obtener todas las submisiones con status 'pendiente' y finality 'om'
         const submisions = await Submision.find({ 
@@ -30,4 +30,4 @@ const GenerarPropuesta = async (req, res) => {
     res.status(200).json({ message: 'Propuestas generadas con exito' });
 };
 
-module.exports = {GenerarPropuesta};
+module.exports = {GenerarPropuestas};
