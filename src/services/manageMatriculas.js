@@ -86,7 +86,7 @@ const MatriculaManual = async (req, res) => {
   const now = new Date();
 
   try{
-    const submision = await Submision.findOne({_id: { $eq: req.params.id, status: 'pendiente', finality: 'os' }}).populate('child.circulo');
+    const submision = await Submision.findOne({_id: { $eq: req.params.id}, status: 'pendiente', finality: 'os' }).populate('child.circulo');
     if (!submision) {
       const error = new Error();
       error.status = 404;
@@ -110,7 +110,7 @@ const MatriculaManual = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 }});
       }
 
-  await submision.updateOne({ $set: { status: 'matricula', matriculaDate: now }}); 
+  await submision.updateOne({$set: { status: 'matricula' }, $setOnInsert: { 'child.matriculaDate': now }}); 
 
   res.status(200).json({ message: 'Matricula manual realizada con exito' });
   } catch (error) {
@@ -124,7 +124,7 @@ const MatriculaManual = async (req, res) => {
 
 const Baja = async (req, res) => {
   try{
-  const submision = await Submision.findById(req.params.id);
+  const submision = await Submision.findOne({_id: { $eq: req.params.id}, status: 'matricula'});
   if (!submision) {
     const error = new Error();
     error.status = 404;
@@ -148,7 +148,7 @@ const Baja = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: -1 }});
       }
 
-  await Submision.updateOne({ _id: { $eq: submision._id, status: 'matricula' }}, { $set: { status: 'baja', 'child.circulo': {} }}); 
+  await submision.updateOne({ $set: { status: 'baja', 'child.circulo': {} }}); 
 
     res.status(200).json({ message: 'Baja realizada con exito' });
   } catch (error) {
