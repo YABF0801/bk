@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const CirculoController = require('../controllers/circulo/circulo.controller');
-const { circuloDataValidation } = require('../validations/circulo.validations');
 const CirculoUtiles = require('../services/Utiles');
+const { circuloDataValidation } = require('../validations/circulo.validations');
 /* const isAdmin = require('../midlewares/isAdmin');
 const isAuthorized = require('../midlewares/isAuthorized'); */
 
