@@ -40,7 +40,7 @@ const AceptarPropuestas = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 }});
       }
 
-    await submisionAprobada.updateOne({$set: { status: 'matricula', $set: {'child.matriculaDate': now} }});
+    await submisionAprobada.updateOne({$set: { status: 'matricula', 'child.matriculaDate': now }});
     }
 
     res.status(200).json({ message: 'Propuestas aceptadas matriculadas con exito' });
