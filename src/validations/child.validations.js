@@ -74,7 +74,6 @@ const ChildValidationSchema = Type.Object(
     })),
 
     matriculaDate: Type.Optional(Type.String({
-      format: 'date-time',
       errorMessage: { type: 'El tipo matriculaDate no es válido, debe ser fecha', 
       format: 'El tipo formato no es válido, debe ser una fecha'},
     })),

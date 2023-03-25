@@ -100,7 +100,7 @@ const SubmisionSchema = new Schema(
       },
 
       matriculaDate: {
-        type: Date
+        type: String
       },
       
       latlng: {
