@@ -7,13 +7,15 @@ const isAuthorized = require('../midlewares/isAuthorized'); */
 
 const circuloRouter = Router();
 
+circuloRouter.get('/proyectar', /* isAuthorized, */ CirculoUtiles.ProyectarMatriculas);
+circuloRouter.post('/nuevo-curso', /* isAuthorized, , isAdmin, */ CirculoUtiles.CambioDeCurso);
+
 circuloRouter.post('/', /* isAuthorized, isAdmin, */ [circuloDataValidation], CirculoController.AddCirculo);
 circuloRouter.get('/', /* [isAuthorized, isAdmin], */ CirculoController.FindAllCirculos);
 circuloRouter.get('/:id', /* isAuthorized, isAdmin, */ CirculoController.FindSingleCirculo);
 circuloRouter.put('/:id', /* isAuthorized, isAdmin, */ [circuloDataValidation], CirculoController.UpdateCirculo);
 circuloRouter.delete('/:id', /* isAuthorized, isAdmin, */ CirculoController.DeleteCirculo);
 
-circuloRouter.get('/', /* isAuthorized, */ CirculoUtiles.ProyectarMatriculas);
-circuloRouter.post('/', /* isAuthorized, , isAdmin, */ CirculoUtiles.CambioDeCurso);
-
 module.exports = circuloRouter;
+
+
