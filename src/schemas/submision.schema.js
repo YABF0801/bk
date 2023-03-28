@@ -30,7 +30,8 @@ const SubmisionSchema = new Schema(
       default: 'pendiente',
     },
     ciPedido: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'circulo',
     },
     weight: {
       type: Number,
@@ -94,19 +95,19 @@ const SubmisionSchema = new Schema(
         type: String,
       },
       circulo: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'circulo',
-            select: ['_id', 'name'],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'circulo',
+        select: ['_id', 'name'],
       },
 
       matriculaDate: {
-        type: String
+        type: String,
       },
-      
+
       latlng: {
         type: Array,
         maxItems: 2,
-        },
+      },
 
       parents: {
         type: Array,
@@ -172,10 +173,10 @@ const SubmisionSchema = new Schema(
         },
         // 1
         organismo: {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: 'organismo',
-              name: String,
-              weight: Number,
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'organismo',
+          name: String,
+          weight: Number,
         },
         salary: {
           type: Number,
@@ -198,7 +199,7 @@ const SubmisionSchema = new Schema(
         },
         // 1
         otherChildrenCenter: {
-          type: String
+          type: String,
         },
         // 1
         pregnant: {
@@ -216,7 +217,7 @@ const SubmisionSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
       select: ['_id', 'nickname'],
-    }
+    },
   },
   {
     timestamps: true,
@@ -232,8 +233,8 @@ SubmisionSchema.pre('save', function (next) {
 
 SubmisionSchema.methods.preSaveFunctions = function () {
   this.calculateWeight();
-  this.Gender(); 
-  this.Age(); 
+  this.Gender();
+  this.Age();
 };
 
 SubmisionSchema.methods.calculateWeight = function () {
@@ -267,19 +268,21 @@ SubmisionSchema.methods.Age = function () {
   const year = parseInt(carnet.substr(0, 2), 10) + 2000;
   const month = parseInt(carnet.substr(2, 2), 10) - 1;
   const day = parseInt(carnet.substr(4, 2), 10);
-  
+
   const birthDate = new Date(year, month, day);
   const nowDate = new Date();
-  
+
   let age = nowDate.getFullYear() - birthDate.getFullYear();
-  
-  if (nowDate.getMonth() < birthDate.getMonth() || 
-  (nowDate.getMonth() === birthDate.getMonth() && nowDate.getDate() < birthDate.getDate())) {
+
+  if (
+    nowDate.getMonth() < birthDate.getMonth() ||
+    (nowDate.getMonth() === birthDate.getMonth() && nowDate.getDate() < birthDate.getDate())
+  ) {
     age--;
   }
 
   if (age < 1) {
-    const months = (nowDate.getMonth() - birthDate.getMonth()) + (12 * (nowDate.getFullYear() - birthDate.getFullYear())); 
+    const months = nowDate.getMonth() - birthDate.getMonth() + 12 * (nowDate.getFullYear() - birthDate.getFullYear());
     if (nowDate.getDate() >= birthDate.getDate()) {
       this.child.age = months * 0.01;
     } else {
@@ -287,7 +290,7 @@ SubmisionSchema.methods.Age = function () {
     }
   } else {
     this.child.age = age;
-  } 
+  }
 };
 
 module.exports = mongoose.model('submision', SubmisionSchema);
