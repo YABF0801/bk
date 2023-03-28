@@ -175,8 +175,6 @@ const SubmisionSchema = new Schema(
         organismo: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'organismo',
-          name: String,
-          weight: Number,
         },
         salary: {
           type: Number,

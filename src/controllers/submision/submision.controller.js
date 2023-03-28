@@ -59,7 +59,7 @@ const AddSubmision = async (req, res) => {
  * @return {} res and json Submision List
  */
 const FindAllSubmisions = async (req, res) => {
-  const submisions = await Submision.find({}).populate('ciPedido', 'name');
+  const submisions = await Submision.find({}).populate('ciPedido', 'name').populate('organismo', 'name', 'weight');
   if (!submisions) {
     const error = new Error();
     error.status = 404;
