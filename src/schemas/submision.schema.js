@@ -249,18 +249,9 @@ SubmisionSchema.methods.calculateWeight = function () {
 
 SubmisionSchema.methods.Gender = function () {
   const tenthDigit = this.child.carnet.toString()[9];
-  this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
+  this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino';
 };
 
-/* SubmisionSchema.methods.Age = function () {
-  const prefix = '20';
-  const yearOfBirth = prefix + this.child.carnet.toString().substr(0, 2);// quiza hacer mes y año, convertir a fecha y diferencia entre fechas
-  const nowDate = new Date();
-  const currentYear = nowDate.getFullYear();
-  const ageResult = currentYear - Number(yearOfBirth);
-  this.child.age = ageResult < 1 ? 1 : ageResult;
-};
- */
 SubmisionSchema.methods.Age = function () {
   const carnet = this.child.carnet.toString();
   const year = parseInt(carnet.substr(0, 2), 10) + 2000;
