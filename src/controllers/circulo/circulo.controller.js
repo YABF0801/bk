@@ -6,15 +6,14 @@ const Circulo = require('../../schemas/circulo.schema');
  * @return {} res and json new Circulo added
  */
 const AddCirculo = async (req, res) => {
- 
-  const ciNumberExist = await Circulo.findOne({ number: req.body.number});
-  const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') }});
+  const ciNumberExist = await Circulo.findOne({ number: req.body.number });
+  const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
   if (ciNumberExist || ciNameExist) {
     const error = new Error();
     error.status = 409;
     error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero o nombre';
     throw error;
-  }   
+  }
 
   const circulo = new Circulo(req.body);
   const circuloNuevo = await circulo.save();
@@ -32,14 +31,14 @@ const AddCirculo = async (req, res) => {
  * @return {} res and json Circulo List
  */
 const FindAllCirculos = async (req, res) => {
-    const circulos = await Circulo.find({});
-    if (!circulos) {
-      const error = new Error();
-      error.status = 404;
-      error.message = 'No hay círculos para mostrar';
-      throw error;
-    }
-    return res.status(200).json(circulos);
+  const circulos = await Circulo.find({});
+  if (!circulos) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No hay círculos para mostrar';
+    throw error;
+  }
+  return res.status(200).json(circulos);
 };
 
 /**
@@ -55,14 +54,14 @@ const FindSingleCirculo = async (req, res) => {
     throw error;
   }
 
-    const circulo = await Circulo.findById(req.params.id);
-    if (!circulo) {
-      const error = new Error();
-      error.status = 404;
-      error.message = 'No se encontró el círculo que busca';
-      throw error;
-    }
-    return res.status(200).send(circulo);
+  const circulo = await Circulo.findById(req.params.id);
+  if (!circulo) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el círculo que busca';
+    throw error;
+  }
+  return res.status(200).send(circulo);
 };
 
 /**
@@ -80,23 +79,23 @@ const UpdateCirculo = async (req, res) => {
   }
 
   if (circulo.number !== req.body.number) {
-    const ciNumberExist = await Circulo.findOne({ number: req.body.number});
+    const ciNumberExist = await Circulo.findOne({ number: req.body.number });
     if (ciNumberExist) {
       const error = new Error();
       error.status = 409;
       error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero o nombre';
       throw error;
-    }   
+    }
   }
 
   if (circulo.name !== req.body.name) {
-    const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') }});
+    const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
     if (ciNameExist) {
       const error = new Error();
       error.status = 409;
       error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero o nombre';
       throw error;
-    }   
+    }
   }
 
   const updatedCirculo = await Circulo.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -120,7 +119,6 @@ const DeleteCirculo = async (req, res) => {
   await Circulo.findByIdAndDelete(req.params.id);
   return res.sendStatus(204);
 };
-
 
 module.exports = {
   AddCirculo,
