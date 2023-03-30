@@ -1,26 +1,27 @@
 const { Router } = require('express');
 
-const SumisionController = require('../controllers/submision/submision.controller');
-const { AceptarPropuesta, RechazarPropuesta, Baja } = require('../services/manageMatriculas');
-const { GenerarPropuesta } = require('../services/GenerarPropuesta');
+const SubmisionController = require('../controllers/submision/submision.controller');
+const SubmisionUtiles = require('../services/Utiles');
+const ManageMatriculas = require('../services/manageMatriculas');
 const { submisionDataValidation } = require('../validations/submision.validations');
 /* const isAdmin = require('../midlewares/isAdmin');
 const isAuthorized = require('../midlewares/isAuthorized'); */
 
 const submisionRouter = Router();
 
-submisionRouter.post('/', /* isAuthorized, isAdmin, */ [submisionDataValidation], SumisionController.AddSubmision);
-submisionRouter.get('/', /* isAuthorized, */ SumisionController.FindAllSubmisions);
-submisionRouter.get('/:id', /* isAuthorized,  isAdmin, */ SumisionController.FindSingleSubmision); 
-submisionRouter.put('/:id', /* isAuthorized,  isAdmin, */ [submisionDataValidation], SumisionController.UpdateSubmision);
-submisionRouter.delete('/:id', /* isAuthorized,  isAdmin, */ SumisionController.DeleteSubmision);
+submisionRouter.put('/consecutive', /* isAuthorized,  isAdmin, */ SubmisionUtiles.ResetConsecutive); /* Resetear el numero de entrada consecutivo */
+submisionRouter.get('/last', /* isAuthorized,  isAdmin, */ SubmisionUtiles.FindLastSubmision); 
+
+submisionRouter.post('/', /* isAuthorized, isAdmin, */ [submisionDataValidation], SubmisionController.AddSubmision);
+submisionRouter.get('/', /* isAuthorized, */ SubmisionController.FindAllSubmisions);
+submisionRouter.get('/:id', /* isAuthorized,  isAdmin, */ SubmisionController.FindSingleSubmision); 
+submisionRouter.put('/:id', /* isAuthorized,  isAdmin, */ [submisionDataValidation], SubmisionController.UpdateSubmision);
+submisionRouter.delete('/:id', /* isAuthorized,  isAdmin, */ SubmisionController.DeleteSubmision);
+
+// MANAGE MATRICULA
+submisionRouter.put('/matricular/:id', /* isAuthorized,  isAdmin, */ ManageMatriculas.MatriculaManual); /* hacer la matricula manual */
+submisionRouter.put('/baja/:id', /* isAuthorized,  isAdmin, */ ManageMatriculas.Baja); /* dar baja de la matricula */
 
 
-// MANAGE PROPUESTAS Y MATRICULA
-submisionRouter.post('/propuestas', /* isAuthorized,  isAdmin, */ GenerarPropuesta); /* generar todas las propuestas */
-submisionRouter.put('/propuestas/:id', /* isAuthorized,  isAdmin,  */ AceptarPropuesta); /* aceptar propuesta */
-submisionRouter.put('/propuestas/:id', /* isAuthorized,  isAdmin, */ RechazarPropuesta); /* rechazar propuesta */
-
-submisionRouter.put('/:id', /* isAuthorized,  isAdmin, */ Baja); /* dar baja de la matricula */
 
 module.exports = submisionRouter;

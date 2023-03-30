@@ -30,7 +30,8 @@ const SubmisionSchema = new Schema(
       default: 'pendiente',
     },
     ciPedido: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'circulo',
     },
     weight: {
       type: Number,
@@ -94,19 +95,19 @@ const SubmisionSchema = new Schema(
         type: String,
       },
       circulo: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'circulo',
-            select: ['_id', 'name'],
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'circulo',
+        select: ['_id', 'name'],
       },
 
       matriculaDate: {
-        type: Date
+        type: String,
       },
-      
+
       latlng: {
         type: Array,
         maxItems: 2,
-        },
+      },
 
       parents: {
         type: Array,
@@ -172,10 +173,8 @@ const SubmisionSchema = new Schema(
         },
         // 1
         organismo: {
-              type: mongoose.Schema.Types.ObjectId,
-              ref: 'organismo',
-              name: String,
-              weight: Number,
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'organismo',
         },
         salary: {
           type: Number,
@@ -198,7 +197,7 @@ const SubmisionSchema = new Schema(
         },
         // 1
         otherChildrenCenter: {
-          type: String
+          type: String,
         },
         // 1
         pregnant: {
@@ -216,7 +215,7 @@ const SubmisionSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
       select: ['_id', 'nickname'],
-    }
+    },
   },
   {
     timestamps: true,
@@ -232,8 +231,8 @@ SubmisionSchema.pre('save', function (next) {
 
 SubmisionSchema.methods.preSaveFunctions = function () {
   this.calculateWeight();
-  this.Gender(); 
-  this.Age(); 
+  this.Gender();
+  this.Age();
 };
 
 SubmisionSchema.methods.calculateWeight = function () {
@@ -250,36 +249,29 @@ SubmisionSchema.methods.calculateWeight = function () {
 
 SubmisionSchema.methods.Gender = function () {
   const tenthDigit = this.child.carnet.toString()[9];
-  this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino'; // par M , impar F
+  this.child.sex = tenthDigit % 2 === 0 ? 'masculino' : 'femenino';
 };
 
-/* SubmisionSchema.methods.Age = function () {
-  const prefix = '20';
-  const yearOfBirth = prefix + this.child.carnet.toString().substr(0, 2);// quiza hacer mes y año, convertir a fecha y diferencia entre fechas
-  const nowDate = new Date();
-  const currentYear = nowDate.getFullYear();
-  const ageResult = currentYear - Number(yearOfBirth);
-  this.child.age = ageResult < 1 ? 1 : ageResult;
-};
- */
 SubmisionSchema.methods.Age = function () {
   const carnet = this.child.carnet.toString();
   const year = parseInt(carnet.substr(0, 2), 10) + 2000;
   const month = parseInt(carnet.substr(2, 2), 10) - 1;
   const day = parseInt(carnet.substr(4, 2), 10);
-  
+
   const birthDate = new Date(year, month, day);
   const nowDate = new Date();
-  
+
   let age = nowDate.getFullYear() - birthDate.getFullYear();
-  
-  if (nowDate.getMonth() < birthDate.getMonth() || 
-  (nowDate.getMonth() === birthDate.getMonth() && nowDate.getDate() < birthDate.getDate())) {
+
+  if (
+    nowDate.getMonth() < birthDate.getMonth() ||
+    (nowDate.getMonth() === birthDate.getMonth() && nowDate.getDate() < birthDate.getDate())
+  ) {
     age--;
   }
 
   if (age < 1) {
-    const months = (nowDate.getMonth() - birthDate.getMonth()) + (12 * (nowDate.getFullYear() - birthDate.getFullYear())); 
+    const months = nowDate.getMonth() - birthDate.getMonth() + 12 * (nowDate.getFullYear() - birthDate.getFullYear());
     if (nowDate.getDate() >= birthDate.getDate()) {
       this.child.age = months * 0.01;
     } else {
@@ -287,7 +279,7 @@ SubmisionSchema.methods.Age = function () {
     }
   } else {
     this.child.age = age;
-  } 
+  }
 };
 
 module.exports = mongoose.model('submision', SubmisionSchema);

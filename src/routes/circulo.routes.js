@@ -1,10 +1,14 @@
 const { Router } = require('express');
 const CirculoController = require('../controllers/circulo/circulo.controller');
+const CirculoUtiles = require('../services/Utiles');
 const { circuloDataValidation } = require('../validations/circulo.validations');
 /* const isAdmin = require('../midlewares/isAdmin');
 const isAuthorized = require('../midlewares/isAuthorized'); */
 
 const circuloRouter = Router();
+
+circuloRouter.get('/proyectar', /* isAuthorized, */ CirculoUtiles.ProyectarMatriculas);
+circuloRouter.post('/nuevo-curso', /* isAuthorized, , isAdmin, */ CirculoUtiles.CambioDeCurso);
 
 circuloRouter.post('/', /* isAuthorized, isAdmin, */ [circuloDataValidation], CirculoController.AddCirculo);
 circuloRouter.get('/', /* [isAuthorized, isAdmin], */ CirculoController.FindAllCirculos);
@@ -13,3 +17,5 @@ circuloRouter.put('/:id', /* isAuthorized, isAdmin, */ [circuloDataValidation], 
 circuloRouter.delete('/:id', /* isAuthorized, isAdmin, */ CirculoController.DeleteCirculo);
 
 module.exports = circuloRouter;
+
+

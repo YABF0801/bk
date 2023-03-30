@@ -22,9 +22,9 @@ const SubmisionValidationSchema = Type.Object(
         enum: 'El valor no es aceptado',
       },
     }),
-    entryNumber: Type.Number({
+    entryNumber:  Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
+    })),
     socialCase: Type.Boolean({
       errorMessage: { type: 'El tipo no es válido, debe ser Boolean' },
     }),
@@ -46,9 +46,9 @@ const SubmisionValidationSchema = Type.Object(
 
     child: ChildValidationSchema,
 
-    weight: Type.Number({
+    weight:  Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    }),
+    })),
     createdBy: Type.Optional(
       Type.Object({
       _id: Type.String({errorMessage: { type: 'El tipo  _id de createdBy no es válido, debe ser String' },}),
