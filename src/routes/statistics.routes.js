@@ -19,7 +19,6 @@ statisticsRouter.get('/cap-mat', /* isAuthorized, */ StatisticsServices.Capacity
 
 // DATOS DE SUBMISIONS
 statisticsRouter.get('/childs-age', /* isAuthorized, */ StatisticsServices.getTotalChildPerAge); // niños por edades
-statisticsRouter.get('/childs-year', /* isAuthorized, */ StatisticsServices.getTotalChildPerYear); // niños por año de vida
 statisticsRouter.get('/m-cpopular', /* isAuthorized, */ StatisticsServices.getMatriculaPorCp); // matricula cpor consejo popular
 statisticsRouter.get('/social', /* isAuthorized, */ StatisticsServices.getSocialCase); // cantidad de cassos sociales
 statisticsRouter.get('/status-count', /* isAuthorized, */ StatisticsServices.getStatusCount); // cantidad de planillas por status

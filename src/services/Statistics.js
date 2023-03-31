@@ -242,37 +242,29 @@ const getTotalChildPerAge = async (req, res) => {
     const result = await Submision.aggregate([
       { 
        $group: {
-            _id: "$child.age", // agrupar por edad
-            cant: { $sum: 1 } // contar documentos en cada edad
-        }
-      },
-      {
-        $sort: { _id: 1 } // ordenar por edad ascendente
-      }
-
-    ]);
-    return res.status(200).json(result);
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-// niños por año de vida
-const getTotalChildPerYear = async (req, res) => {
-  try {
-    const result = await Submision.aggregate([
-      { 
-       $group: {
-            _id: "$child.year_of_life", // agrupar por año de vida
+            _id: "$child.age", // agrupar por año de vida
             cant: { $sum: 1 } // contar documentos en cada año de vida
         }
       },
       {
         $sort: { _id: 1 } // ordenar ascendente
-      }
-
+      },
+      {
+        $project: {
+            _id: 1, 
+            cant: 1 
+        }
+     }
     ]);
-    return res.status(200).json(result);
+
+    const groupedByAge = result.reduce((acc, curr) => {
+      if (curr._id < 1) {acc[`childs_age${0}`] = curr.cant;}
+      else {
+      acc[`childs_age${curr._id}`] = curr.cant;}
+      return acc;
+    }, {});
+
+    return res.status(200).json(groupedByAge);
   } catch (err) {
     console.error(err);
   }
@@ -311,6 +303,12 @@ const getSocialCase = async (req, res) => {
             cant: { $sum: 1 } // contar documentos en cada edad
         }
       },
+      {
+        $project: {
+            _id: 0, 
+            cant: 1 
+        }
+     }
     ]);
     return res.status(200).json(result);
   } catch (err) {
@@ -329,7 +327,11 @@ const getStatusCount = async (req, res) => {
           }
        }
     ]);
-    return res.status(200).json(result);
+    const groupedByStatus = result.reduce((acc, curr) => {
+      acc[`${curr._id}`] = curr.cant;
+      return acc;
+    }, {});
+    return res.status(200).json(groupedByStatus);
   } catch (err) {
     console.error(err);
   }
@@ -371,6 +373,12 @@ const getOtherChildrenInCi = async (req, res) => {
             cant: { $sum: 1 } 
         }
      },
+     {
+      $project: {
+          _id: 0, 
+          cant: 1 
+      }
+   }
     ]);
     return res.status(200).json(result);
   } catch (err) {
@@ -433,6 +441,7 @@ const getSubmisionAprovedByYear = async (req, res) => {
           $group: {
               _id: {
                   year: { $year: "$matriculaDate" }, // extraer el año 
+                  month: { $month: "$matriculaDate" }
               },
               cant: { $sum: 1 } // contar documentos para cada año 
           }
@@ -440,7 +449,8 @@ const getSubmisionAprovedByYear = async (req, res) => {
        {
           $project: {
               _id: 0, 
-              año: "$_id.year", 
+              año: "$_id.year",
+              mes: "$_id.month",  
               cant: 1 
           }
        }
@@ -450,7 +460,6 @@ const getSubmisionAprovedByYear = async (req, res) => {
     console.error(err);
   }
 };
-
 
 module.exports= { 
     getTotalNormedCapacity, 
@@ -463,7 +472,6 @@ module.exports= {
     getTotalGirlsAndBoys,
     CapacityAndMatricula,
     getTotalChildPerAge,
-    getTotalChildPerYear,
     getMatriculaPorCp,
     getSocialCase,
     getStatusCount,
