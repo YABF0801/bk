@@ -65,22 +65,18 @@ const CirculoSchema = new Schema(
 
     attendance2: {
       type: Number,
-      required: true,
       default: 0,
     },
     attendance3: {
       type: Number,
-      required: true,
       default: 0,
     },
     attendance4: {
       type: Number,
-      required: true,
       default: 0,
     },
     attendance5: {
       type: Number,
-      required: true,
       default: 0,
     },
     attendance6: {
@@ -152,23 +148,23 @@ CirculoSchema.pre('save', function (next) {
 });
 
 CirculoSchema.methods.calculateCapacity = function () {
-  this.attendance2 <= 80
+  this.attendance2 >=1 && this.attendance2 <= 80
     ? (this.calculated_capacity2 = Math.floor(this.normed_capacity2 * 1.2))
     : (this.calculated_capacity2 = this.normed_capacity2);
 
-  this.attendance3 <= 80
+  this.attendance3 >=1 && this.attendance3 <= 80
     ? (this.calculated_capacity3 = Math.floor(this.normed_capacity3 * 1.2))
     : (this.calculated_capacity3 = this.normed_capacity3);
 
-  this.attendance4 <= 80
+  this.attendance4 >=1 && this.attendance4 <= 80
     ? (this.calculated_capacity4 = Math.floor(this.normed_capacity4 * 1.2))
     : (this.calculated_capacity4 = this.normed_capacity4);
 
-  this.attendance5 <= 80
+  this.attendance5 >=1 && this.attendance5 <= 80
     ? (this.calculated_capacity5 = Math.floor(this.normed_capacity5 * 1.2))
     : (this.calculated_capacity5 = this.normed_capacity5);
 
-  this.attendance6 <= 80
+  this.attendance6 >=1 && this.attendance6 <= 80
     ? (this.calculated_capacity6 = Math.floor(this.normed_capacity6 * 1.2))
     : (this.calculated_capacity6 = this.normed_capacity6);
 };
