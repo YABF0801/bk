@@ -30,8 +30,7 @@ const SubmisionSchema = new Schema(
       default: 'pendiente',
     },
     ciPedido: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'circulo',
+      type: String,
     },
     weight: {
       type: Number,
@@ -241,7 +240,7 @@ SubmisionSchema.methods.calculateWeight = function () {
   if (this.socialCase === true) weight += 18;
   if (this.child.parents[0].uniqueParent === true) weight += 3;
   if (this.child.parents[0].occupation === 'estudiante') weight += 2;
-  if (this.child.parents[0].organismo.weight === 2) weight += 2;
+  if (this.child.parents[0].organismo && this.child.parents[0].organismo.weight === 2) weight += 2;
   if (this.child.parents[0].pregnant === true) weight += 2;
   if (this.child.parents[0].deaf === true) weight += 9;
   this.weight = weight;

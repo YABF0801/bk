@@ -1,31 +1,6 @@
 const Submision = require('../../schemas/submision.schema');
 const Tools = require('../../schemas/tools.schema');
 
-async function asignarNumeroConsecutivo(submision) {
-  const tools = await Tools.findOne({ uniqueValue: 'tools' });
-  let consecutivo;
-  if (tools.consecutive === 0) {
-    consecutivo = 1;
-  } else {
-    consecutivo = tools.consecutive + 1;
-  }
-  await Tools.updateOne({ uniqueValue: 'tools' }, { $set: { consecutive: consecutivo } });
-
-  // Validar que no exista una planilla con el mismo numero y la misma fecha
-  const now = new Date(); // fecha actual
-  const submisionExist = await Submision.findOne({
-    entryNumber: consecutivo,
-    createdAt: { $gte: now.getFullYear(), $lte: now }, // operador de comparacion de mongo greater than or equal >=, lte <=
-  });
-  if (submisionExist) {
-    const error = new Error();
-    error.status = 409;
-    error.message = 'Error, ya existe una submisión con el mismo número y año de creación';
-    throw error;
-  }
-  submision.entryNumber = consecutivo; // maybe tools.consecutive
-}
-
 /**
  * @param  {} req
  * @param  {} res
@@ -43,13 +18,14 @@ const AddSubmision = async (req, res) => {
 
   //  crear submision
   const submision = new Submision(req.body);
-  await asignarNumeroConsecutivo(submision);
   const submisionNueva = await submision.save();
   if (!submisionNueva) {
     const error = new Error();
     error.message = 'Error al guardar planilla';
     throw error;
   }
+  const consecutivo = req.body.entryNumber;
+  await Tools.updateOne({ uniqueValue: 'tools' }, { $set: { consecutive: consecutivo } });
   res.status(201).send(submision).json({ message: 'Planilla creada' });
 };
 
