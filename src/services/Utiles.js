@@ -178,16 +178,20 @@ const CambioDeCurso = async (req, res) => {
  
 
 // Obtener entryNumber del último documento creado en la colección submisions
-const FindLastSubmision = async (req, res) => {
-    const lastSubmision = await Submision.findOne({}, {sort: {createdAt: -1}});
-     if (!lastSubmision) {
-    const error = new Error();
-      error.status = 404;
-      error.message = 'No se encontraron planillas';
-      throw error;
+const GetConsecutive = async (req, res) => {
+  try {
+      const filter = { uniqueValue: "tools" };
+      const tools = await Tools.findOne(filter);
+      if (!tools) {
+        const error = new Error();
+        error.status = 404;
+        error.message = 'No se encontró el consecutivo ';
+        throw error;
       }
-    return lastSubmision;
+      return res.status(200).send(tools);
+} catch (error) {
+  res.status(500).json({ message: 'Error al encontrar el consecutivo.' });
+}
 };
 
-
-  module.exports = { AddOmDate, ResetOmDate, ResetConsecutive, ResetContadorGP, ProyectarMatriculas,CambioDeCurso, FindLastSubmision };
+  module.exports = { AddOmDate, ResetOmDate, ResetConsecutive, ResetContadorGP, ProyectarMatriculas,CambioDeCurso, GetConsecutive };
