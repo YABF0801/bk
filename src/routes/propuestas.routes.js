@@ -12,12 +12,13 @@ propuestaRouter.get('/get-tools', /* isAuthorized,  isAdmin, */ PropuestasUtiles
 
 
 // MANAGE PROPUESTAS  
-propuestaRouter.post('/', /* isAuthorized,  isAdmin, */ GenerarPropuestas); /* generar todas las propuestas */
+propuestaRouter.post('/generar', /* isAuthorized,  isAdmin, */ GenerarPropuestas); /* generar todas las propuestas */
 propuestaRouter.put('/aceptar', /* isAuthorized,  isAdmin,  */ ManagePropuestas.AceptarPropuestas); /* aceptar propuestas */
 propuestaRouter.put('/rechazar', /* isAuthorized,  isAdmin, */ ManagePropuestas.RechazarPropuesta); /* rechazar propuestas */
 
 propuestaRouter.post('/date', /* isAuthorized,  isAdmin, */ PropuestasUtiles.AddOmDate); /* añadir fecha para el otorgamiento */
 propuestaRouter.put('/date', /* isAuthorized,  isAdmin, */ PropuestasUtiles.ResetOmDate); /* resetear fecha del otorgamiento */
-propuestaRouter.put('/counter', /* isAuthorized,  isAdmin, */ PropuestasUtiles.ResetContadorGP); /* resetear contador de generar propuestas */
+propuestaRouter.put('/set-counter', /* isAuthorized,  isAdmin, */ PropuestasUtiles.setContadorGP); /* resetear contador de generar propuestas */
+propuestaRouter.put('/reset-counter', /* isAuthorized,  isAdmin, */ PropuestasUtiles.ResetContadorGP); /* resetear contador de generar propuestas */
 
 module.exports = propuestaRouter;
