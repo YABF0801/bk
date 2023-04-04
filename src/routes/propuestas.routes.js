@@ -7,6 +7,10 @@ const isAuthorized = require('../midlewares/isAuthorized'); */
 
 const propuestaRouter = Router();
 
+
+propuestaRouter.get('/get-tools', /* isAuthorized,  isAdmin, */ PropuestasUtiles.GetTools); /* Obtener el valoor aactual del consecutivo */
+
+
 // MANAGE PROPUESTAS  
 propuestaRouter.post('/', /* isAuthorized,  isAdmin, */ GenerarPropuestas); /* generar todas las propuestas */
 propuestaRouter.put('/aceptar', /* isAuthorized,  isAdmin,  */ ManagePropuestas.AceptarPropuestas); /* aceptar propuestas */

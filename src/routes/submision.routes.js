@@ -10,7 +10,7 @@ const isAuthorized = require('../midlewares/isAuthorized'); */
 const submisionRouter = Router();
 // NUMERO CONSECUTIVO 
 submisionRouter.put('/reset-consecutive', /* isAuthorized,  isAdmin, */ SubmisionUtiles.ResetConsecutive); /* Resetear el numero de entrada consecutivo */
-submisionRouter.get('/get-consecutive', /* isAuthorized,  isAdmin, */ SubmisionUtiles.GetConsecutive); /* Obtener el valoor aactual del consecutivo */
+submisionRouter.get('/get-tools', /* isAuthorized,  isAdmin, */ SubmisionUtiles.GetTools); /* Obtener el valoor aactual del consecutivo */
 
 // CRUD
 submisionRouter.post('/', /* isAuthorized, isAdmin, */ [submisionDataValidation], SubmisionController.AddSubmision);

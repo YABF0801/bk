@@ -16,6 +16,8 @@ circuloRouter.get('/:id', /* isAuthorized, isAdmin, */ CirculoController.FindSin
 circuloRouter.put('/:id', /* isAuthorized, isAdmin, */ [circuloDataValidation], CirculoController.UpdateCirculo);
 circuloRouter.delete('/:id', /* isAuthorized, isAdmin, */ CirculoController.DeleteCirculo);
 
+circuloRouter.put('/status/:id',  /* isAuthorized, , isAdmin, */ CirculoUtiles.DeactivateCirculo);
+
 module.exports = circuloRouter;
 
 
