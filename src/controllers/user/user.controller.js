@@ -99,9 +99,14 @@ const UpdateUser = async (req, res) => {
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  if (req.body.password) {await user.encrypt(req.body.password)}
+  if (req.body.password)
+   {
+     await updatedUser.encrypt(req.body.password);
+     updatedUser.save();
+  }
   return res.status(200).send(updatedUser);
 };
+
 
 /**
  * @param  {} req

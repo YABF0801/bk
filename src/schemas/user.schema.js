@@ -78,12 +78,21 @@ UserSchema.pre('save', function (next) {
 });
 
 UserSchema.methods.encrypt = async function (password) {
- const salt = await bcrypt.genSalt (10);
- this.password = await bcrypt.hash(password, salt)
-};
+  const salt = await bcrypt.genSalt (10);
+  this.password = await bcrypt.hash(password, salt);
+ };
 
 UserSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
 module.exports = mongoose.model('user', UserSchema);
+
+
+UserSchema.methods.encrypt = async function (password) {
+ const salt = await bcrypt.genSalt (10);
+ this.password = await bcrypt.hash(password, salt);
+
+};
+
+
