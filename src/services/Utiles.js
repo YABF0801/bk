@@ -58,39 +58,18 @@ const ResetContadorGP = async (req, res) => {
 };
 
 // Funcion para proyectar matriculas
-// para las rutas:
-// const {ProyectarMatriculas} = require('../services/Utiles');
-// circuloRouter.get('/proyeccion',  isAuthorized, ProyectarMatriculas);
-
 const ProyectarMatriculas = async (req, res) => {
   const circulos = await Circulo.find();
   const circulosProyectados = [];
 
   for (const circulo of circulos) {
-    const circuloProyectado = { ...circulo }; // nuevo objeto circulo
-    const cap6 = circuloProyectado.normed_capacity6;
+    const cap6 = circulo.normed_capacity6;
 
     if (cap6 !== 0) {
       circulo.matricula6 = circulo.matricula5;
-      circulo.matricula5 = circulo.matricula4;
-      circulo.matricula4 = circulo.matricula3;
-      circulo.matricula3 = circulo.matricula2;
-      circulo.matricula2 = 0;
-
-      circulo.calculated_capacity2 = circulo.normed_capacity2; // Cc se iguala a la Cn por reinicio
-
       circulo.attendance6 = circulo.attendance5;
-      circulo.attendance5 = circulo.attendance4;
-      circulo.attendance4 = circulo.attendance3;
-      circulo.attendance3 = circulo.attendance2;
-      circulo.attendance2 = 0;
-
       circulo.girls6 = circulo.girls5;
-      circulo.girls5 = circulo.girls4;
-      circulo.girls4 = circulo.girls3;
-      circulo.girls3 = circulo.girls2;
-      circulo.girls2 = 0;
-    } else {
+    } 
       circulo.matricula5 = circulo.matricula4;
       circulo.matricula4 = circulo.matricula3;
       circulo.matricula3 = circulo.matricula2;
@@ -107,12 +86,34 @@ const ProyectarMatriculas = async (req, res) => {
       circulo.girls4 = circulo.girls3;
       circulo.girls3 = circulo.girls2;
       circulo.girls2 = 0;
-    }
 
-    /* await circuloProyectado.calculateCapacity(); */
-    circulosProyectados.push(circuloProyectado);
+
+      const calculateCapacity = async () => {
+        circulo.attendance2 >=1 && circulo.attendance2 <= 80
+          ? (circulo.calculated_capacity2 = Math.floor(circulo.normed_capacity2 * 1.2))
+          : (circulo.calculated_capacity2 = circulo.normed_capacity2);
+      
+        circulo.attendance3 >=1 && circulo.attendance3 <= 80
+          ? (circulo.calculated_capacity3 = Math.floor(circulo.normed_capacity3 * 1.2))
+          : (circulo.calculated_capacity3 = circulo.normed_capacity3);
+      
+        circulo.attendance4 >=1 && circulo.attendance4 <= 80
+          ? (circulo.calculated_capacity4 = Math.floor(circulo.normed_capacity4 * 1.2))
+          : (circulo.calculated_capacity4 = circulo.normed_capacity4);
+      
+        circulo.attendance5 >=1 && circulo.attendance5 <= 80
+          ? (circulo.calculated_capacity5 = Math.floor(circulo.normed_capacity5 * 1.2))
+          : (circulo.calculated_capacity5 = circulo.normed_capacity5);
+      
+        circulo.attendance6 >=1 && circulo.attendance6 <= 80
+          ? (circulo.calculated_capacity6 = Math.floor(circulo.normed_capacity6 * 1.2))
+          : (circulo.calculated_capacity6 = circulo.normed_capacity6);
+      };
+
+      calculateCapacity();
+    circulosProyectados.push(circulo);
   }
-  return circulosProyectados;
+  res.status(200).json({ message: 'proyeccion realizada con éxito', circulosProyectados });
 };
 
 // Funcion para cambio de curso
