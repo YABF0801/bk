@@ -87,7 +87,6 @@ const ProyectarMatriculas = async (req, res) => {
       circulo.girls3 = circulo.girls2;
       circulo.girls2 = 0;
 
-
       const calculateCapacity = async () => {
         circulo.attendance2 >=1 && circulo.attendance2 <= 80
           ? (circulo.calculated_capacity2 = Math.floor(circulo.normed_capacity2 * 1.2))
@@ -125,39 +124,21 @@ const CambioDeCurso = async (req, res) => {
   try {
     const circulos = await Circulo.find();
     const submisions = await Submision.find({ status: { $eq: 'matricula' } });
+    if (!submisions) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No hay planinllas matriculadas';
+      throw error;
+    }
 
     for (const circulo of circulos) {
       const cap6 = circulo.normed_capacity6;
+
       if (cap6 !== 0) {
         circulo.matricula6 = circulo.matricula5;
-        circulo.matricula5 = circulo.matricula4;
-        circulo.matricula4 = circulo.matricula3;
-        circulo.matricula3 = circulo.matricula2;
-        circulo.matricula2 = 0;
-
-        circulo.calculated_capacity2 = circulo.normed_capacity2; // Cc se iguala a la Cn por reinicio
-
         circulo.attendance6 = circulo.attendance5;
-        circulo.attendance5 = circulo.attendance4;
-        circulo.attendance4 = circulo.attendance3;
-        circulo.attendance3 = circulo.attendance2;
-        circulo.attendance2 = 0;
-
         circulo.girls6 = circulo.girls5;
-        circulo.girls5 = circulo.girls4;
-        circulo.girls4 = circulo.girls3;
-        circulo.girls3 = circulo.girls2;
-        circulo.girls2 = 0;
-
-        // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
-        // SI CHILD.CIRCULO CAPACITY6 !== 0
-        const yearOfLife = [2, 3, 4, 5];
-        await Submision.updateMany(
-          { _id: { $in: submisions }, 'child.year_of_life': { $in: yearOfLife } },
-          { $inc: { 'child.year_of_life': 1 } }
-        );
-        // no hace nada con las que estaban en 6to para que le den baja a mano
-      } else {
+      } 
         circulo.matricula5 = circulo.matricula4;
         circulo.matricula4 = circulo.matricula3;
         circulo.matricula3 = circulo.matricula2;
@@ -175,18 +156,32 @@ const CambioDeCurso = async (req, res) => {
         circulo.girls3 = circulo.girls2;
         circulo.girls2 = 0;
 
-        // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
-        // SI CHILD.CIRCULO CAPACITY6 = 0
-        const yearOfLife = [2, 3, 4];
-        await Submision.updateMany(
-          { _id: { $in: submisions }, 'child.year_of_life': { $in: yearOfLife } },
-          { $inc: { 'child.year_of_life': 1 } }
-        );
-        // no hace nada con las que estaban en 5to y 6to para que le den baja a mano
-      }
       await circulo.calculateCapacity();
       await circulo.save();
+    };
+
+    // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
+    // SI CHILD.CIRCULO CAPACITY6 = 0
+    for( const submision of submisions ){
+      const circuloMatriculado = submision.child.circulo;
+      if (!circuloMatriculado) {
+        const error = new Error();
+        error.status = 404;
+        error.message = `No se encuentra circulo matriculado en la planilla ${submision.entryNumber}`;
+        throw error;
+      }
+
+      const yearOfLife = submision.child.year_of_life;
+      const cap6 = circuloMatriculado.normed_capacity6;
+      
+      if ( cap6 === 0 && yearOfLife === 5 || yearOfLife === 6) {
+      await Submision.updateOne({_id: submision._id}, { $set: { 'child.year_of_life': null } });
+      } else {
+      await Submision.updateOne({_id: submision._id}, { $inc: { 'child.year_of_life': 1 } });
+      }
+       // pone en null el año a los de 5to si no hay 6to y los que estaban en 6to para que le den baja a mano
     }
+
     res.status(200).json({ message: 'Cambio de curso realizado con éxito' });
   } catch (error) {
     res.status(500).json({ message: 'Error en el cambio de curso' });
