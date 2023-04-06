@@ -24,6 +24,10 @@ const ToolsSchema = new Schema(
         type: Number,
         default: 0,
         unique: true,
+      },
+
+      circulosParaGP: {
+        type: Array,
       }
   },
 );

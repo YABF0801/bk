@@ -110,9 +110,10 @@ const ProyectarMatriculas = async (req, res) => {
       };
 
       calculateCapacity();
-    circulosProyectados.push(circulo);
+      circulosProyectados.push(circulo);
+      await Tools.updateOne({ uniqueValue: 'tools'}, { $set: { circulosParaGP: circulosProyectados } });
   }
-  res.status(200).json({ message: 'proyeccion realizada con éxito', circulosProyectados });
+  res.status(200).json({ message: 'proyeccion realizada con éxito' });
 };
 
 // Funcion para crear copia de los circulos reales para las vueltas extra de generar propuestas
@@ -122,8 +123,9 @@ const CirculosCopia = async (req, res) => {
 
   for (const circulo of circulos) {
     circulosCopia.push(circulo);
+    await Tools.updateOne({ uniqueValue: 'tools'}, { $set: { circulosParaGP: circulosCopia } });
   }
-  res.status(200).json({ message: 'proyeccion realizada con éxito', circulosCopia });
+  res.status(200).json({ message: 'copia realizada con éxito' });
 };
 
 // Funcion para cambio de curso
