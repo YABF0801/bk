@@ -115,11 +115,18 @@ const ProyectarMatriculas = async (req, res) => {
   res.status(200).json({ message: 'proyeccion realizada con éxito', circulosProyectados });
 };
 
-// Funcion para cambio de curso
-// para las rutas:
-// const {CambioDeCurso} = require('../services/Utiles');
-// circuloRouter.get('/nuevo-curso',  isAuthorized, CambioDeCurso);
+// Funcion para crear copia de los circulos reales para las vueltas extra de generar propuestas
+const CirculosCopia = async (req, res) => {
+  const circulos = await Circulo.find();
+  const circulosCopia = [];
 
+  for (const circulo of circulos) {
+    circulosCopia.push(circulo);
+  }
+  res.status(200).json({ message: 'proyeccion realizada con éxito', circulosCopia });
+};
+
+// Funcion para cambio de curso
 const CambioDeCurso = async (req, res) => {
   try {
     const circulos = await Circulo.find();
@@ -235,6 +242,7 @@ module.exports = {
   setContadorGP,
   ResetContadorGP,
   ProyectarMatriculas,
+  CirculosCopia,
   CambioDeCurso,
   GetTools,
   DeactivateCirculo

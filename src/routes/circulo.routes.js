@@ -8,6 +8,7 @@ const isAuthorized = require('../midlewares/isAuthorized'); */
 const circuloRouter = Router();
 
 circuloRouter.get('/proyectar', /* isAuthorized, */ CirculoUtiles.ProyectarMatriculas);
+circuloRouter.get('/crear-copia', /* isAuthorized, */ CirculoUtiles.CirculosCopia);
 circuloRouter.post('/nuevo-curso', /* isAuthorized, , isAdmin, */ CirculoUtiles.CambioDeCurso);
 
 circuloRouter.post('/', /* isAuthorized, isAdmin, */ [circuloDataValidation], CirculoController.AddCirculo);
