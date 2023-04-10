@@ -60,36 +60,36 @@ const ParentsValidationSchema = Type.Array(
         enum: 'El valor no es aceptado',
       },
     }),
-    workName: Type.String({
+    workName: Type.Optional(Type.String({
       minLength: 2,
       maxLength: 70,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'}
-    }),
-    workAddress: Type.String({
+    })),
+    workAddress: Type.Optional(Type.String({
       minLength: 2,
       maxLength: 70,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'}
-    }),
-    jobTitle: Type.String({
+    })),
+    jobTitle: Type.Optional(Type.String({
       minLength: 4,
       maxLength: 50,
       errorMessage: {type: 'El tipo no es válido, debe ser String',
       minLength: 'debe tener minimo 4 caracteres',
       maxLength: 'debe tener máximo 50 caracteres'
       },
-    }),
+    })),
     organismo: Type.Optional(
       Type.Object({
       name: Type.String({
         errorMessage: { type: 'El tipo name de organismo no es válido, debe ser String' },
       }),
-      weight: Type.Number({
+      weight: Type.Optional(Type.Number({
         errorMessage: { type: 'El tipo weight de organismo no es válido, debe ser un numero' },
-      }) 
+      })) 
     })
     ),
     salary: Type.Number({

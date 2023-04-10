@@ -46,7 +46,7 @@ const SubmisionValidationSchema = Type.Object(
 
     child: ChildValidationSchema,
 
-    weight:  Type.Optional(Type.Number({
+    weight: Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
     createdBy: Type.Optional(
