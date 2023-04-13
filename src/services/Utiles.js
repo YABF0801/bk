@@ -1,6 +1,7 @@
 const Tools = require('../schemas/tools.schema');
 const Circulo = require('../schemas/circulo.schema');
 const Submision = require('../schemas/submision.schema');
+const PastCirculos = require('../schemas/pastCirculos.schema');
 
 // Funcion para guardar fecha
 const AddOmDate = async (req, res) => {
@@ -54,6 +55,18 @@ const ResetContadorGP = async (req, res) => {
     res.status(200).json({ message: 'el contador de generacion de propuestas ha sido reseteado.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al resetear el contadorGP.' });
+  }
+};
+
+// Funcion para establecer el curso actual
+const AddCurso = async (req, res) => {
+  try {
+    const cursoYear = (req.body.curso);
+    const filter = { uniqueValue: 'tools' }; // filtro para econtrar el documento
+    await Tools.updateOne(filter, { $set: { curso: cursoYear } });
+    res.status(200).json({ message: 'El curso se ha actualizado correctamente.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al actualizar el curso' });
   }
 };
 
@@ -128,10 +141,39 @@ const CirculosCopia = async (req, res) => {
   res.status(200).json({ message: 'copia realizada con éxito' });
 };
 
+const NewCurso = async (req, res) => {
+  const filter = { uniqueValue: 'tools' };
+  const tools = await Tools.findOne(filter);
+  const circulos = await Circulo.find();
+  const oldCirculos = [];
+
+  for (const circulo of circulos) {
+    oldCirculos.push(circulo);
+  }
+  const pastCirculos = new PastCirculos;
+    pastCirculos.year = tools.curso;
+    pastCirculos.circulos = oldCirculos;
+    await pastCirculos.save();
+
+    await CambioDeCurso(req, res);
+  res.status(200).json({ message: 'curso pasado guardado con exito' });
+};
+
 // Funcion para cambio de curso
 const CambioDeCurso = async (req, res) => {
   try {
+    const filter = { uniqueValue: 'tools' };
+    const tools = await Tools.findOne(filter);
+
+    console.log(tools.curso)
+
     const circulos = await Circulo.find();
+    if (!circulos) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No hay circulos para mostrar';
+      throw error;
+    }
     const submisions = await Submision.find({ status: { $eq: 'matricula' } });
     if (!submisions) {
       const error = new Error();
@@ -140,7 +182,7 @@ const CambioDeCurso = async (req, res) => {
       throw error;
     }
 
-    for (const circulo of circulos) {
+     for (const circulo of circulos) {
       const cap6 = circulo.normed_capacity6;
 
       if (cap6 !== 0) {
@@ -159,15 +201,21 @@ const CambioDeCurso = async (req, res) => {
         circulo.attendance4 = circulo.attendance3;
         circulo.attendance3 = circulo.attendance2;
         circulo.attendance2 = 0;
-
+      
         circulo.girls5 = circulo.girls4;
         circulo.girls4 = circulo.girls3;
         circulo.girls3 = circulo.girls2;
         circulo.girls2 = 0;
 
+        circulo.curso = tools.curso + 1;
+
+        console.log(circulo.curso)
+
       await circulo.calculateCapacity();
       await circulo.save();
     };
+
+   await Tools.updateOne({_id: tools._id}, { $inc: { 'curso': 1 } }) 
 
     // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
     // SI CHILD.CIRCULO CAPACITY6 = 0
@@ -184,7 +232,7 @@ const CambioDeCurso = async (req, res) => {
       const cap6 = circuloMatriculado.normed_capacity6;
       
       if ( cap6 === 0 && yearOfLife === 5 || yearOfLife === 6) {
-      await Submision.updateOne({_id: submision._id}, { $set: { 'child.year_of_life': null } });
+      await Submision.updateOne({_id: submision._id}, { $set: { 'child.year_of_life': 0 } });
       } else {
       await Submision.updateOne({_id: submision._id}, { $inc: { 'child.year_of_life': 1 } });
       }
@@ -243,8 +291,10 @@ module.exports = {
   ResetConsecutive,
   setContadorGP,
   ResetContadorGP,
+  AddCurso,
   ProyectarMatriculas,
   CirculosCopia,
+  NewCurso,
   CambioDeCurso,
   GetTools,
   DeactivateCirculo
