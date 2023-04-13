@@ -72,7 +72,16 @@ const AddCurso = async (req, res) => {
 
 // Funcion para proyectar matriculas
 const ProyectarMatriculas = async (req, res) => {
+  const filter = { uniqueValue: 'tools' };
+  const tools = await Tools.findOne(filter);
+
   const circulos = await Circulo.find();
+  if (!circulos) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No hay circulos para proyectar';
+    throw error;
+  }
   const circulosProyectados = [];
 
   for (const circulo of circulos) {
@@ -100,6 +109,8 @@ const ProyectarMatriculas = async (req, res) => {
       circulo.girls3 = circulo.girls2;
       circulo.girls2 = 0;
 
+      circulo.curso = tools.curso + 1;
+      
       const calculateCapacity = async () => {
         circulo.attendance2 >=1 && circulo.attendance2 <= 80
           ? (circulo.calculated_capacity2 = Math.floor(circulo.normed_capacity2 * 1.2))
@@ -165,8 +176,6 @@ const CambioDeCurso = async (req, res) => {
     const filter = { uniqueValue: 'tools' };
     const tools = await Tools.findOne(filter);
 
-    console.log(tools.curso)
-
     const circulos = await Circulo.find();
     if (!circulos) {
       const error = new Error();
@@ -208,8 +217,6 @@ const CambioDeCurso = async (req, res) => {
         circulo.girls2 = 0;
 
         circulo.curso = tools.curso + 1;
-
-        console.log(circulo.curso)
 
       await circulo.calculateCapacity();
       await circulo.save();
