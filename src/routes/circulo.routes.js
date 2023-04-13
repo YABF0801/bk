@@ -9,7 +9,8 @@ const circuloRouter = Router();
 
 circuloRouter.get('/proyectar', /* isAuthorized, */ CirculoUtiles.ProyectarMatriculas);
 circuloRouter.get('/crear-copia', /* isAuthorized, */ CirculoUtiles.CirculosCopia);
-circuloRouter.post('/nuevo-curso', /* isAuthorized, , isAdmin, */ CirculoUtiles.CambioDeCurso);
+circuloRouter.post('/set-curso', /* isAuthorized, , isAdmin, */ CirculoUtiles.AddCurso);
+circuloRouter.post('/nuevo-curso', /* isAuthorized, , isAdmin, */ CirculoUtiles.NewCurso);
 
 circuloRouter.post('/', /* isAuthorized, isAdmin, */ [circuloDataValidation], CirculoController.AddCirculo);
 circuloRouter.get('/', /* [isAuthorized, isAdmin], */ CirculoController.FindAllCirculos);
