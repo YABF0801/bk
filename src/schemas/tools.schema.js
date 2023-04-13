@@ -28,6 +28,10 @@ const ToolsSchema = new Schema(
 
       circulosParaGP: {
         type: Array,
+      },
+
+      curso: {
+        type: Number
       }
   },
 );

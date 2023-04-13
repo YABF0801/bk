@@ -135,6 +135,9 @@ const CirculoSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    curso: {
+      type: Number
+    }
   },
   {
     timestamps: true,
