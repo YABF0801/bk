@@ -47,14 +47,35 @@ const setContadorGP = async (req, res) => {
   }
 };
 
+const setContadorCC = async (req, res) => {
+  try {
+    const filter = { uniqueValue: 'tools' };
+    await Tools.updateOne(filter, { $inc: { contadorCC: 1 } });
+    res.status(200).json({ message: 'el contador de nuevo curso de propuestas ha aumetado 1.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al setear el contadorCC.' });
+  }
+};
+
+
 // Funcion para resetear el contador de generar propuestas a 0
 const ResetContadorGP = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
-    await Tools.updateOne(filter, { $set: { contadorGP: 0 } });
+    await Tools.updateOne(filter, { $set: { contadorGP: 0 , contadorCC: 0} });
     res.status(200).json({ message: 'el contador de generacion de propuestas ha sido reseteado.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al resetear el contadorGP.' });
+  }
+};
+
+const ResetArrays = async (req, res) => {
+  try {
+    const filter = { uniqueValue: 'tools' };
+    await Tools.updateOne(filter, { $set: { circulosParaGP: [] , proyeccionParaGP: []} });
+    res.status(200).json({ message: 'arreglos de tools reseteados' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al resetear arreglos.' });
   }
 };
 
@@ -297,7 +318,9 @@ module.exports = {
   ResetOmDate,
   ResetConsecutive,
   setContadorGP,
+  setContadorCC,
   ResetContadorGP,
+  ResetArrays,
   AddCurso,
   ProyectarMatriculas,
   CirculosCopia,

@@ -26,6 +26,12 @@ const ToolsSchema = new Schema(
         unique: true,
       },
 
+      contadorCC: { // contador para cambio de curso 
+        type: Number,
+        default: 0,
+        unique: true,
+      },
+
       circulosParaGP: {
         type: Array,
       },
