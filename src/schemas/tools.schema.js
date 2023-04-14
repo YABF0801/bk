@@ -30,6 +30,10 @@ const ToolsSchema = new Schema(
         type: Array,
       },
 
+      proyeccionParaGP: {
+        type: Array,
+      },
+
       curso: {
         type: Number
       }
