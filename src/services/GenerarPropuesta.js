@@ -16,15 +16,34 @@ const GenerarPropuestas = async (req, res) => {
         const submisionsQueue = submisions.sort((a, b) => b.weight - a.weight);
 
             // paso el arreglo de circulos correspondiente dependiendo de la gen de prop
-            const circulosArray = tools.contadorGP !== 0 
-            ? await CirculosCopia(req, res).then(() => tools.circulosParaGP)
-            : await ProyectarMatriculas(req, res).then(() => tools.circulosParaGP); 
+            let circulosArray;
+            if (tools.contadorGP !== 0) {
+                await CirculosCopia(req, res);
+                circulosArray = tools.circulosParaGP;
+            } else {
+                await ProyectarMatriculas(req, res);
+                circulosArray = tools.proyeccionParaGP;
+            }
             
+            const Generar = async (submisionPrioritaria, circulosArray) => {
+                try {
+                  await EvaluateAndAsign(submisionPrioritaria, circulosArray);
+                } catch (error) {
+                  console.error(error); 
+                }
+              };
+            
+              // Iterar sobre la cola de prioridades y llamar a la función handleAsync para cada elemento
+              for (const submisionPrioritaria of submisionsQueue) {
+                await Generar(submisionPrioritaria, circulosArray);
+              }
 
-       // sacar el elemento con el valor maximo (el de mayor prioridad) para evaluar y crear propuesta
-        for (const submisionPrioritaria of submisionsQueue) { // Revisar si el circulo mas cercano tiene capacidad y asignarlo 
+            // sacar el elemento con el valor maximo (el de mayor prioridad) para evaluar y crear propuesta
+       /* for (const submisionPrioritaria of submisionsQueue) { // Revisar si el circulo mas cercano tiene capacidad y asignarlo 
         await EvaluateAndAsign(submisionPrioritaria, circulosArray);
-       } res.status(200).json({ message: 'Propuestas generadas con exito '});  
+       }  */
+       res.status(200).json({ message: 'Propuestas generadas con exito '});  
+       
 }; 
 
 module.exports = {GenerarPropuestas};
