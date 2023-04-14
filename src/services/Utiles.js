@@ -135,7 +135,7 @@ const ProyectarMatriculas = async (req, res) => {
 
       calculateCapacity();
       circulosProyectados.push(circulo);
-      await Tools.updateOne({ uniqueValue: 'tools'}, { $set: { circulosParaGP: circulosProyectados } });
+      await Tools.updateOne({ uniqueValue: 'tools'}, { $set: { proyeccionParaGP: circulosProyectados } });
   }
   res.status(200).json({ message: 'proyeccion realizada con éxito' });
 };
@@ -252,7 +252,7 @@ const CambioDeCurso = async (req, res) => {
   }
 };
 
-// Obtener entryNumber del último documento creado en la colección submisions
+// Obtener herramientas
 const GetTools = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
@@ -260,12 +260,12 @@ const GetTools = async (req, res) => {
     if (!tools) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No se encontró el consecutivo ';
+      error.message = 'No se encontró tools ';
       throw error;
     }
     return res.status(200).send(tools);
   } catch (error) {
-    res.status(500).json({ message: 'Error al encontrar el consecutivo.' });
+    res.status(500).json({ message: 'Error al encontrar tools.' });
   }
 };
 
