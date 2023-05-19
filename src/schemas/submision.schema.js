@@ -213,7 +213,6 @@ const SubmisionSchema = new Schema(
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
-      select: ['_id', 'nickname'],
       required: true,
     },
   },
