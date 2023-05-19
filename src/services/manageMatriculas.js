@@ -88,7 +88,6 @@ const MatriculaManual = async (req, res) => {
     const submision = await Submision.findOne({
       _id: { $eq: req.params.id },
       status: 'pendiente',
-      finality: 'os',
     }).populate('child.circulo');
     if (!submision) {
       const error = new Error();
