@@ -35,7 +35,7 @@ const AddSubmision = async (req, res) => {
  * @return {} res and json Submision List
  */
 const FindAllSubmisions = async (req, res) => {
-  const submisions = await Submision.find({}).populate('ciPedido', 'name').populate('child.parents[0].organismo', 'name');
+  const submisions = await Submision.find({}).populate('ciPedido', 'name').populate('child.parents[0].organismo', 'name').populate('createdBy');
   if (!submisions) {
     const error = new Error();
     error.status = 404;
