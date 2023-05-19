@@ -214,6 +214,7 @@ const SubmisionSchema = new Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
       select: ['_id', 'nickname'],
+      required: true,
     },
   },
   {
