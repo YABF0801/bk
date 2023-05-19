@@ -12,17 +12,19 @@ const SubmisionValidationSchema = Type.Object(
   {
     finality: Type.String({
       enum: ['os', 'om'],
-      errorMessage: {type: 'El tipo no es válido, debe ser String',
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
     submisiontype: Type.String({
       enum: ['new', 'traslado'],
-      errorMessage: {type: 'El tipo no es válido, debe ser String',
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
-    entryNumber:  Type.Optional(Type.Number({
+    entryNumber: Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
     socialCase: Type.Boolean({
@@ -30,11 +32,12 @@ const SubmisionValidationSchema = Type.Object(
     }),
     motive: Type.Optional(
       Type.String({
-      errorMessage: { type: 'El tipo no es válido, debe ser String' },
-    })),
+        errorMessage: { type: 'El tipo no es válido, debe ser String' },
+      })),
     status: Type.String({
       enum: ['pendiente', 'propuesta', 'matricula', 'baja'],
-      errorMessage: {type: 'El tipo no es válido, debe ser String',
+      errorMessage: {
+        type: 'El tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
@@ -49,24 +52,24 @@ const SubmisionValidationSchema = Type.Object(
     weight: Type.Optional(Type.Number({
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     })),
-    createdBy: Type.Optional(
+    createdBy:
       Type.Object({
-      _id: Type.String({errorMessage: { type: 'El tipo  _id de createdBy no es válido, debe ser String' },}),
-      nickname: Type.String({errorMessage: { type: 'El tipo nickname de createdBy no es válido, debe ser String' },}),
-    })),
+        _id: Type.String({ errorMessage: { type: 'El tipo  _id de createdBy no es válido, debe ser String' }, }),
+        nickname: Type.String({ errorMessage: { type: 'El tipo nickname de createdBy no es válido, debe ser String' }, }),
+      }),
 
   },
-/*   {
-    additionalProperties: false,
-    errorMessage: {
-      additionalProperties: 'Estas enviando datos adicionales en la planilla',
-    },
-  }  */
+  /*   {
+      additionalProperties: false,
+      errorMessage: {
+        additionalProperties: 'Estas enviando datos adicionales en la planilla',
+      },
+    }  */
 );
 
 const carnet = /^[0-9]{11}$/;
 const phone = /^[0-9]{8,15}$/;
-ajv.addFormat("carnet", carnet ); 
+ajv.addFormat("carnet", carnet);
 ajv.addFormat("phone", phone);
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');
 addErrors(ajv);
@@ -84,4 +87,4 @@ const submisionDataValidation = (req, res, next) => {
   next();
 };
 
-module.exports = {submisionDataValidation}; 
+module.exports = { submisionDataValidation }; 
