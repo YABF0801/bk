@@ -23,7 +23,12 @@ const CirculoValidationSchema = Type.Object(
         maxLength: 'debe tener máximo 50 caracteres',
       },
     }),
-
+    circulotype: Type.String({
+      enum: ['rural', 'urbano'],
+      errorMessage: {type: 'El tipo no es válido, debe ser String',
+        enum: 'El valor no es aceptado, debe ser urbano o rural',
+      },
+    }),
     normed_capacity2: Type.Number({
       default: 0,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },

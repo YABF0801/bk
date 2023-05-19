@@ -17,6 +17,11 @@ const CirculoSchema = new Schema(
       minLength: 4,
       maxLength: 50,
     },
+    circulotype: {
+      type: String,
+      enum: ['rural', 'urbano'],
+      default: 'urbano',
+    },
     normed_capacity2: {
       type: Number,
       required: true,
