@@ -21,6 +21,6 @@ propuestaRouter.put('/date', /* isAuthorized,  isAdmin, */ PropuestasUtiles.Rese
 propuestaRouter.put('/set-counter', /* isAuthorized,  isAdmin, */ PropuestasUtiles.setContadorGP); /* resetear contador de generar propuestas */
 propuestaRouter.put('/curso-counter', /* isAuthorized,  isAdmin, */ PropuestasUtiles.setContadorCC); /* resetear contador de generar propuestas */
 propuestaRouter.put('/reset-counter', /* isAuthorized,  isAdmin, */ PropuestasUtiles.ResetContadorGP); /* resetear contador de generar propuestas */
-propuestaRouter.put('/reset-arrays', /* isAuthorized,  isAdmin, */ PropuestasUtiles.ResetArrays); /* resetear contador de generar propuestas */
+propuestaRouter.put('/reset-arrays', /* isAuthorized,  isAdmin, */ PropuestasUtiles.ResetPropuestasArrays); /* resetear contador de generar propuestas */
 
 module.exports = propuestaRouter;
