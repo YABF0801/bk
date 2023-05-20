@@ -23,7 +23,7 @@ submisionRouter.delete('/:id', isAuthorized, isAdmin, SubmisionController.Delete
 
 // MANAGE MATRICULA
 submisionRouter.put('/matricular/:id', isAuthorized, isAdmin, ManageMatriculas.MatriculaManual); /* hacer la matricula manual */
-submisionRouter.put('/baja/:id', /* isAuthorized,  isAdmin, */ ManageMatriculas.Baja); /* dar baja de la matricula */
+submisionRouter.put('/baja/:id', isAuthorized,  isAdmin, ManageMatriculas.Baja); /* dar baja de la matricula */
 
 
 module.exports = submisionRouter;
