@@ -2,8 +2,8 @@ const { Router } = require('express');
 const ManagePropuestas = require('../services/manageMatriculas');
 const { GenerarPropuestas } = require('../services/GenerarPropuesta');
 const PropuestasUtiles = require('../services/Utiles');
-const isAdmin = require('../midlewares/isAdmin');
-const isAuthorized = require('../midlewares/isAuthorized'); 
+const isAdmin = require('../middlewares/isAdmin');
+const isAuthorized = require('../middlewares/isAuthorized'); 
 
 const propuestaRouter = Router();
 
