@@ -12,7 +12,7 @@ statisticsRouter.get('/capacidad-n', isAuthorized, StatisticsServices.getTotalNo
 statisticsRouter.get('/asistencia', isAuthorized, StatisticsServices.getAverageAttendance);   //  PROMEDIOS DE ASISTENCIA POR AÑO 
 statisticsRouter.get('/girls', isAuthorized, StatisticsServices.getTotalGirls); // NIÑAS POR AÑO
 statisticsRouter.get('/boys', isAuthorized, StatisticsServices.getTotalBoys); //  NIÑOS  POR AÑO
-statisticsRouter.get('/boys-girls', isAuthorized, StatisticsServices.getTotalGirlsAndBoys); // TOTALES NIÑOS Y NIÑAS
+statisticsRouter.get('/boys-girls', /* isAuthorized, */ StatisticsServices.getTotalGirlsAndBoys); // TOTALES NIÑOS Y NIÑAS
 
 // DATOS GENERALES DE CIRCULOS
 statisticsRouter.get('/cap-mat', isAuthorized, StatisticsServices.CapacityAndMatricula); // TOTALES GENERALES CAPACIDAD NORM Y MATRICULA
