@@ -13,49 +13,48 @@ const SubmisionValidationSchema = Type.Object(
     finality: Type.String({
       enum: ['os', 'om'],
       errorMessage: {
-        type: 'El tipo no es válido, debe ser String',
+        type: 'El tipo de finalidad no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
     submisiontype: Type.String({
       enum: ['new', 'traslado'],
       errorMessage: {
-        type: 'El tipo no es válido, debe ser String',
+        type: 'El tipo de tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
     entryNumber: Type.Optional(Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+      errorMessage: { type: 'El tipo de numero de entrada no es válido, debe ser un número' },
     })),
     socialCase: Type.Boolean({
-      errorMessage: { type: 'El tipo no es válido, debe ser Boolean' },
+      errorMessage: { type: 'El tipo de caso social no es válido, debe ser Boolean' },
     }),
     motive: Type.Optional(
       Type.String({
-        errorMessage: { type: 'El tipo no es válido, debe ser String' },
+        errorMessage: { type: 'El tipo de motivo no es válido, debe ser String' },
       })),
     status: Type.String({
       enum: ['pendiente', 'propuesta', 'matricula', 'baja'],
       errorMessage: {
-        type: 'El tipo no es válido, debe ser String',
+        type: 'El tipo de status no es válido, debe ser String',
         enum: 'El valor no es aceptado',
       },
     }),
     ciPedido: Type.Optional(
       Type.String({
-        errorMessage: { type: 'El tipo name de ciPedido no es válido, debe ser String' },
+        errorMessage: { type: 'El tipo de ciPedido no es válido, debe ser String' },
       }),
     ),
 
     child: ChildValidationSchema,
 
     weight: Type.Optional(Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+      errorMessage: { type: 'El tipo de peso no es válido, debe ser un número' },
     })),
     createdBy:
-      Type.Object({
-        _id: Type.String({ errorMessage: { type: 'El tipo  _id de createdBy no es válido, debe ser String' }, }),
-        nickname: Type.String({ errorMessage: { type: 'El tipo nickname de createdBy no es válido, debe ser String' }, }),
+      Type.String({
+        errorMessage: { type: 'El tipo nickname de createdBy no es válido, debe ser String' },
       }),
 
   },

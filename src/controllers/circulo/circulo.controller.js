@@ -83,20 +83,19 @@ const UpdateCirculo = async (req, res) => {
     if (ciNumberExist) {
       const error = new Error();
       error.status = 409;
-      error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero o nombre';
+      error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero ';
       throw error;
     }
   }
 
   if (circulo.name !== req.body.name) {
     const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
-    if (ciNameExist) {
-      const error = new Error();
-      error.status = 409;
-      error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero o nombre';
-      throw error;
-    }
-  }
+  if (ciNameExist) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Error al guardar el circulo, ya existe un circulo con ese  nombre';
+    throw error;
+  }   }
 
   const updatedCirculo = await Circulo.findByIdAndUpdate(req.params.id, req.body, { new: true });
   await updatedCirculo.calculateCapacity();

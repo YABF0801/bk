@@ -9,12 +9,10 @@ const isAuthorized = require('../middlewares/isAuthorized');
 
 const submisionRouter = Router();
 
-// TODO: hacer pruebas
 // NUMERO CONSECUTIVO 
 submisionRouter.put('/reset-consecutive', isAuthorized, isAdmin, SubmisionUtiles.ResetConsecutive); /* Resetear el numero de entrada consecutivo */
-submisionRouter.get('/get-tools', /* isAuthorized,  isAdmin, */ SubmisionUtiles.GetTools); /* Obtener el valoor aactual del consecutivo */
+submisionRouter.get('/get-tools', isAuthorized,  isAdmin,  SubmisionUtiles.GetTools); /* Obtener el valor actual del consecutivo */
 //
-
 
 // CRUD
 submisionRouter.post('/', isAuthorized, isAdmin, [submisionDataValidation], SubmisionController.AddSubmision);
@@ -23,14 +21,9 @@ submisionRouter.get('/:id', isAuthorized, isAdmin, SubmisionController.FindSingl
 submisionRouter.put('/:id', isAuthorized, isAdmin, [submisionDataValidation], SubmisionController.UpdateSubmision);
 submisionRouter.delete('/:id', isAuthorized, isAdmin, SubmisionController.DeleteSubmision);
 
-
-// TODO: hacer pruebas
 // MANAGE MATRICULA
 submisionRouter.put('/matricular/:id', isAuthorized, isAdmin, ManageMatriculas.MatriculaManual); /* hacer la matricula manual */
-submisionRouter.put('/baja/:id', /* isAuthorized,  isAdmin, */ ManageMatriculas.Baja); /* dar baja de la matricula */
-
-
-
+submisionRouter.put('/baja/:id', isAuthorized,  isAdmin, ManageMatriculas.Baja); /* dar baja de la matricula */
 
 
 module.exports = submisionRouter;

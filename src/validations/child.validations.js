@@ -14,55 +14,55 @@ const ChildValidationSchema = Type.Object(
     childName: Type.String({
       minLength: 2,
       maxLength: 20,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de nombre del niño no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 20 caracteres'}
     }),
     childLastname: Type.String({
       minLength: 2,
       maxLength: 50,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de apellido del niño no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 50 caracteres'}
     }),
     carnet: Type.Number({
       format: 'carnet',
-      errorMessage: {type: 'El tipo no es válido, debe ser un número',
+      errorMessage: {type: 'El tipo de carnet no es válido, debe ser un número',
       format: 'no es un carnet valido'
     }}),
     sex: Type.Optional(Type.String({
       enum: ['masculino', 'femenino'],
-      errorMessage: {type: 'El tipo no es válido, debe ser String',
+      errorMessage: {type: 'El tipo de sexo no es válido, debe ser String',
         enum: 'El valor no es aceptado'},
     })),
     age: Type.Optional(Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+      errorMessage: { type: 'El tipode edad no es válido, debe ser un número' },
     })),
     year_of_life: Type.Number({
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
+      errorMessage: { type: 'El tipo de año de vida no es válido, debe ser un número' },
     }),
     childAddress: Type.String({
       minLength: 2,
       maxLength: 70,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de direccion del niño no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 70 caracteres'},
     }),
     neighborhood: Type.String({
       minLength: 2,
       maxLength: 30,
-      errorMessage: {type: 'El tipo no es válido, debe ser string',
+      errorMessage: {type: 'El tipo de barrio no es válido, debe ser string',
       inLength: 'debe tener minimo 2 caracteres',
       maxLength: 'debe tener máximo 30 caracteres'},
     }),
     cPopular: Type.String({
-      errorMessage: {type: 'El tipo no es válido, debe ser string'},
+      errorMessage: {type: 'El tipo de consejo popular no es válido, debe ser string'},
     }),
     municipality: Type.String({
-      errorMessage: {type: 'El tipo no es válido, debe ser string'},
+      errorMessage: {type: 'El tipo de municipio no es válido, debe ser string'},
     }),
     province: Type.String({
-      errorMessage: {type: 'El tipo no es válido, debe ser string'},
+      errorMessage: {type: 'El tipo de provincia no es válido, debe ser string'},
     }),
     circulo: Type.Optional(Type.Object({
       _id: Type.String({
@@ -74,7 +74,7 @@ const ChildValidationSchema = Type.Object(
     })),
 
     matriculaDate: Type.Optional(Type.String({
-      errorMessage: { type: 'El tipo matriculaDate no es válido, debe ser fecha', 
+      errorMessage: { type: 'El tipo de fecha de matricula no es válido, debe ser fecha', 
       format: 'El tipo formato no es válido, debe ser una fecha'},
     })),
    

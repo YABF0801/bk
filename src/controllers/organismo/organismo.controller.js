@@ -79,7 +79,7 @@ const UpdateOrganismo = async (req, res) => {
   }
 
   if (organismo.name !== req.body.name) {
-    const organismoExist = await Organismo.findOne({ name: req.body.name});
+    const organismoExist = await Organismo.findOne({name: req.body.name});
   if (organismoExist) {
     const error = new Error();
     error.status = 409;

@@ -211,9 +211,7 @@ const SubmisionSchema = new Schema(
       },
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'user',
-      required: true,
+      type: String,
     },
   },
   {

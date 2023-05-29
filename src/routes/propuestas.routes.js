@@ -22,5 +22,9 @@ propuestaRouter.put('/set-counter', isAuthorized, isAdmin, PropuestasUtiles.setC
 propuestaRouter.put('/curso-counter', isAuthorized, isAdmin, PropuestasUtiles.setContadorCC); /* resetear contador de generar propuestas */
 propuestaRouter.put('/reset-counter', isAuthorized, isAdmin, PropuestasUtiles.ResetContadorGP); /* resetear contador de generar propuestas */
 propuestaRouter.put('/reset-arrays', isAuthorized, isAdmin, PropuestasUtiles.ResetPropuestasArrays); /* resetear contador de generar propuestas */
+propuestaRouter.get('/get-tools', isAuthorized, isAdmin, PropuestasUtiles.GetTools); /* Obtener el valoor aactual del consecutivo */
+
+
+
 
 module.exports = propuestaRouter;
