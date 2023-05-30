@@ -156,25 +156,13 @@ CirculoSchema.pre('save', function (next) {
 });
 
 CirculoSchema.methods.calculateCapacity = function () {
-  this.attendance2 >=1 && this.attendance2 <= 80
-    ? (this.calculated_capacity2 = Math.floor(this.normed_capacity2 * 1.2))
-    : (this.calculated_capacity2 = this.normed_capacity2);
+  const years = [2,3,4,5,6]
 
-  this.attendance3 >=1 && this.attendance3 <= 80
-    ? (this.calculated_capacity3 = Math.floor(this.normed_capacity3 * 1.2))
-    : (this.calculated_capacity3 = this.normed_capacity3);
-
-  this.attendance4 >=1 && this.attendance4 <= 80
-    ? (this.calculated_capacity4 = Math.floor(this.normed_capacity4 * 1.2))
-    : (this.calculated_capacity4 = this.normed_capacity4);
-
-  this.attendance5 >=1 && this.attendance5 <= 80
-    ? (this.calculated_capacity5 = Math.floor(this.normed_capacity5 * 1.2))
-    : (this.calculated_capacity5 = this.normed_capacity5);
-
-  this.attendance6 >=1 && this.attendance6 <= 80
-    ? (this.calculated_capacity6 = Math.floor(this.normed_capacity6 * 1.2))
-    : (this.calculated_capacity6 = this.normed_capacity6);
+  years.map(year => {
+    return  this.attendance[year] >=1 && this.attendance[year] <= 80
+    ? (this.calculated_capacity[year] = Math.floor(this.normed_capacity[year] * 1.2))
+    : (this.calculated_capacity[year] = this.normed_capacity[year]);
+  });
 };
 
 module.exports = mongoose.model('circulo', CirculoSchema);
