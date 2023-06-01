@@ -133,14 +133,25 @@ const ProyectarMatriculas = async (req, res) => {
     circulo.curso = tools.curso + 1;
 
     const calculateCapacity = async () => {
-      const years = [2, 3, 4, 5, 6];
-      years.forEach((year) => {
-        if (circulo.attendance[year] >= 1 && circulo.attendance[year] <= 80) {
-          circulo.calculated_capacity[year] = Math.floor(circulo.normed_capacity[year] * 1.2);
-        } else {
-          circulo.calculated_capacity[year] = circulo.normed_capacity[year];
-        }
-      });
+      circulo.attendance2 >=1 && circulo.attendance2 <= 80
+        ? (circulo.calculated_capacity2 = Math.floor(circulo.normed_capacity2 * 1.2))
+        : (circulo.calculated_capacity2 = circulo.normed_capacity2);
+    
+      circulo.attendance3 >=1 && circulo.attendance3 <= 80
+        ? (circulo.calculated_capacity3 = Math.floor(circulo.normed_capacity3 * 1.2))
+        : (circulo.calculated_capacity3 = circulo.normed_capacity3);
+    
+      circulo.attendance4 >=1 && circulo.attendance4 <= 80
+        ? (circulo.calculated_capacity4 = Math.floor(circulo.normed_capacity4 * 1.2))
+        : (circulo.calculated_capacity4 = circulo.normed_capacity4);
+    
+      circulo.attendance5 >=1 && circulo.attendance5 <= 80
+        ? (circulo.calculated_capacity5 = Math.floor(circulo.normed_capacity5 * 1.2))
+        : (circulo.calculated_capacity5 = circulo.normed_capacity5);
+    
+      circulo.attendance6 >=1 && circulo.attendance6 <= 80
+        ? (circulo.calculated_capacity6 = Math.floor(circulo.normed_capacity6 * 1.2))
+        : (circulo.calculated_capacity6 = circulo.normed_capacity6);
     };
 
     calculateCapacity();
