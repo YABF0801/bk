@@ -13,17 +13,13 @@ const ChildValidationSchema = Type.Object(
   {
     childName: Type.String({
       minLength: 2,
-      maxLength: 20,
       errorMessage: {type: 'El tipo de nombre del niño no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 20 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     }),
     childLastname: Type.String({
       minLength: 2,
-      maxLength: 50,
       errorMessage: {type: 'El tipo de apellido del niño no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 50 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     }),
     carnet: Type.Number({
       format: 'carnet',
@@ -42,18 +38,12 @@ const ChildValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo de año de vida no es válido, debe ser un número' },
     }),
     childAddress: Type.String({
-      minLength: 2,
-      maxLength: 70,
+      minLength: 5,
       errorMessage: {type: 'El tipo de direccion del niño no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 70 caracteres'},
+      minLength: 'debe tener minimo 5 caracteres'},
     }),
     neighborhood: Type.String({
-      minLength: 2,
-      maxLength: 30,
-      errorMessage: {type: 'El tipo de barrio no es válido, debe ser string',
-      inLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 30 caracteres'},
+      errorMessage: {type: 'El tipo de barrio no es válido, debe ser string'},
     }),
     cPopular: Type.String({
       errorMessage: {type: 'El tipo de consejo popular no es válido, debe ser string'},
