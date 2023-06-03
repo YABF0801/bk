@@ -9,19 +9,16 @@ const UserSchema = new Schema(
       unique: true,
       required: true,
       minLength: 2,
-      maxLength: 10,
     },
     name: {
       type: String,
       required: true,
       minLength: 2,
-      maxLength: 30,
     },
     lastname: {
       type: String,
       required: true,
-      minLength: 4,
-      maxLength: 50,
+      minLength: 2,
     },
     password: {
       type: String,
@@ -31,7 +28,6 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       minLength: 2,
-      maxLength: 50,
     },
     role: {
       type: String,
