@@ -57,7 +57,6 @@ const setContadorCC = async (req, res) => {
   }
 };
 
-
 // Funcion para resetear el contador de generar propuestas a 0
 const ResetContadorGP = async (req, res) => {
   try {
@@ -83,7 +82,7 @@ const ResetPropuestasArrays = async (req, res) => {
 // Funcion para establecer el curso actual
 const AddCurso = async (req, res) => {
   try {
-    const cursoYear = (req.body.curso);
+    const cursoYear = req.body.curso;
     const filter = { uniqueValue: 'tools' }; // filtro para econtrar el documento
     await Tools.updateOne(filter, { $set: { curso: cursoYear } });
     res.status(200).json({ message: 'El curso se ha actualizado correctamente.' });
@@ -134,23 +133,23 @@ const ProyectarMatriculas = async (req, res) => {
     circulo.curso = tools.curso + 1;
 
     const calculateCapacity = async () => {
-      circulo.attendance2 >= 1 && circulo.attendance2 <= 80
+      circulo.attendance2 >=1 && circulo.attendance2 <= 80
         ? (circulo.calculated_capacity2 = Math.floor(circulo.normed_capacity2 * 1.2))
         : (circulo.calculated_capacity2 = circulo.normed_capacity2);
-
-      circulo.attendance3 >= 1 && circulo.attendance3 <= 80
+    
+      circulo.attendance3 >=1 && circulo.attendance3 <= 80
         ? (circulo.calculated_capacity3 = Math.floor(circulo.normed_capacity3 * 1.2))
         : (circulo.calculated_capacity3 = circulo.normed_capacity3);
-
-      circulo.attendance4 >= 1 && circulo.attendance4 <= 80
+    
+      circulo.attendance4 >=1 && circulo.attendance4 <= 80
         ? (circulo.calculated_capacity4 = Math.floor(circulo.normed_capacity4 * 1.2))
         : (circulo.calculated_capacity4 = circulo.normed_capacity4);
-
-      circulo.attendance5 >= 1 && circulo.attendance5 <= 80
+    
+      circulo.attendance5 >=1 && circulo.attendance5 <= 80
         ? (circulo.calculated_capacity5 = Math.floor(circulo.normed_capacity5 * 1.2))
         : (circulo.calculated_capacity5 = circulo.normed_capacity5);
-
-      circulo.attendance6 >= 1 && circulo.attendance6 <= 80
+    
+      circulo.attendance6 >=1 && circulo.attendance6 <= 80
         ? (circulo.calculated_capacity6 = Math.floor(circulo.normed_capacity6 * 1.2))
         : (circulo.calculated_capacity6 = circulo.normed_capacity6);
     };
@@ -183,7 +182,7 @@ const NewCurso = async (req, res) => {
   for (const circulo of circulos) {
     oldCirculos.push(circulo);
   }
-  const pastCirculos = new PastCirculos;
+  const pastCirculos = new PastCirculos();
   pastCirculos.year = tools.curso;
   pastCirculos.circulos = oldCirculos;
   await pastCirculos.save();
@@ -242,9 +241,9 @@ const CambioDeCurso = async (req, res) => {
 
       await circulo.calculateCapacity();
       await circulo.save();
-    };
+    }
 
-    await Tools.updateOne({ _id: tools._id }, { $inc: { 'curso': 1 } })
+    await Tools.updateOne({ _id: tools._id }, { $inc: { curso: 1 } });
 
     // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
     // SI CHILD.CIRCULO CAPACITY6 = 0
@@ -260,7 +259,7 @@ const CambioDeCurso = async (req, res) => {
       const yearOfLife = submision.child.year_of_life;
       const cap6 = circuloMatriculado.normed_capacity6;
 
-      if (cap6 === 0 && yearOfLife === 5 || yearOfLife === 6) {
+      if ((cap6 === 0 && yearOfLife === 5) || yearOfLife === 6) {
         await Submision.updateOne({ _id: submision._id }, { $set: { 'child.year_of_life': 0 } });
       } else {
         await Submision.updateOne({ _id: submision._id }, { $inc: { 'child.year_of_life': 1 } });
@@ -328,5 +327,5 @@ module.exports = {
   NewCurso,
   CambioDeCurso,
   GetTools,
-  DeactivateCirculo
+  DeactivateCirculo,
 };

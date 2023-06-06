@@ -43,13 +43,11 @@ const SubmisionSchema = new Schema(
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 20,
       },
       childLastname: {
         type: String,
         required: true,
         minLength: 2,
-        maxLength: 50,
       },
       carnet: {
         type: Number,
@@ -68,19 +66,14 @@ const SubmisionSchema = new Schema(
       year_of_life: {
         type: Number,
         required: true,
-        min: 2,
-        max: 6,
       },
       childAddress: {
         type: String,
         required: true,
-        minLength: 2,
-        maxLength: 70,
+        minLength: 5,
       },
       neighborhood: {
         type: String,
-        minLength: 2,
-        maxLength: 30,
       },
       cPopular: {
         type: String,
@@ -111,17 +104,16 @@ const SubmisionSchema = new Schema(
       parents: {
         type: Array,
         maxItems: 2,
+
         parentName: {
           type: String,
           required: true,
           minLength: 2,
-          maxLength: 20,
         },
         parentLastname: {
           type: String,
           required: true,
           minLength: 2,
-          maxLength: 50,
         },
         // 1
         uniqueParent: {
@@ -140,7 +132,6 @@ const SubmisionSchema = new Schema(
         parentAddress: {
           type: String,
           minLength: 2,
-          maxLength: 70,
         },
         phoneNumber: {
           type: String,
@@ -157,18 +148,15 @@ const SubmisionSchema = new Schema(
           type: String,
           required: true,
           minLength: 2,
-          maxLength: 70,
         },
         workAddress: {
           type: String,
           required: true,
           minLength: 2,
-          maxLength: 70,
         },
         jobTitle: {
           type: String,
-          minLength: 4,
-          maxLength: 50,
+          minLength: 2,
         },
         // 1
         organismo: {

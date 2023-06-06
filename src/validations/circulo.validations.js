@@ -10,17 +10,13 @@ const ajv = new Ajv({ allErrors: true });
 const CirculoValidationSchema = Type.Object(
   {
     number: Type.Number({
-      minimum: 1,
-      maximum: 9999,
       errorMessage: { type: 'El tipo no es válido, debe ser un número' },
     }),
     name: Type.String({
-      minLength: 4,
-      maxLength: 50,
+      minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 4 caracteres',
-        maxLength: 'debe tener máximo 50 caracteres',
       },
     }),
     circulotype: Type.String({
@@ -72,31 +68,31 @@ const CirculoValidationSchema = Type.Object(
     })),
 
     attendance2:  Type.Optional(Type.Number({
-      default: 0,
+      default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
       minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 000',}
+      maximum: 'Attendance debe ser menor o igual a 100',}
     })),
     attendance3:  Type.Optional(Type.Number({
-      default: 0,
+      default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
       minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 000',}
+      maximum: 'Attendance debe ser menor o igual a 100',}
     })),
     attendance4:  Type.Optional(Type.Number({
-      default: 0,
+      default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
       minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 000',}
+      maximum: 'Attendance debe ser menor o igual a 100',}
     })),
     attendance5:  Type.Optional(Type.Number({
-      default: 0,
+      default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
@@ -104,7 +100,7 @@ const CirculoValidationSchema = Type.Object(
       maximum: 'Attendance debe ser menor o igual a 100',}
     })),
     attendance6: Type.Optional(Type.Number({
-      default: 0,
+      default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',

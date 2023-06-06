@@ -11,29 +11,23 @@ const UserValidationSchema = Type.Object(
   {
     nickname: Type.String({
       minLength: 2,
-      maxLength: 10,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 2 caracteres',
-        maxLength: 'debe tener máximo 10 caracteres',
       },
     }),
     name: Type.String({
       minLength: 2,
-      maxLength: 30,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 2 caracteres',
-        maxLength: 'debe tener máximo 20 caracteres',
       },
     }),
     lastname: Type.String({
-      minLength: 4,
-      maxLength: 50,
+      minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 4 caracteres',
-        maxLength: 'debe tener máximo 50 caracteres',
+        minLength: 'debe tener minimo 2 caracteres',
       },
     }),
     password: Type.Optional(Type.String({
@@ -47,11 +41,9 @@ const UserValidationSchema = Type.Object(
     })),
     position: Type.String({
       minLength: 2,
-      maxLength: 50,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
         minLength: 'debe tener minimo 4 caracteres',
-        maxLength: 'debe tener máximo 50 caracteres',
       },
     }),
     role: Type.Optional(Type.String({

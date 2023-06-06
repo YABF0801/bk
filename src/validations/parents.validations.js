@@ -13,17 +13,13 @@ const ParentsValidationSchema = Type.Array(
   {
     parentName: Type.String({
       minLength: 2,
-      maxLength: 20,
       errorMessage: {type: 'El tipo de parentName no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 20 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     }),
     parentLastname: Type.String({
       minLength: 2,
-      maxLength: 50,
       errorMessage: {type: 'El tipo de parentLastname no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 50 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     }),
     uniqueParent: Type.Optional(Type.Boolean({
       errorMessage: {type: 'El tipo de uniqueParent no es válido, debe ser boolean'}
@@ -39,10 +35,8 @@ const ParentsValidationSchema = Type.Array(
     }),
     parentAddress: Type.Optional(Type.String({
       minLength: 2,
-      maxLength: 70,
       errorMessage: {type: 'El tipo de parentAdress no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 70 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     })),
     phoneNumber: Type.String({
       format: 'phone',
@@ -62,25 +56,18 @@ const ParentsValidationSchema = Type.Array(
     }),
     workName: Type.Optional(Type.String({
       minLength: 2,
-      maxLength: 70,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 70 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     })),
     workAddress: Type.Optional(Type.String({
       minLength: 2,
-      maxLength: 70,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',
-      maxLength: 'debe tener máximo 70 caracteres'}
+      minLength: 'debe tener minimo 2 caracteres',}
     })),
     jobTitle: Type.Optional(Type.String({
-      minLength: 4,
-      maxLength: 50,
+      minLength: 2,
       errorMessage: {type: 'El tipo no es válido, debe ser String',
-      minLength: 'debe tener minimo 4 caracteres',
-      maxLength: 'debe tener máximo 50 caracteres'
-      },
+      minLength: 'debe tener minimo 4 caracteres'},
     })),
     organismo: Type.Optional(
       Type.Object({

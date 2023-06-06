@@ -3,7 +3,7 @@ const Circulo = require("../schemas/circulo.schema");
 
 // funciones Aggregate para estadisticas
 
-// OBTENER EL TOTAL DE CAPACIDADES NORMADAS POR AÑO 
+// OBTENER EL TOTAL DE CAPACIDADES NORMADAS POR AÑO
 const getTotalNormedCapacity = async (req, res) => {
   try {
     const result = await Circulo.aggregate([
@@ -339,7 +339,7 @@ const getStatusCount = async (req, res) => {
   }
 };
 
-// cantidad de parents por ocupacion 
+// cantidad de parents por ocupacion
 const getOcupationCount = async (req, res) => {
   try {
     const result = await Submision.aggregate([
@@ -359,7 +359,7 @@ const getOcupationCount = async (req, res) => {
   }
 };
 
-// cantidad de fammilias que tienen mas de un niño en el circulo 
+// cantidad de fammilias que tienen mas de un niño en el circulo
 const getOtherChildrenInCi = async (req, res) => {
   try {
     const result = await Submision.aggregate([

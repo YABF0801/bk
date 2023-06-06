@@ -32,11 +32,11 @@ const ToolsSchema = new Schema(
         unique: true,
       },
 
-      circulosParaGP: {
+      circulosParaGP: { // array de circulos copia de la basse de datos real para generar propuestas
         type: Array,
       },
 
-      proyeccionParaGP: {
+      proyeccionParaGP: { // array de circulos con proyeccionn de matriculas de datos real para generar propuestas
         type: Array,
       },
 
