@@ -248,7 +248,7 @@ const CambioDeCurso = async (req, res) => {
     // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
     // SI CHILD.CIRCULO CAPACITY6 = 0
     for (const submision of submisions) {
-      const circuloMatriculado = submision.child.circulo;
+      const circuloMatriculado = await Circulo.find({ _id : { $eq: submision.child.circulo._id } });
       if (!circuloMatriculado) {
         const error = new Error();
         error.status = 404;
@@ -264,7 +264,7 @@ const CambioDeCurso = async (req, res) => {
       } else {
         await Submision.updateOne({ _id: submision._id }, { $inc: { 'child.year_of_life': 1 } });
       }
-      // pone en null el año a los de 5to si no hay 6to y los que estaban en 6to para que le den baja a mano
+      // pone en null el año a los salientes del circulo para baja manual
     }
 
     res.status(200).json({ message: 'Cambio de curso realizado con éxito' });

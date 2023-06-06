@@ -71,7 +71,15 @@ const RechazarPropuesta = async (req, res) => {
 
     await Submision.updateMany(
       { _id: { $in: submisionsRechazadas } },
-      { $set: { status: 'pendiente', 'child.circulo': {} } }
+      {
+        $set: {
+          status: 'pendiente',
+          'child.circulo': {
+            _id: '',
+            name: '',
+          },
+        },
+      }
     );
 
     res.status(200).json({ message: 'Propuestas rechazadas reestablecidas a pendiente' });
@@ -145,9 +153,20 @@ const Baja = async (req, res) => {
     }
 
     const yearOfLife = submision.child.year_of_life;
-    if (!yearOfLife) {
-      await submision.updateOne({ $set: { status: 'baja', 'child.circulo': {} } });
-    } else {
+    if (!yearOfLife) { 
+      // para la baja a los que salen en el ultimo año
+      await submision.updateOne({
+        $set: {
+          status: 'baja',
+          'child.circulo': {
+            _id: '',
+            name: '',
+          },
+        },
+      });
+    } 
+    else 
+    {  // para la baja en cualquier momento
       const sex = submision.child.sex;
       if (sex === 'femenino') {
         await Circulo.updateOne(
@@ -158,7 +177,10 @@ const Baja = async (req, res) => {
         await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: -1 } });
       }
 
-      await submision.updateOne({ $set: { status: 'baja', 'child.circulo': {} } });
+      await submision.updateOne({ $set: { status: 'baja', 'child.circulo': {
+        _id: '',
+        name: '',
+      }} });
     }
 
     res.status(200).json({ message: 'Baja realizada con exito' });
