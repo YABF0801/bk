@@ -6,6 +6,7 @@ const Tools = require('../../schemas/tools.schema');
  * @param  {} res
  * @return {} res and json new Submision added
  */
+
 const AddSubmision = async (req, res) => {
   // Validar que no exista un niño con el mismo numero de carnet
   const carnetExist = await Submision.findOne({ 'child.carnet': req.body.child.carnet });
@@ -18,7 +19,8 @@ const AddSubmision = async (req, res) => {
 
   //  crear submision
   const submision = new Submision(req.body);
-  const submisionNueva = await submision.save();
+
+   const submisionNueva = await submision.save();
   if (!submisionNueva) {
     const error = new Error();
     error.message = 'Error al guardar planilla';
@@ -96,33 +98,6 @@ const UpdateSubmision = async (req, res) => {
       throw error;
     }
   }
-
-  if (submision.child.carnet !== req.body.child.carnet) {
-    // Validar que no exista un niño con el mismo numero de carnet
-    const carnetExist = await Submision.findOne({ 'child.carnet': req.body.child.carnet });
-    if (carnetExist) {
-      const error = new Error();
-      error.status = 409;
-      error.message = 'Error al guardar la planilla, ya existe un niño con ese carnet';
-      throw error;
-    }
-  }
-
-  /*      
-      if (submision.entryNumber !== req.body.entryNumber) {
-        // Verificar que no exista una submision con el mismo número y el mismo año de creación
-        const now = new Date(); // fecha actual 2023
-        const submisionExist = await Submision.findOne({ 
-          entryNumber: req.body.entryNumber, 
-          createdAt: { $gte: now.getFullYear(), $lte: now } // operador de comparacion de mongo greater than or equal >=, lte <=
-        });
-        if (submisionExist) {
-          const error = new Error();
-          error.status = 409;
-          error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
-          throw error;
-        }
-      } */
 
   if (submision.child.carnet !== req.body.child.carnet) {
     // Validar que no exista un niño con el mismo numero de carnet

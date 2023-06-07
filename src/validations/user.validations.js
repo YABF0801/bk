@@ -52,10 +52,6 @@ const UserValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo no es válido, debe ser String', 
       enum: 'El valor no es aceptado' },
     })),
-    submisions: Type.Optional(Type.Number({
-      default: 0,
-      errorMessage: { type: 'El tipo no es válido, debe ser un número' },
-    })),
   },
 /*    {
     additionalProperties: false,
