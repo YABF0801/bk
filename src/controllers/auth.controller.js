@@ -10,7 +10,7 @@ const sigIn = async (req, res) => {
   if (!user) {
     const error = new Error();
     error.httpStatus = 403;
-    error.message = 'Incorrect credentials';
+    error.message = 'Usuario o contraseña incorrectos';
     throw error;
   }
 
@@ -18,7 +18,7 @@ const sigIn = async (req, res) => {
   if (!isPasswordEqual) {
     const error = new Error();
     error.httpStatus = 403;
-    error.message = 'Incorrect credentials';
+    error.message = 'Usuario o contraseña incorrectos';
     throw error;
   }
 

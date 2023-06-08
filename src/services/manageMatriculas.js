@@ -3,10 +3,13 @@ const Circulo = require('../schemas/circulo.schema');
 
 const AceptarPropuestas = async (req, res) => {
   const aprobadas = req.body; // obetener el arreglo de las sumisions aprobadas que se envia desde el frontend
-  if (!Array.isArray(aprobadas) || aprobadas.length === 0) {
+  if (!Array.isArray(aprobadas)) {
     return res.status(400).json({ message: 'el arreglo aprobadas no es correcto o esta vacio' });
   }
-
+  if (aprobadas.length === 0) {
+    return res.status(400).json({ message: 'Ninguna propuesta fue aprobada' });
+  }
+  
   const now = new Date();
 
   try {
