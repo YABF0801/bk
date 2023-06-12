@@ -18,7 +18,7 @@ const SubmisionValidationSchema = Type.Object(
       },
     }),
     submisiontype: Type.String({
-      enum: ['new', 'traslado'],
+      enum: ['nueva', 'traslado'],
       errorMessage: {
         type: 'El tipo de tipo no es válido, debe ser String',
         enum: 'El valor no es aceptado',

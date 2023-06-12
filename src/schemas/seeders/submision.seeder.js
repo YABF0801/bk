@@ -5,7 +5,7 @@ const submisions = [
 
 {
   finality: 'om',
-  submisiontype: 'new',
+  submisiontype: 'nueva',
   entryNumber: 201,
   socialCase: false,
   motive: 'Necesito trabajar',

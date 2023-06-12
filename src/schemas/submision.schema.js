@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const enums = {
   finalityEnum: ['os', 'om'],
-  submisiontypeEnum: ['new', 'traslado'],
+  submisiontypeEnum: ['nueva', 'traslado'],
   statusEnum: ['pendiente', 'propuesta', 'matricula', 'baja'],
   sexEnum: ['masculino', 'femenino'],
   typeParentEnum: ['madre', 'padre', 'tutor'],
@@ -21,7 +21,7 @@ const SubmisionSchema = new Schema(
     submisiontype: {
       type: String,
       enum: enums.submisiontypeEnum,
-      default: 'new',
+      default: 'nueva',
     },
     entryNumber: {
       type: Number,
