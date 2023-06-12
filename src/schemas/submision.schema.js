@@ -1,16 +1,26 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+const enums = {
+  finalityEnum: ['os', 'om'],
+  submisiontypeEnum: ['new', 'traslado'],
+  statusEnum: ['pendiente', 'propuesta', 'matricula', 'baja'],
+  sexEnum: ['masculino', 'femenino'],
+  typeParentEnum: ['madre', 'padre', 'tutor'],
+  occupationEnum: ['trabajador', 'jubilado', 'asistenciado', 'estudiante'],
+  specialSituationEnum : ['pregnant', 'deaf']
+};
+
 const SubmisionSchema = new Schema(
   {
     finality: {
       type: String,
-      enum: ['os', 'om'],
+      enum: enums.finalityEnum,
       default: 'om',
     },
     submisiontype: {
       type: String,
-      enum: ['new', 'traslado'],
+      enum: enums.submisiontypeEnum,
       default: 'new',
     },
     entryNumber: {
@@ -26,7 +36,7 @@ const SubmisionSchema = new Schema(
     },
     status: {
       type: String,
-      enum: ['pendiente', 'propuesta', 'matricula', 'baja'],
+      enum: enums.statusEnum,
       default: 'pendiente',
     },
     ciPedido: {
@@ -56,7 +66,7 @@ const SubmisionSchema = new Schema(
       },
       sex: {
         type: String,
-        enum: ['masculino', 'femenino'],
+        enum: enums.sexEnum,
       },
       age: {
         type: Number,
@@ -122,7 +132,7 @@ const SubmisionSchema = new Schema(
         },
         typeParent: {
           type: String,
-          enum: ['madre', 'padre', 'tutor'],
+          enum: enums.typeParentEnum,
           default: 'madre',
         },
         convivencia: {
@@ -141,7 +151,7 @@ const SubmisionSchema = new Schema(
         },
         occupation: {
           type: String,
-          enum: ['trabajador', 'jubilado', 'asistenciado', 'estudiante'],
+          enum: enums.occupationEnum,
           default: 'trabajador',
         },
         workName: {
@@ -187,6 +197,10 @@ const SubmisionSchema = new Schema(
           type: String,
         },
         // 1
+        // specialSituation: {
+        //   type: String,
+        //   enum: enums.specialSituationEnum,
+        // },
         pregnant: {
           type: Boolean,
           default: false,
@@ -227,6 +241,8 @@ SubmisionSchema.methods.calculateWeight = function () {
   if (this.child.parents[0].uniqueParent === true) weight += 3;
   if (this.child.parents[0].occupation === 'estudiante') weight += 2;
   if (this.child.parents[0].organismo && this.child.parents[0].organismo.weight === 2) weight += 2;
+  // if (this.child.parents[0].specialSituation === 'pregnant') weight += 2;
+  // if (this.child.parents[0].specialSituation === 'deaf') weight += 9;
   if (this.child.parents[0].pregnant === true) weight += 2;
   if (this.child.parents[0].deaf === true) weight += 9;
   this.weight = weight;
@@ -267,4 +283,5 @@ SubmisionSchema.methods.Age = function () {
   }
 };
 
-module.exports = mongoose.model('submision', SubmisionSchema);
+module.exports = mongoose.model('Submision', SubmisionSchema);
+module.exports.enums = enums;

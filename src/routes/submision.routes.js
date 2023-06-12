@@ -1,5 +1,5 @@
 const { Router } = require('express');
-
+const { enums } = require('../schemas/submision.schema');
 const SubmisionController = require('../controllers/submision/submision.controller');
 const SubmisionUtiles = require('../services/Utiles');
 const ManageMatriculas = require('../services/manageMatriculas');
@@ -13,6 +13,10 @@ const submisionRouter = Router();
 submisionRouter.put('/reset-consecutive', isAuthorized, isAdmin, SubmisionUtiles.ResetConsecutive); /* Resetear el numero de entrada consecutivo */
 submisionRouter.get('/get-tools', isAuthorized,  isAdmin,  SubmisionUtiles.GetTools); /* Obtener el valor actual del consecutivo */
 //
+
+// enums
+submisionRouter.get('/enums', isAuthorized, (req, res) => {res.json(enums)});
+  
 
 // CRUD
 submisionRouter.post('/', isAuthorized, isAdmin, [submisionDataValidation], SubmisionController.AddSubmision);
