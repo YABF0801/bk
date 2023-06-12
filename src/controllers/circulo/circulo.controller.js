@@ -5,9 +5,12 @@ const Circulo = require('../../schemas/circulo.schema');
  * @param  {} res
  * @return {} res and json new Circulo added
  */
+
 const AddCirculo = async (req, res) => {
   const ciNumberExist = await Circulo.findOne({ number: req.body.number });
-  const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
+  const ciNameExist = await Circulo.findOne({
+    name: { $regex: new RegExp(`^${req.body.name}$`, 'i') }
+  });
   if (ciNumberExist || ciNameExist) {
     const error = new Error();
     error.status = 409;
@@ -88,9 +91,11 @@ const UpdateCirculo = async (req, res) => {
     }
   }
 
-  if (circulo.name !== req.body.name) {
-    const ciNameExist = await Circulo.findOne({ name: { $regex: new RegExp(req.body.name, 'i') } });
-  if (ciNameExist) {
+  if (circulo.name.toLowerCase() !== req.body.name.toLowerCase()) {
+    const ciNameExist = await Circulo.findOne({
+      name: { $regex: new RegExp(`^${req.body.name}$`, 'i') }
+    });
+     if (ciNameExist) {
     const error = new Error();
     error.status = 409;
     error.message = 'Error al guardar el circulo, ya existe un circulo con ese  nombre';

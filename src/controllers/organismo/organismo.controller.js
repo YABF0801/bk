@@ -6,8 +6,9 @@ const Organismo = require('../../schemas/organismo.schema');
  * @return {} res and json new Organismo added
  */
 const AddOrganismo = async (req, res) => {
-
-  const organismoExist = await Organismo.findOne({ name: req.body.name});
+  const organismoExist = await Organismo.findOne({
+    name: { $regex: new RegExp(`^${req.body.name}$`, 'i') }
+  });
   if (organismoExist) {
     const error = new Error();
     error.status = 409;
@@ -79,7 +80,9 @@ const UpdateOrganismo = async (req, res) => {
   }
 
   if (organismo.name !== req.body.name) {
-    const organismoExist = await Organismo.findOne({name: req.body.name});
+    const organismoExist = await Organismo.findOne({
+      name: { $regex: new RegExp(`^${req.body.name}$`, 'i') }
+    });
   if (organismoExist) {
     const error = new Error();
     error.status = 409;

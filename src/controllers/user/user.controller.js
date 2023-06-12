@@ -7,7 +7,9 @@ const User = require('../../schemas/user.schema');
  */
 const AddUser = async (req, res) => {
 
-  const userExist = await User.findOne({ nickname: { $regex: new RegExp(req.body.nickname, 'i') }});
+  const userExist = await User.findOne({
+    nickname: { $regex: new RegExp(`^${req.body.nickname}$`, 'i') }
+  });
   if (userExist) {
     const error = new Error();
     error.status = 409;
@@ -79,7 +81,9 @@ const UpdateUser = async (req, res) => {
   }
 
   if (user.nickname !== req.body.nickname) {
-  const userExist = await User.findOne({ nickname: { $regex: new RegExp(req.body.nickname, 'i') }});
+  const userExist = await User.findOne({
+    nickname: { $regex: new RegExp(`^${req.body.nickname}$`, 'i') }
+  });
   if (userExist) {
     const error = new Error();
     error.status = 409;
