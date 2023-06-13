@@ -13,6 +13,9 @@ circuloRouter.get('/crear-copia', isAuthorized, CirculoUtiles.CirculosCopia);
 circuloRouter.post('/set-curso', isAuthorized, isAdmin, CirculoUtiles.AddCurso);
 circuloRouter.post('/nuevo-curso', isAuthorized, isAdmin, CirculoUtiles.NewCurso);
 
+// Past circulos 
+circuloRouter.get('/historic', [isAuthorized], CirculoController.FindPastCirculos);
+
 // CRUD
 circuloRouter.post('/', isAuthorized, isAdmin, [circuloDataValidation], CirculoController.AddCirculo);
 circuloRouter.get('/', [isAuthorized, isAdmin], CirculoController.FindAllCirculos);

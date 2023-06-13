@@ -1,4 +1,5 @@
 const Circulo = require('../../schemas/circulo.schema');
+const PastCirculo = require('../../schemas/pastCirculos.schema')
 
 /**
  * @param  {} req
@@ -43,6 +44,23 @@ const FindAllCirculos = async (req, res) => {
   }
   return res.status(200).json(circulos);
 };
+
+/**
+ * @param  {} req
+ * @param  {} res
+ * @return {} res and json PastCirculo List from another schema
+ */
+const FindPastCirculos = async (req, res) => {
+  const pastCirculos = await PastCirculo.find({});
+  if (!pastCirculos) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No hay histórico de círculos para mostrar';
+    throw error;
+  }
+  return res.status(200).json(pastCirculos);
+};
+
 
 /**
  * @param  {} req
@@ -127,6 +145,7 @@ const DeleteCirculo = async (req, res) => {
 module.exports = {
   AddCirculo,
   FindAllCirculos,
+  FindPastCirculos,
   FindSingleCirculo,
   UpdateCirculo,
   DeleteCirculo,
