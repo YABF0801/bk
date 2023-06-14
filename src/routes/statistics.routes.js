@@ -16,6 +16,8 @@ statisticsRouter.get('/boys-girls', /* isAuthorized, */ StatisticsServices.getTo
 
 // DATOS GENERALES DE CIRCULOS
 statisticsRouter.get('/cap-mat', isAuthorized, StatisticsServices.CapacityAndMatricula); // TOTALES GENERALES CAPACIDAD NORM Y MATRICULA
+statisticsRouter.get('/historic-data', isAuthorized, StatisticsServices.getHistoricTotalsCirculos); // TOTALES HISTORICOS GENERALES CAPACIDAD NORM Y MATRICULA
+
 
 // DATOS DE SUBMISIONS
 statisticsRouter.get('/childs-age', isAuthorized, StatisticsServices.getTotalChildPerAge); // niños por edades

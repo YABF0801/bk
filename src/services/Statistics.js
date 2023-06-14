@@ -1,5 +1,6 @@
 const Submision = require('../schemas/submision.schema');
 const Circulo = require("../schemas/circulo.schema");
+const PastCirculos = require('../schemas/pastCirculos.schema'); // Importa el modelo de la colección
 
 // funciones Aggregate para estadisticas
 
@@ -463,6 +464,82 @@ const getSubmisionAprovedByYear = async (req, res) => {
   }
 };
 
+// datos historicos de los circulos . totales
+const getHistoricTotalsCirculos = async (req, res) => {
+  try {
+    const result = await PastCirculos.aggregate([
+      {
+        $unwind: '$circulos', // Desenrollar el arreglo 'circulos'
+      },
+      {
+        $group: {
+          _id: '$year',
+          totalNormedCapacity: {
+            $sum: {
+              $sum: [
+                '$circulos.normed_capacity2',
+                '$circulos.normed_capacity3',
+                '$circulos.normed_capacity4',
+                '$circulos.normed_capacity5',
+                '$circulos.normed_capacity6',
+              ],
+            },
+          },
+          totalMatricula: {
+            $sum: {
+              $sum: [
+                '$circulos.matricula2',
+                '$circulos.matricula3',
+                '$circulos.matricula4',
+                '$circulos.matricula5',
+                '$circulos.matricula6',
+              ],
+            },
+          },
+          totalGirls: {
+            $sum: {
+              $sum: [
+                '$circulos.girls2',
+                '$circulos.girls3',
+                '$circulos.girls4',
+                '$circulos.girls5',
+                '$circulos.girls6',
+              ],
+            },
+          },
+        },
+      },
+      {
+        $addFields: {
+          totalBoys: {
+            $subtract: [
+              "$totalMatricula",
+              "$totalGirls"
+            ]
+          }
+        }
+      },
+      {
+        $sort: { _id: 1 },
+      },
+      {
+        $project: {
+          _id: 0,
+          year: '$_id',
+          totalNormedCapacity: 1,
+          totalMatricula: 1,
+          totalGirls: 1,
+          totalBoys: 1
+        }
+      }
+    ]);
+    return res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+
 module.exports = {
   getTotalNormedCapacity,
   getTotalMatricula,
@@ -482,5 +559,6 @@ module.exports = {
   getSubmisionsByUser,
   getSubmisionCountByDate,
   getSubmisionAprovedByYear,
+  getHistoricTotalsCirculos,
 };
 
