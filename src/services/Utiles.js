@@ -57,11 +57,21 @@ const setContadorCC = async (req, res) => {
   }
 };
 
-// Funcion para resetear el contador de generar propuestas a 0
-const ResetContadorGP = async (req, res) => {
+const setContadorAcept = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
-    await Tools.updateOne(filter, { $set: { contadorGP: 0, contadorCC: 0 } });
+    await Tools.updateOne(filter, { $inc: { contadorAcept: 1 } });
+    res.status(200).json({ message: 'el contador de propuestas aceptadas ha aumetado 1.' });
+  } catch (error) {
+    res.status(500).json({ message: 'Error al setear el contadorAcept.' });
+  }
+};
+
+// Funcion para resetear el contador de generar propuestas a 0
+const ResetContadores = async (req, res) => {
+  try {
+    const filter = { uniqueValue: 'tools' };
+    await Tools.updateOne(filter, { $set: { contadorGP: 0, contadorCC: 0 , contadorAcept : 0} });
     res.status(200).json({ message: 'el contador de generacion de propuestas ha sido reseteado.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al resetear el contadorGP.' });
@@ -319,7 +329,8 @@ module.exports = {
   ResetConsecutive,
   setContadorGP,
   setContadorCC,
-  ResetContadorGP,
+  setContadorAcept,
+  ResetContadores,
   ResetPropuestasArrays,
   AddCurso,
   ProyectarMatriculas,

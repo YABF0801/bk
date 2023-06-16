@@ -32,6 +32,12 @@ const ToolsSchema = new Schema(
         unique: true,
       },
 
+      contadorAcept: { // contador para aceptar las primeras propuestas antes del cambio de curso 
+        type: Number,
+        default: 0,
+        unique: true,
+      },
+
       circulosParaGP: { // array de circulos copia de la basse de datos real para generar propuestas
         type: Array,
       },
