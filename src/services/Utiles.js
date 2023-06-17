@@ -258,6 +258,13 @@ const CambioDeCurso = async (req, res) => {
     // ACTUALIZAR TODAS LAS PLANILLAS YEAR OF LIFE INCREMENTAR 1
     // SI CHILD.CIRCULO CAPACITY6 = 0
     for (const submision of submisions) {
+      if (!submision.child.circulo._id) {
+        const error = new Error();
+        error.status = 404;
+        error.message = `La planilla ${submision.entryNumber} no contiene un ciculo válido `;
+        throw error;
+      }
+
       const circuloMatriculado = await Circulo.find({ _id : { $eq: submision.child.circulo._id } });
       if (!circuloMatriculado) {
         const error = new Error();
@@ -279,7 +286,7 @@ const CambioDeCurso = async (req, res) => {
 
     res.status(200).json({ message: 'Cambio de curso realizado con éxito' });
   } catch (error) {
-    res.status(500).json({ message: 'Error en el cambio de curso' });
+    res.status(500).json({ message: error.message });
   }
 };
 

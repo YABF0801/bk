@@ -5,13 +5,16 @@ const { ProyectarMatriculas, CirculosCopia } = require("./Utiles");
 
 // orden de prioridad = el valor de weight de cada submisión
 const GenerarPropuestas = async (req, res) => {
-  const tools = await Tools.findOne({ uniqueValue: "tools" });
-  // Obtener todas las submisiones con status 'pendiente' y finality 'om'
-  const submisions = await Submision.find({
-    status: 'pendiente',
-    finality: 'om',
-    createdAt: { $lte: tools.omDate }
-  });
+  // Buscar el documento 'tools' que contiene la fecha de otorgamiento guardada
+const tools = await Tools.findOne({ uniqueValue: "tools" });
+
+// Obtener todas las submisions que cumplen con los criterios de búsqueda
+const submisions = await Submision.find({
+  createdAt: { $lte: tools.omDate },  // Fecha de creación anterior a la fecha guardada
+  status: 'pendiente',   // Estado 'pendiente'
+  finality: 'om', // Finalidad 'om'
+});
+
   if (!submisions) {
     const error = new Error();
     error.status = 404;

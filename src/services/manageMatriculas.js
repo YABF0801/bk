@@ -57,10 +57,9 @@ const AceptarPropuestas = async (req, res) => {
 
 const RechazarPropuesta = async (req, res) => {
   const rechazadas = req.body; // obtener el arreglo de las sumisions rechazadas que se envia desde el frontend
-  if (!Array.isArray(rechazadas) || rechazadas.length === 0) {
+  if (!Array.isArray(rechazadas)) {
     return res.status(400).json({ message: 'el arreglo rechazadas no es correcto o esta vacio' });
   }
-
   try {
     // Obtener las submisions del arreglo de propuestas aceptadas
     const submisionsRechazadas = await Submision.find({ _id: { $in: rechazadas }, status: 'propuesta' });
@@ -68,7 +67,7 @@ const RechazarPropuesta = async (req, res) => {
     if (!submisionsRechazadas) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No hay propuestas a rechazar';
+      error.message = 'No hay propuestas pendientes';
       throw error;
     }
 
