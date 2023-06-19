@@ -117,12 +117,10 @@ const SubmisionSchema = new Schema(
 
         parentName: {
           type: String,
-          required: true,
           minLength: 2,
         },
         parentLastname: {
           type: String,
-          required: true,
           minLength: 2,
         },
         // 1
@@ -145,7 +143,6 @@ const SubmisionSchema = new Schema(
         },
         phoneNumber: {
           type: String,
-          required: true,
           minLength: 8,
           maxLength: 15,
         },
@@ -156,12 +153,10 @@ const SubmisionSchema = new Schema(
         },
         workName: {
           type: String,
-          required: true,
           minLength: 2,
         },
         workAddress: {
           type: String,
-          required: true,
           minLength: 2,
         },
         jobTitle: {
