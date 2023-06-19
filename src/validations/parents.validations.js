@@ -38,7 +38,7 @@ const ParentsValidationSchema = Type.Array(
       errorMessage: {type: 'El tipo de parentAdress no es válido, debe ser string',
       minLength: 'debe tener minimo 2 caracteres',}
     })),
-    phoneNumber: Type.String({
+    phoneNumber:  Type.Optional(Type.String({
       format: 'phone',
       minLength: 8,
       maxLength: 15,
@@ -47,7 +47,7 @@ const ParentsValidationSchema = Type.Array(
       minLength: 'debe tener mínimo 8 digitos',
       maxLength: 'debe tener máximo 15 digitos'
       },
-    }),
+    })),
     occupation: Type.String({
       enum: ['trabajador', 'jubilado', 'asistenciado', 'estudiante'],
       errorMessage: {type: 'El tipo no es válido, debe ser String',
