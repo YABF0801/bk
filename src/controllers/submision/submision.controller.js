@@ -84,20 +84,20 @@ const UpdateSubmision = async (req, res) => {
     throw error;
   }
 
-  if (submision.entryNumber !== req.body.entryNumber) {
-    // Verificar que no exista una submision con el mismo número y el mismo año de creación
-    const now = new Date(); // fecha actual 2023
-    const submisionExist = await Submision.findOne({
-      entryNumber: req.body.entryNumber,
-      createdAt: { $gte: now.getFullYear(), $lte: now }, // operador de comparacion de mongo greater than or equal >=, lte <=
-    });
-    if (submisionExist) {
-      const error = new Error();
-      error.status = 409;
-      error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
-      throw error;
-    }
-  }
+  // if (submision.entryNumber !== req.body.entryNumber) {
+  //   // Verificar que no exista una submision con el mismo número y el mismo año de creación
+  //   const now = new Date(); // fecha actual 2023
+  //   const submisionExist = await Submision.findOne({
+  //     entryNumber: req.body.entryNumber,
+  //     createdAt: { $gte: now.getFullYear(), $lte: now }, // operador de comparacion de mongo greater than or equal >=, lte <=
+  //   });
+  //   if (submisionExist) {
+  //     const error = new Error();
+  //     error.status = 409;
+  //     error.message = 'Error al guardar la planilla, ya existe una submisión con el mismo número y año de creación';
+  //     throw error;
+  //   }
+  // }
 
   if (submision.child.carnet !== req.body.child.carnet) {
     // Validar que no exista un niño con el mismo numero de carnet
@@ -109,6 +109,12 @@ const UpdateSubmision = async (req, res) => {
       throw error;
     }
   }
+
+// Si ha editado una planilla para que tenga un parent unico
+if (submision.child.parents && submision.child.parents.length > 0 && req.body.child.parents[0].uniqueParent) {
+  // Eliminar el segundo objeto del arreglo parents
+  req.body.child.parents = req.body.child.parents.slice(0, 1);
+}
 
   const updatedSubmision = await Submision.findByIdAndUpdate(req.params.id, req.body, { new: true });
   await updatedSubmision.calculateWeight();
