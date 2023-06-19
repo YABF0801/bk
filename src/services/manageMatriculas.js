@@ -4,7 +4,7 @@ const Circulo = require('../schemas/circulo.schema');
 const AceptarPropuestas = async (req, res) => {
   const aprobadas = req.body; // obetener el arreglo de las sumisions aprobadas que se envia desde el frontend
   if (!Array.isArray(aprobadas)) {
-    return res.status(400).json({ message: 'el arreglo aprobadas no es correcto o esta vacio' });
+    return res.status(400).json({ message: 'la selección de aprobadas no es correcta' });
   }
   if (aprobadas.length === 0) {
     return res.status(400).json({ message: 'Ninguna propuesta fue aprobada' });
@@ -30,7 +30,7 @@ const AceptarPropuestas = async (req, res) => {
       if (!circulo) {
         const error = new Error();
         error.status = 404;
-        error.message = 'No se encontró el circulo propuesto en la planilla';
+        error.message = 'No se encontró el círculo propuesto en la planilla';
         throw error;
       }
 
@@ -48,7 +48,7 @@ const AceptarPropuestas = async (req, res) => {
       await submisionAprobada.updateOne({ $set: { status: 'matricula', 'child.matriculaDate': now } });
     }
 
-    res.status(200).json({ message: 'Propuestas aceptadas matriculadas con exito' });
+    res.status(200).json({ message: 'Las propuestas aceptadas fueron matriculadas con éxito' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al procesar las propuestas' });
@@ -58,7 +58,7 @@ const AceptarPropuestas = async (req, res) => {
 const RechazarPropuesta = async (req, res) => {
   const rechazadas = req.body; // obtener el arreglo de las sumisions rechazadas que se envia desde el frontend
   if (!Array.isArray(rechazadas)) {
-    return res.status(400).json({ message: 'el arreglo rechazadas no es correcto o esta vacio' });
+    return res.status(400).json({ message: 'La selección de rechazadas no es correcta' });
   }
   try {
     // Obtener las submisions del arreglo de propuestas aceptadas
@@ -84,7 +84,7 @@ const RechazarPropuesta = async (req, res) => {
       }
     );
 
-    res.status(200).json({ message: 'Propuestas rechazadas reestablecidas a pendiente' });
+    res.status(200).json({ message: 'Propuestas rechazadas reestablecidas a un estado pendiente' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al procesar las propuestas' });
@@ -111,7 +111,7 @@ const MatriculaManual = async (req, res) => {
     if (!circulo) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No se encuentra el circulo ';
+      error.message = 'No se encuentra el círculo ';
       throw error;
     }
 
@@ -129,10 +129,10 @@ const MatriculaManual = async (req, res) => {
 
     await submision.updateOne({ $set: { status: 'matricula', 'child.matriculaDate': now } });
 
-    res.status(200).json({ message: 'Matricula manual realizada con exito' });
+    res.status(200).json({ message: 'Matrícula realizada con éxito' });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Error al procesar la matricula manual' });
+    res.status(500).json({ message: 'Error al procesar la matrícula' });
   }
 };
 
@@ -150,7 +150,7 @@ const Baja = async (req, res) => {
     if (!circulo) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No se encuentra circulo matriculado en la planilla';
+      error.message = 'No se encuentra círculo matriculado en la planilla';
       throw error;
     }
 
@@ -185,7 +185,7 @@ const Baja = async (req, res) => {
       }} });
     }
 
-    res.status(200).json({ message: 'Baja realizada con exito' });
+    res.status(200).json({ message: 'Baja realizada con éxito' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al procesar la baja' });

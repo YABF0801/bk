@@ -14,17 +14,17 @@ const ChildValidationSchema = Type.Object(
     childName: Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo de nombre del niño no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     }),
     childLastname: Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo de apellido del niño no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     }),
     carnet: Type.Number({
       format: 'carnet',
       errorMessage: {type: 'El tipo de carnet no es válido, debe ser un número',
-      format: 'no es un carnet valido'
+      format: 'No es un carnet válido'
     }}),
     sex: Type.Optional(Type.String({
       enum: ['masculino', 'femenino'],
@@ -32,7 +32,7 @@ const ChildValidationSchema = Type.Object(
         enum: 'El valor no es aceptado'},
     })),
     age: Type.Optional(Type.Number({
-      errorMessage: { type: 'El tipode edad no es válido, debe ser un número' },
+      errorMessage: { type: 'El tipo de edad no es válido, debe ser un número' },
     })),
     year_of_life: Type.Number({
       errorMessage: { type: 'El tipo de año de vida no es válido, debe ser un número' },
@@ -40,7 +40,7 @@ const ChildValidationSchema = Type.Object(
     childAddress: Type.String({
       minLength: 5,
       errorMessage: {type: 'El tipo de direccion del niño no es válido, debe ser string',
-      minLength: 'debe tener minimo 5 caracteres'},
+      minLength: 'Debe tener mínimo 5 caracteres'},
     }),
     neighborhood: Type.String({
       errorMessage: {type: 'El tipo de barrio no es válido, debe ser string'},
@@ -65,7 +65,7 @@ const ChildValidationSchema = Type.Object(
 
     matriculaDate: Type.Optional(Type.String({
       errorMessage: { type: 'El tipo de fecha de matricula no es válido, debe ser fecha', 
-      format: 'El tipo formato no es válido, debe ser una fecha'},
+      format: 'El tipo no es válido, debe ser una fecha'},
     })),
    
     latlng: Type.Optional(Type.Tuple(
@@ -91,7 +91,7 @@ const ChildValidationSchema = Type.Object(
   {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando data adicional del niño',
+      additionalProperties: 'Está enviando data adicional del niño',
     },
   }
 );

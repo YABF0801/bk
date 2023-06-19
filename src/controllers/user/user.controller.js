@@ -13,7 +13,7 @@ const AddUser = async (req, res) => {
   if (userExist) {
     const error = new Error();
     error.status = 409;
-    error.message = 'Error al guardar usuario, ya existe un usuario con ese nickname';
+    error.message = 'Error al guardar usuario, ya existe ese usuario';
     throw error;
   }   
 
@@ -52,7 +52,7 @@ const FindSingleUser = async (req, res) => {
   if (!req.params.id) {
     const error = new Error();
     error.status = 400;
-    error.message = 'Id no valido';
+    error.message = 'Id no válido';
     throw error;
   }
 
@@ -87,7 +87,7 @@ const UpdateUser = async (req, res) => {
   if (userExist) {
     const error = new Error();
     error.status = 409;
-    error.message = 'Error al guardar usuario, ya existe un usuario con ese nickname';
+    error.message = 'Error al guardar usuario, ya existe ese usuario';
     throw error;}}
 
   // validar que la nueva no sea igual a la anterior

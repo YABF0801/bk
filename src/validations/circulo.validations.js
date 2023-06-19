@@ -16,7 +16,7 @@ const CirculoValidationSchema = Type.Object(
       minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 4 caracteres',
+        minLength: 'Debe tener mínimo 4 caracteres',
       },
     }),
     circulotype: Type.String({
@@ -72,40 +72,40 @@ const CirculoValidationSchema = Type.Object(
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
-      minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 100',}
+      minimum: 'El porciento debe ser mayor o igual a 0',
+      maximum: 'El porciento debe ser menor o igual a 100',}
     })),
     attendance3:  Type.Optional(Type.Number({
       default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
-      minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 100',}
+      minimum: 'El porciento debe ser mayor o igual a 0',
+      maximum: 'El porciento debe ser menor o igual a 100',}
     })),
     attendance4:  Type.Optional(Type.Number({
       default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
-      minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 100',}
+      minimum: 'El porciento debe ser mayor o igual a 0',
+      maximum: 'El porciento debe ser menor o igual a 100',}
     })),
     attendance5:  Type.Optional(Type.Number({
       default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
-      minimum: 'Attendance debe ser mayor o igual a 0',
-      maximum: 'Attendance debe ser menor o igual a 100',}
+      minimum: 'El porciento debe ser mayor o igual a 0',
+      maximum: 'El porciento debe ser menor o igual a 100',}
     })),
     attendance6: Type.Optional(Type.Number({
       default: 100,
       minimum: 0,
       maximum: 100,
       errorMessage: { type: 'El tipo no es válido, debe ser un número',
-      minimum: 'Attendance debe ser mayor o igual a 1',
-      maximum: 'Attendance debe ser menor o igual a 100',}
+      minimum: 'El porciento debe ser mayor o igual a 1',
+      maximum: 'El porciento debe ser menor o igual a 100',}
     })),
 
     calculated_capacity2: Type.Optional(Type.Number({

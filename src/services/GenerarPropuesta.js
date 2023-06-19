@@ -52,7 +52,7 @@ const submisions = await Submision.find({
   /* for (const submisionPrioritaria of submisionsQueue) { // Revisar si el circulo mas cercano tiene capacidad y asignarlo 
    await EvaluateAndAsign(submisionPrioritaria, circulosArray);
   }  */
-  res.status(200).json({ message: 'Propuestas generadas con exito ' });
+  res.status(200).json({ message: 'Propuestas generadas con éxito ' });
 
 };
 

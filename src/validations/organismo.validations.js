@@ -13,14 +13,14 @@ const OrganismoValidationSchema = Type.Object(
       minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 2 caracteres',
+        minLength: 'Debe tener mínimo 2 caracteres',
       },
     }),
     description: Type.String({
       minLength: 5,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 5 caracteres',
+        minLength: 'Debe tener mínimo 5 caracteres',
       },
     }),
     priorizado: Type.Optional(Type.Boolean({

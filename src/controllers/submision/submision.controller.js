@@ -56,7 +56,7 @@ const FindSingleSubmision = async (req, res) => {
   if (!req.params.id) {
     const error = new Error();
     error.status = 400;
-    error.message = 'Id no valido';
+    error.message = 'Id no válido';
     throw error;
   }
 

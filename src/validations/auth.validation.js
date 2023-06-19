@@ -13,21 +13,21 @@ const AuthValidationSchema = Type.Object(
       minLength: 2,
       maxLength: 10,
       errorMessage: {
-        type: 'Debes enviar un email válido',
+        type: 'Nombre de usuario no válido',
       },
     }),
     password: Type.String({
       errorMessage: {
-        type: 'Debes enviar una contraseña válida',
-        minLength: 'debe tener minimo 2 caracteres',
-        maxLength: 'debe tener máximo 10 caracteres',
+        type: 'Contraseña no válida',
+        minLength: 'Debe tener minimo 2 caracteres',
+        maxLength: 'Debe tener máximo 10 caracteres',
       },
     }),
   },
   {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando datos adicionales',
+      additionalProperties: 'Está enviando datos adicionales',
     },
   }
 );

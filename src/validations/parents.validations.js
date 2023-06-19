@@ -14,12 +14,12 @@ const ParentsValidationSchema = Type.Array(
     parentName: Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo de parentName no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     }),
     parentLastname: Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo de parentLastname no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     }),
     uniqueParent: Type.Optional(Type.Boolean({
       errorMessage: {type: 'El tipo de uniqueParent no es válido, debe ser boolean'}
@@ -27,7 +27,7 @@ const ParentsValidationSchema = Type.Array(
     typeParent: Type.String({
       enum: ['madre', 'padre', 'tutor'],
       errorMessage: {type: 'El tipo de typeParent no es válido, debe ser String',
-        enum: 'El valor no es aceptado',
+        enum: 'El valor de parentesco no es aceptado',
       },
     }),
     convivencia: Type.Boolean({
@@ -36,16 +36,16 @@ const ParentsValidationSchema = Type.Array(
     parentAddress: Type.Optional(Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo de parentAdress no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     })),
     phoneNumber:  Type.Optional(Type.String({
       format: 'phone',
       minLength: 8,
       maxLength: 15,
       errorMessage: {type: 'El tipo de phoneNumber no es válido',
-      format: 'no es un número de teléfono valido',
-      minLength: 'debe tener mínimo 8 digitos',
-      maxLength: 'debe tener máximo 15 digitos'
+      format: 'No es un número de teléfono valido',
+      minLength: 'Debe tener mínimo 8 digitos',
+      maxLength: 'Debe tener máximo 15 digitos'
       },
     })),
     occupation: Type.String({
@@ -57,17 +57,17 @@ const ParentsValidationSchema = Type.Array(
     workName: Type.Optional(Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     })),
     workAddress: Type.Optional(Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo no es válido, debe ser string',
-      minLength: 'debe tener minimo 2 caracteres',}
+      minLength: 'Debe tener mínimo 2 caracteres',}
     })),
     jobTitle: Type.Optional(Type.String({
       minLength: 2,
       errorMessage: {type: 'El tipo no es válido, debe ser String',
-      minLength: 'debe tener minimo 4 caracteres'},
+      minLength: 'Debe tener mínimo 4 caracteres'},
     })),
     organismo: Type.Optional(
       Type.Object({
@@ -75,7 +75,7 @@ const ParentsValidationSchema = Type.Array(
         errorMessage: { type: 'El tipo name de organismo no es válido, debe ser String' },
       }),
       weight: Type.Optional(Type.Number({
-        errorMessage: { type: 'El tipo weight de organismo no es válido, debe ser un numero' },
+        errorMessage: { type: 'El tipo peso de organismo no es válido, debe ser un número' },
       })) 
     })
     ),
@@ -101,7 +101,7 @@ const ParentsValidationSchema = Type.Array(
   {
     additionalProperties: false,
     errorMessage: {
-      additionalProperties: 'Estas enviando data adicional de los padres',
+      additionalProperties: 'Está enviando data adicional de los padres',
     },
   }
 ));

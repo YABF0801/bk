@@ -17,6 +17,6 @@ module.exports = function (req, res, next) {
     req.userId = payload.id;
     next();
   } else {
-    return res.status(403).json({ message: 'usuario no autorizado' });
+    return res.status(403).json({ message: 'Usuario no autorizado' });
   }
 };

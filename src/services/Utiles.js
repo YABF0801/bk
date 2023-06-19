@@ -31,7 +31,7 @@ const ResetConsecutive = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
     await Tools.updateOne(filter, { $set: { consecutive: 0 } });
-    res.status(200).json({ message: 'el consecutivo ha sido reseteado correctamente.' });
+    res.status(200).json({ message: 'El consecutivo ha sido reseteado correctamente.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al resetear el consecutivo.' });
   }
@@ -41,7 +41,7 @@ const setContadorGP = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
     await Tools.updateOne(filter, { $inc: { contadorGP: 1 } });
-    res.status(200).json({ message: 'el contador de generacion de propuestas ha aumetado 1.' });
+    res.status(200).json({ message: 'El contador de generacion de propuestas ha aumetado 1.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al setear el contadorGP.' });
   }
@@ -51,7 +51,7 @@ const setContadorCC = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
     await Tools.updateOne(filter, { $inc: { contadorCC: 1 } });
-    res.status(200).json({ message: 'el contador de nuevo curso de propuestas ha aumetado 1.' });
+    res.status(200).json({ message: 'El contador de nuevo curso de propuestas ha aumetado 1.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al setear el contadorCC.' });
   }
@@ -61,7 +61,7 @@ const setContadorAcept = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
     await Tools.updateOne(filter, { $inc: { contadorAcept: 1 } });
-    res.status(200).json({ message: 'el contador de propuestas aceptadas ha aumetado 1.' });
+    res.status(200).json({ message: 'El contador de propuestas aceptadas ha aumetado 1.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al setear el contadorAcept.' });
   }
@@ -72,7 +72,7 @@ const ResetContadores = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
     await Tools.updateOne(filter, { $set: { contadorGP: 0, contadorCC: 0 , contadorAcept : 0} });
-    res.status(200).json({ message: 'el contador de generacion de propuestas ha sido reseteado.' });
+    res.status(200).json({ message: 'El contador de generacion de propuestas ha sido reseteado.' });
   } catch (error) {
     res.status(500).json({ message: 'Error al resetear el contadorGP.' });
   }
@@ -83,7 +83,7 @@ const ResetPropuestasArrays = async (req, res) => {
   try {
     const filter = { uniqueValue: 'tools' };
     await Tools.updateOne(filter, { $set: { circulosParaGP: [], proyeccionParaGP: [] } });
-    res.status(200).json({ message: 'arreglos de tools reseteados' });
+    res.status(200).json({ message: 'Arreglos de tools reseteados' });
   } catch (error) {
     res.status(500).json({ message: 'Error al resetear arreglos.' });
   }
@@ -110,7 +110,7 @@ const ProyectarMatriculas = async (req, res) => {
   if (!circulos) {
     const error = new Error();
     error.status = 404;
-    error.message = 'No hay circulos para proyectar';
+    error.message = 'No hay círculos para proyectar';
     throw error;
   }
   const circulosProyectados = [];
@@ -168,7 +168,7 @@ const ProyectarMatriculas = async (req, res) => {
     circulosProyectados.push(circulo);
     await Tools.updateOne({ uniqueValue: 'tools' }, { $set: { proyeccionParaGP: circulosProyectados } });
   }
-  res.status(200).json({ message: 'proyeccion realizada con éxito' });
+  res.status(200).json({ message: 'proyección realizada con éxito' });
 };
 
 // Funcion para crear copia de los circulos reales para las vueltas extra de generar propuestas
@@ -211,7 +211,7 @@ const CambioDeCurso = async (req, res) => {
     if (!circulos) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No hay circulos para mostrar';
+      error.message = 'No hay círculos para mostrar';
       throw error;
     }
     const submisions = await Submision.find({ status: { $eq: 'matricula' } });
@@ -261,7 +261,7 @@ const CambioDeCurso = async (req, res) => {
       if (!submision.child.circulo._id) {
         const error = new Error();
         error.status = 404;
-        error.message = `La planilla ${submision.entryNumber} no contiene un ciculo válido `;
+        error.message = `La planilla ${submision.entryNumber} no contiene un cículo válido `;
         throw error;
       }
 
@@ -269,7 +269,7 @@ const CambioDeCurso = async (req, res) => {
       if (!circuloMatriculado) {
         const error = new Error();
         error.status = 404;
-        error.message = `No se encuentra circulo matriculado en la planilla ${submision.entryNumber}`;
+        error.message = `No se encuentra círculo matriculado en la planilla ${submision.entryNumber}`;
         throw error;
       }
 
@@ -313,7 +313,7 @@ const DeactivateCirculo = async (req, res) => {
     if (!circulo) {
       const error = new Error();
       error.status = 404;
-      error.message = 'No se encontró el circulo';
+      error.message = 'No se encontró el círculo';
       throw error;
     }
 
@@ -323,7 +323,7 @@ const DeactivateCirculo = async (req, res) => {
       await Circulo.updateOne({ _id: circulo._id }, { $set: { isCiActive: true } });
     }
 
-    res.status(200).json({ message: 'Estado del circulo actualizado con exito' });
+    res.status(200).json({ message: 'Estado del círculo actualizado con exito' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Error al actualizar el estado del circulo' });

@@ -13,21 +13,21 @@ const UserValidationSchema = Type.Object(
       minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 2 caracteres',
+        minLength: 'Debe tener mínimo 2 caracteres',
       },
     }),
     name: Type.String({
       minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 2 caracteres',
+        minLength: 'Debe tener mínimo 2 caracteres',
       },
     }),
     lastname: Type.String({
       minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 2 caracteres',
+        minLength: 'Debe tener mínimo 2 caracteres',
       },
     }),
     password: Type.Optional(Type.String({
@@ -35,22 +35,22 @@ const UserValidationSchema = Type.Object(
       minLength: 8,
       errorMessage: {
         type: 'El tipo no es válido, debe ser un string',
-        format: 'password debe contener al menos una mayúscula, una minúscula y un número',
-        minLength: 'password debe tener minimo 8 caracteres',
+        format: 'La contraseña debe contener al menos una mayúscula, una minúscula y un número',
+        minLength: 'La contraseña debe tener mínimo 8 caracteres',
       },
     })),
     position: Type.String({
       minLength: 2,
       errorMessage: {
         type: 'El tipo no es válido, debe ser string',
-        minLength: 'debe tener minimo 4 caracteres',
+        minLength: 'Debe tener mínimo 4 caracteres',
       },
     }),
     role: Type.Optional(Type.String({
       enum: ['admin', 'guest'],
       default: 'guest',
       errorMessage: { type: 'El tipo no es válido, debe ser String', 
-      enum: 'El valor no es aceptado' },
+      enum: 'El valor del rol no es aceptado' },
     })),
   },
 /*    {

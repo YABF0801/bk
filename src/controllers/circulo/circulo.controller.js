@@ -15,7 +15,7 @@ const AddCirculo = async (req, res) => {
   if (ciNumberExist || ciNameExist) {
     const error = new Error();
     error.status = 409;
-    error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero o nombre';
+    error.message = 'Error al guardar el círculo, ya existe un círculo con ese número o nombre';
     throw error;
   }
 
@@ -104,7 +104,7 @@ const UpdateCirculo = async (req, res) => {
     if (ciNumberExist) {
       const error = new Error();
       error.status = 409;
-      error.message = 'Error al guardar el circulo, ya existe un circulo con ese numero ';
+      error.message = 'Error al guardar el círculo, ya existe un círculo con ese número ';
       throw error;
     }
   }
@@ -116,7 +116,7 @@ const UpdateCirculo = async (req, res) => {
      if (ciNameExist) {
     const error = new Error();
     error.status = 409;
-    error.message = 'Error al guardar el circulo, ya existe un circulo con ese  nombre';
+    error.message = 'Error al guardar el círculo, ya existe un círculo con ese  nombre';
     throw error;
   }   }
 

@@ -14,14 +14,14 @@ const SubmisionValidationSchema = Type.Object(
       enum: ['os', 'om'],
       errorMessage: {
         type: 'El tipo de finalidad no es válido, debe ser String',
-        enum: 'El valor no es aceptado',
+        enum: 'El valor de  finalidad no es aceptado',
       },
     }),
     submisiontype: Type.String({
       enum: ['nueva', 'traslado'],
       errorMessage: {
         type: 'El tipo de tipo no es válido, debe ser String',
-        enum: 'El valor no es aceptado',
+        enum: 'El valor de tipo de planilla no es aceptado',
       },
     }),
     entryNumber: Type.Optional(Type.Number({
@@ -38,7 +38,7 @@ const SubmisionValidationSchema = Type.Object(
       enum: ['pendiente', 'propuesta', 'matricula', 'baja'],
       errorMessage: {
         type: 'El tipo de status no es válido, debe ser String',
-        enum: 'El valor no es aceptado',
+        enum: 'El valor de estado no es aceptado',
       },
     }),
     ciPedido: Type.Optional(

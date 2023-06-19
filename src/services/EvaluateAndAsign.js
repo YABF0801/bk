@@ -64,6 +64,6 @@ try {
               }  
             }
         }} catch (error) {
-        throw new Error(`Error al generar propuesta: ${error.message}`);  
+        throw new Error(`Error al generar propuestas: ${error.message}`);  
  }};
 
