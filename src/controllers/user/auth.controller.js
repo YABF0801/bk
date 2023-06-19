@@ -12,7 +12,7 @@ const Login = async (req, res) => {
     if (!isValid) {
       const error = new Error();
       error.status = 400;
-      error.message = 'Datos no validos'
+      error.message = 'Datos no válidos'
       throw error;
     }
 
