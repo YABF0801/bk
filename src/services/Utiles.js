@@ -2,6 +2,7 @@ const Tools = require('../schemas/tools.schema');
 const Circulo = require('../schemas/circulo.schema');
 const Submision = require('../schemas/submision.schema');
 const PastCirculos = require('../schemas/pastCirculos.schema');
+const Consejo = require('../schemas/consejosPopulares');
 
 // Funcion para guardar fecha
 const AddOmDate = async (req, res) => {
@@ -330,9 +331,57 @@ const DeactivateCirculo = async (req, res) => {
   }
 };
 
+const AddConsejo = async (req, res) => {
+
+  const consejoExist = await Consejo.findOne({
+    name: { $regex: new RegExp(`^${req.body.name}$`, 'i') }
+  });
+  if (consejoExist) {
+    const error = new Error();
+    error.status = 409;
+    error.message = 'Error, ya existe ese consejo';
+    throw error;
+  }   
+
+  const consejo = new Consejo(req.body);
+  const consejoNuevo = await consejo.save();
+  if (!consejoNuevo) {
+    const error = new Error();
+    error.message = 'Error al guardar consejo';
+    throw error;
+  }
+  res.status(201).send(consejo).json({ Consejo: 'Consejo creado' });
+};
+
+  const GetConsejos = async (req, res) => {
+    const consejos = await Consejo.find({});
+    if (!consejos) {
+      const error = new Error();
+      error.status = 404;
+      error.message = 'No hay consejos para mostrar';
+      throw error;
+    }
+    return res.status(200).json(consejos);
+  };
+
+const DeleteConsejo = async (req, res) => {
+  const consejo = await Consejo.findById(req.params.id);
+  if (!consejo) {
+    const error = new Error();
+    error.status = 404;
+    error.message = 'No se encontró el consejo popular';
+    throw error;
+  }
+  await Consejo.findByIdAndDelete(req.params.id);
+  return res.sendStatus(204);
+};
+
 module.exports = {
   AddOmDate,
   ResetOmDate,
+  GetConsejos,
+  AddConsejo,
+  DeleteConsejo,
   ResetConsecutive,
   setContadorGP,
   setContadorCC,
