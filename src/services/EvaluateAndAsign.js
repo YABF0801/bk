@@ -7,13 +7,13 @@ try {
     const sex = submision.child.sex; 
     const ciPedido = submision.ciPedido;
     let requestedCirculo;
-    /* const otherChildrenCenter = submision.parents[0].otherChildrenCenter; */
+    const otherChildrenCenter = submision.parents[0].otherChildrenCenter; 
     const distancias = [];
 
     // evaluar si hay un circulo solicitado (el ciPedido o el otherChildrenCenter existen)
     if (ciPedido) {
       for (const circulo of circulosArray) {  
-        if (circulo.name === ciPedido) {
+        if (circulo.name === ciPedido || circulo.name === otherChildrenCenter ) {
           requestedCirculo = circulo}         
       }
     };    
@@ -32,7 +32,6 @@ try {
     } 
     // si no existe circulo solicitado o no hay capacidad calcular distancias para encontrar el mas cercano
     else {
-      /* console.log('No hay plazas en el circulo pedido o no existe.'); */
     
       for (const circulo of circulosArray) {  
       const circuloPos = {latitude: circulo.latlng[0],longitude: circulo.latlng[1]};
