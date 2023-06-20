@@ -40,18 +40,15 @@ const submisions = await Submision.find({
       await EvaluateAndAsign(submisionPrioritaria, circulosArray);
     } catch (error) {
       console.error(error);
+      console.error(error.message);
     }
   };
 
-  // Iterar sobre la cola de prioridades y llamar a la función handleAsync para cada elemento
+  // Iterar sobre la cola de prioridades y llamar a la función para cada elemento
   for (const submisionPrioritaria of submisionsQueue) {
     await Generar(submisionPrioritaria, circulosArray);
   }
 
-  // sacar el elemento con el valor maximo (el de mayor prioridad) para evaluar y crear propuesta
-  /* for (const submisionPrioritaria of submisionsQueue) { // Revisar si el circulo mas cercano tiene capacidad y asignarlo 
-   await EvaluateAndAsign(submisionPrioritaria, circulosArray);
-  }  */
   res.status(200).json({ message: 'Propuestas generadas con éxito ' });
 
 };

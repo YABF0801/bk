@@ -95,11 +95,11 @@ const getAverageAttendance = async (req, res) => {
       {
         $group: {
           _id: null,
-          totalAttendance2: { $avg: { $add: ["$attendance2",] } },
-          totalAttendance3: { $avg: { $add: ["$attendance3",] } },
-          totalAttendance4: { $avg: { $add: ["$attendance4",] } },
-          totalAttendance5: { $avg: { $add: ["$attendance5",] } },
-          totalAttendance6: { $avg: { $add: ["$attendance6",] } },
+          totalAttendance2: { $avg: "$attendance2" },
+          totalAttendance3: { $avg: "$attendance3" },
+          totalAttendance4: { $avg: "$attendance4" },
+          totalAttendance5: { $avg: "$attendance5" },
+          totalAttendance6: { $avg: "$attendance6" },
         }
       }
     ]);
@@ -108,6 +108,8 @@ const getAverageAttendance = async (req, res) => {
     console.error(err);
   }
 };
+
+
 
 // OBTENER EL TOTAL DE NI;AS POR AÑO
 const getTotalGirls = async (req, res) => {
