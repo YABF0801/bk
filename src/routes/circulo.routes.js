@@ -10,7 +10,7 @@ const circuloRouter = Router();
 
 circuloRouter.get('/proyectar', isAuthorized, CirculoUtiles.ProyectarMatriculas);
 circuloRouter.get('/crear-copia', isAuthorized, CirculoUtiles.CirculosCopia);
-circuloRouter.post('/set-curso', isAuthorized, isAdmin, CirculoUtiles.AddCurso);
+circuloRouter.put('/set-curso', isAuthorized, isAdmin, CirculoUtiles.AddCurso);
 circuloRouter.post('/nuevo-curso', isAuthorized, isAdmin, CirculoUtiles.NewCurso);
 
 // Past circulos 
