@@ -22,7 +22,7 @@ const sigIn = async (req, res) => {
     throw error;
   }
 
-  const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '3d' });
+  const token = jwt.sign({ id: user.id }, SECRET_KEY, { expiresIn: '5d' });
 
   return res.status(200).json({
     token,
