@@ -80,11 +80,3 @@ UserSchema.methods.comparePassword = function (password) {
 
 module.exports = mongoose.model('user', UserSchema);
 
-
-UserSchema.methods.encrypt = async function (password) {
- const salt = await bcrypt.genSalt (10);
- this.password = await bcrypt.hash(password, salt);
-
-};
-
-

@@ -93,21 +93,17 @@ const UpdateUser = async (req, res) => {
   // validar que la nueva no sea igual a la anterior
   if (req.body.password) {
     const isPasswordMatch = user.comparePassword(req.body.password);
-
     if (isPasswordMatch) {
       const error = new Error();
       error.status = 404;
       error.message = 'La nueva contraseña debe ser diferente a la actual';
       throw error;
     }
+    await user.encrypt(req.body.password);
+    req.body.password = user.password;
   }
 
   const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
-  if (req.body.password)
-   {
-     await updatedUser.encrypt(req.body.password);
-     updatedUser.save();
-  }
   return res.status(200).send(updatedUser);
 };
 
