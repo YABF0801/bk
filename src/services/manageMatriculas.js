@@ -99,7 +99,7 @@ const MatriculaManual = async (req, res) => {
       _id: { $eq: req.params.id },
       status: 'pendiente',
       finality: 'os',
-    }).populate('child.circulo');
+    })
     if (!submision) {
       const error = new Error();
       error.status = 404;
@@ -107,7 +107,8 @@ const MatriculaManual = async (req, res) => {
       throw error;
     }
 
-    const circulo = submision.child.circulo;
+    const circulo = req.body.child.circulo;
+    console.log(circulo)
     if (!circulo) {
       const error = new Error();
       error.status = 404;
@@ -127,7 +128,7 @@ const MatriculaManual = async (req, res) => {
       await Circulo.updateOne({ _id: circulo._id }, { $inc: { [`matricula${yearOfLife}`]: 1 } });
     }
 
-    await submision.updateOne({ $set: { status: 'matricula', 'child.matriculaDate': now } });
+    await submision.updateOne({ $set: { status: 'matricula', 'child.matriculaDate': now , 'child.circulo' : circulo}  });
 
     res.status(200).json({ message: 'Matrícula realizada con éxito' });
   } catch (error) {
