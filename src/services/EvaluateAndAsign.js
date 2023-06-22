@@ -1,14 +1,19 @@
 const haversine = require('haversine');
 
 exports.EvaluateAndAsign = async (submision, circulosArray) => {
+
   try {
     const childPos = { latitude: submision.child.latlng[0], longitude: submision.child.latlng[1] };
     const yearOfLife = submision.child.year_of_life;
     const sex = submision.child.sex;
-    const ciPedido = submision.ciPedido;
+    const ciPedido = submision.ciPedido ? submision.ciPedido : null;
     let requestedCirculo;
-    const otherChildrenCenter = submision.parents[0].otherChildrenCenter;
+    const otherChildrenCenter = submision.parents?.[0]?.otherChildrenCenter ?  submision.parents[0]?.otherChildrenCenter : null;
     const distancias = [];
+
+    if (!ciPedido) { console.log('no ciPedido')}
+    if (!otherChildrenCenter) { console.log('no otherChildrenCenter')}
+
 
     // evaluar si hay un circulo solicitado (el ciPedido o el otherChildrenCenter existen)
     if (ciPedido || otherChildrenCenter) {
@@ -23,6 +28,7 @@ exports.EvaluateAndAsign = async (submision, circulosArray) => {
             requestedCirculo = circulo;
             break; }}
       }}
+
 
     // si hay un circulo solicitado y tiene capacidad, asignarlo
     if (
@@ -40,8 +46,12 @@ exports.EvaluateAndAsign = async (submision, circulosArray) => {
       }
     }
 
+    
+
     // si no existe circulo solicitado o no hay capacidad calcular distancias para encontrar el mas cercano
     else {
+
+
       for (const circulo of circulosArray) {
         const circuloPos = { latitude: circulo.latlng[0], longitude: circulo.latlng[1] };
         const distancia = haversine(childPos, circuloPos);

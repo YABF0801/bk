@@ -15,6 +15,7 @@ const submisions = await Submision.find({
   finality: 'om', // Finalidad 'om'
 });
 
+
   if (!submisions) {
     const error = new Error();
     error.status = 404;
@@ -35,19 +36,21 @@ const submisions = await Submision.find({
     circulosArray = tools.proyeccionParaGP;
   }
 
-  const Generar = async (submisionPrioritaria, circulosArray) => {
+
+
+ const Generar = async (submisionPrioritaria, circulosArray) => {
     try {
       await EvaluateAndAsign(submisionPrioritaria, circulosArray);
     } catch (error) {
       console.error(error);
       console.error(error.message);
     }
-  };
+ };
 
-  // Iterar sobre la cola de prioridades y llamar a la función para cada elemento
-  for (const submisionPrioritaria of submisionsQueue) {
-    await Generar(submisionPrioritaria, circulosArray);
-  }
+// Iterar sobre la cola de prioridades y llamar a la función para cada elemento
+ for (const submisionPrioritaria of submisionsQueue) {
+ await Generar(submisionPrioritaria, circulosArray);
+ }
 
   res.status(200).json({ message: 'Propuestas generadas con éxito ' });
 
