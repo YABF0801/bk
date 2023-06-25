@@ -173,12 +173,7 @@ const CirculoValidationSchema = Type.Object(
       errorMessage: { type: 'El tipo de activo no es válido, debe ser boolean' },
     })),
   },
-/*   {
-    additionalProperties: false,
-    errorMessage: {
-      additionalProperties: 'Estas enviando datos adicionales',
-    },
-  } */
+
 );
 
 addFormats(ajv).addKeyword('kind').addKeyword('modifier');

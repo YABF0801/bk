@@ -117,11 +117,9 @@ const SubmisionSchema = new Schema(
 
         parentName: {
           type: String,
-          minLength: 2,
         },
         parentLastname: {
           type: String,
-          minLength: 2,
         },
         // 1
         uniqueParent: {
@@ -139,12 +137,9 @@ const SubmisionSchema = new Schema(
         },
         parentAddress: {
           type: String,
-          minLength: 2,
         },
         phoneNumber: {
           type: String,
-          minLength: 8,
-          maxLength: 15,
         },
         occupation: {
           type: String,
@@ -153,15 +148,12 @@ const SubmisionSchema = new Schema(
         },
         workName: {
           type: String,
-          minLength: 2,
         },
         workAddress: {
           type: String,
-          minLength: 2,
         },
         jobTitle: {
           type: String,
-          minLength: 2,
         },
         // 1
         organismo: {
@@ -170,12 +162,6 @@ const SubmisionSchema = new Schema(
         },
         salary: {
           type: Number,
-          validate: {
-            validator: function (value) {
-              return value >= 0 && value % 1 === 0;
-            },
-            message: 'salary no es un número válido.',
-          },
         },
         // 1
         otherChildrenInCi: {

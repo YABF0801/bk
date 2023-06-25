@@ -1,10 +1,6 @@
 const { Type } = require('@sinclair/typebox');
 const ParentsValidationSchema = require('./parents.validations');
 
-/* const addErrors = require('ajv-errors');
-const addFormats = require('ajv-formats'); */
-/* const Ajv = require('ajv'); */
-/* const ajv = new Ajv({ allErrors: true }); */
 
 /**
  * @return AJV JsonSchema
@@ -96,24 +92,7 @@ const ChildValidationSchema = Type.Object(
   }
 );
 
-/* const carnet = /^[0-9]{11}$/;
-ajv.addFormat("carnet", carnet ); 
-addFormats(ajv).addKeyword('kind').addKeyword('modifier');
-addErrors(ajv); 
- */
 
-/* const validateSchema = ajv.compile(ChildValidationSchema); 
-
- const childDataValidation = (req, res, next) => {
-  const isDataValid = validateSchema(req.body);
-
-  if (!isDataValid)
-    return res.status(400).send({
-      errors: validateSchema.errors.map((error) => error.message),
-    });
-
-  next();
-}; */
 
 module.exports = ChildValidationSchema;  
  
