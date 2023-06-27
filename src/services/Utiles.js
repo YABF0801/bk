@@ -39,14 +39,26 @@ const ResetConsecutive = async (req, res) => {
 };
 
 const setContadorGP = async (req, res) => {
+  const activeStep = req.body.step;
+  console.log(activeStep)
   try {
     const filter = { uniqueValue: 'tools' };
-    await Tools.updateOne(filter, { $inc: { contadorGP: 1 } });
-    res.status(200).json({ message: 'El contador de generacion de propuestas ha aumetado 1.' });
+    await Tools.updateOne(filter, { $set: { contadorGP: activeStep } });
+    res.status(200).json({ message: 'se ha guardado el paso activo del OM' });
   } catch (error) {
-    res.status(500).json({ message: 'Error al setear el contadorGP.' });
+    res.status(500).json({ message: 'Error al guardar el paso' });
   }
 };
+
+// const setContadorGP = async (req, res) => {
+//   try {
+//     const filter = { uniqueValue: 'tools' };
+//     await Tools.updateOne(filter, { $inc: { contadorGP: 1 } });
+//     res.status(200).json({ message: 'El contador de generacion de propuestas ha aumetado 1.' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error al setear el contadorGP.' });
+//   }
+// };
 
 const setContadorCC = async (req, res) => {
   try {
