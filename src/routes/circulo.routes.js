@@ -18,8 +18,8 @@ circuloRouter.get('/historic', [isAuthorized], CirculoController.FindPastCirculo
 
 // CRUD
 circuloRouter.post('/', isAuthorized, isAdmin, [circuloDataValidation], CirculoController.AddCirculo);
-circuloRouter.get('/', [isAuthorized, isAdmin], CirculoController.FindAllCirculos);
-circuloRouter.get('/:id', isAuthorized, isAdmin, CirculoController.FindSingleCirculo);
+circuloRouter.get('/', isAuthorized, CirculoController.FindAllCirculos);
+circuloRouter.get('/:id', isAuthorized, CirculoController.FindSingleCirculo);
 circuloRouter.put('/:id', isAuthorized, isAdmin, [circuloDataValidation], CirculoController.UpdateCirculo);
 circuloRouter.delete('/:id', isAuthorized, isAdmin, CirculoController.DeleteCirculo);
 
