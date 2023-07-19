@@ -1,11 +1,13 @@
+const path = require('path');
+const express = require('express');
 const { PORT, MONGO_URI } = require('./config/constanst');
 const connectDB = require('./config/database');
-const express = require('express');
 const { createServer } = require('http');
 const { router } = require('./routes');
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(router);
 
 /* Start */
