@@ -6,15 +6,11 @@
   "author": "me",
   "license": "ISC",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "seed && node src/index.js",
     "start:dev": "nodemon src/index.js",
     "lint": "eslint --fix .",
     "format": "prettier --write .",
-    "seed-organismo": "node seeders/organismo.seeder.js",
-    "seed-circulo": "node seeders/circulo.seeder.js",
-    "seed-submision": "node seeders/submision.seeder.js",
-    "seed-user": "node seeders/user.seeder.js",
-    "seed-all": "npm-run-all --parallel seed-*"
+    "seed": "node src/schemas/seeders/tools.seeder.js && node src/schemas/seeders/user.seeder.js"
   },
   "dependencies": {
     "@sinclair/typebox": "^0.25.16",

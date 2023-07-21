@@ -1,29 +1,28 @@
-# OCI
+# OCI backend
 
-description: Api Rest para el otorgamiento de circulo infantil
+descripción: Api Rest para el otorgamiento de circulo infantil
 
-## Stack tecnologico
+## Tecnologías
 
 - Nodejs
 - Mongodb
 - Express
 - Mongoose ODM
 
-## Deploy requirements
+## Requerimientos de despliegue
 
-- Server con sistema operativo preferentemente linux
 - 2gb de ram
 - cpu por encima de 4ta generacion de intel y raizen para amd
 - 1gb de HHDD
-- Servidor web configurado prederentemente ngnix
+- Servidor web configurado
 - Nodejs Instalado
 - MongoDB instalado preferentemente con la version 5.X.X
 
-## Deploy
+## Despliegue
 
-1. copiar en el server la carpeta o clonar el repositorio donde se encuentra el proyecto
-2. Chequear que se copio los archivos del dist del fronted actualizados en la carpeta public
-3. correr el comando npm install
-4. crear el archivo .env con sus configuraciones
-5. abrir en el server el puerto donde va a correr la aplicacion
-6. correr el comando npm start
+1. Copiar en el servidor la carpeta del backend o clonar desde el repositorio donde se encuentra el proyecto
+2. Copiar los archivos de la carpeta dist del fronted actualizados en la carpeta public del backend
+3. Ejecutar el comando npm install
+4. Crear el archivo .env con sus configuraciones
+5. Abrir en el servidor el puerto donde va a correr la aplicación
+6. Ejecutar el comando npm start
